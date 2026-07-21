@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://t-understand.dev/schemas/delegation-packet.schema.json",
-  "$comment": "Contract version 1.2.0",
+  "$comment": "Contract version 1.2.1; repository_intelligence is optional for backward compatibility.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -81,6 +81,98 @@
     "application_snapshot": {
       "type": "string",
       "minLength": 1
+    },
+    "repository_intelligence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "graphify_status",
+        "repository_root",
+        "queries_performed",
+        "findings",
+        "affected_areas",
+        "uncertainties",
+        "verification_required"
+      ],
+      "properties": {
+        "graphify_status": {
+          "enum": [
+            "available",
+            "unavailable",
+            "not_needed",
+            "failed",
+            "possibly_stale"
+          ]
+        },
+        "repository_root": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "queries_performed": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "entity",
+              "relationship",
+              "evidence",
+              "confidence"
+            ],
+            "properties": {
+              "entity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relationship": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            }
+          }
+        },
+        "affected_areas": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "uncertainties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verification_required": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
     },
     "permissions": {
       "type": "object",
