@@ -15,6 +15,12 @@ skills:
   workflow: foundation
   status: implemented
   description: Resolve portable repository identities to local paths.
+- id: tu-repository-intelligence
+  owner: t-understand
+  implementation_phase: 5
+  workflow: foundation
+  status: implemented
+  description: Perform optional Graphify-first structural discovery and preserve reusable findings, uncertainty, and verification requirements.
 - id: tu-repository-discovery
   owner: tu-discoverer
   implementation_phase: 5

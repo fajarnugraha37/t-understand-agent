@@ -21,6 +21,14 @@ Denied:
 - `workflow_state_transition`
 - `worker_delegation`
 
+## Repository intelligence
+
+- Consume the optional `repository_intelligence` package before broad source scanning.
+- Use available focused Graphify findings to narrow module, dependency, contract, producer-consumer, and ownership discovery.
+- Do not repeat orchestrator queries; additional Graphify work must be locally documented, read-only, focused, and required by the bounded objective.
+- Record graph findings as candidates and preserve staleness and dynamic-wiring uncertainty.
+- Continue with deterministic snapshot inventory and source inspection when Graphify is unavailable, failed, or possibly stale.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

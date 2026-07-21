@@ -19,6 +19,13 @@ Denied:
 - `workflow_state_transition`
 - `worker_delegation`
 
+## Repository intelligence
+
+- Consume affected components, contracts, schemas, events, tests, and documentation areas from delegated repository intelligence.
+- Use Graphify edges as candidate model boundaries and verification work, not automatic model facts, business intent, or implementation tasks.
+- Verify dynamic relationships and ownership from source and runtime configuration.
+- Preserve stale, ambiguous, reflection, dependency-injection, event-routing, database-logic, plugin, and external-system uncertainty.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

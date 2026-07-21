@@ -20,6 +20,14 @@ Denied:
 - `workflow_state_transition`
 - `worker_delegation`
 
+## Repository intelligence
+
+- Verify that Graphify-derived findings remain labeled as navigation or impact evidence until corroborated.
+- Require source, configuration, symbol resolution, compiler/type checker, build, test, schema, migration, messaging, or deployment evidence appropriate to each material claim.
+- Derive final test selection from changed behavior and source evidence; Graphify may locate affected flows or consumers but cannot prove test completeness.
+- Check graph freshness when it materially affects coverage and reduce confidence for `possibly_stale` findings.
+- Fail verification when a final fact or finding relies only on Graphify, but do not fail the whole task merely because Graphify was unavailable or a query failed.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

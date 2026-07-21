@@ -1,0 +1,78 @@
+name: Graphify integration
+
+on:
+  push:
+    branches:
+      - feature/graphify-first-repository-intelligence
+    paths:
+      - "agents/**"
+      - "adapters/**"
+      - "orchestrator/**"
+      - "schemas/**"
+      - "skills/**"
+      - "runtime/tu_runtime/core/installation.py"
+      - "scripts/*graphify*"
+      - "scripts/validate_release_contract.py"
+      - "tests/graphify/**"
+      - "docs/graphify-first-repository-intelligence.md"
+      - "examples/repository-intelligence.yaml"
+      - ".github/workflows/graphify-integration.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "agents/**"
+      - "adapters/**"
+      - "orchestrator/**"
+      - "schemas/**"
+      - "skills/**"
+      - "runtime/tu_runtime/core/installation.py"
+      - "scripts/*graphify*"
+      - "scripts/validate_release_contract.py"
+      - "tests/graphify/**"
+      - "docs/graphify-first-repository-intelligence.md"
+      - "examples/repository-intelligence.yaml"
+      - ".github/workflows/graphify-integration.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -e .
+      - name: Static syntax
+        run: |
+          python -m compileall -q runtime tests scripts
+          bash -n bin/t-understand
+      - name: Existing contracts
+        run: |
+          python scripts/validate_schemas.py
+          python scripts/validate_governance.py --report reports/governance-report.json
+          python scripts/test_negative_governance.py --report reports/negative-test-report.json
+          python scripts/validate_release_contract.py --report reports/release-contract-report.json
+      - name: Graphify integration contract
+        env:
+          PYTHONPATH: scripts:.
+        run: python scripts/validate_graphify_integration.py --report reports/graphify-integration-report.json
+      - name: Graphify integration tests
+        env:
+          PYTHONPATH: scripts:.
+        run: python scripts/run_graphify_tests.py --report reports/graphify-test-report.json
+      - name: Backward-compatible lifecycle tests
+        env:
+          PYTHONPATH: runtime:.
+        run: python scripts/run_runtime_tests.py --report reports/runtime-test-report.json
+      - name: Installer regression
+        env:
+          PYTHONPATH: runtime:.
+        run: |
+          python scripts/validate_installation_contract.py --report reports/installation-contract-report.json
+          python scripts/run_installation_tests.py --report reports/installation-test-report.json

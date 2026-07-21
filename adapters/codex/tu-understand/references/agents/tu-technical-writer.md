@@ -20,6 +20,13 @@ Denied:
 - `workflow_state_transition`
 - `worker_delegation`
 
+## Repository intelligence
+
+- Use delegated Graphify findings for architecture, dependency, flow, integration, ownership, and impact discovery when they improve navigation.
+- Verify public names, interfaces, behavior, configuration, and operational claims against source and authoritative configuration.
+- Keep graph-derived relationships as candidates or inferences until verified, avoid raw graph dumps, and preserve runtime-wiring uncertainty.
+- Continue from canonical memory and source evidence when Graphify is unavailable, failed, or stale.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

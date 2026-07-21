@@ -1,0 +1,113 @@
+contract:
+  id: TU-REPOSITORY-INTELLIGENCE-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+strategy: graphify-first-when-usable
+principles:
+- Graphify is an optional repository-navigation and impact-analysis layer, never a mandatory runtime dependency.
+- Graphify findings narrow exploration but never replace source, configuration, compiler, language-server, build, or test verification.
+- Graphify failure is fail-open; normal repository inspection continues without blocking the task.
+- The orchestrator owns the first availability decision and initial focused discovery by default.
+- Delegated workers reuse supplied findings and do not repeat completed queries unless their bounded objective needs additional evidence.
+repository_root:
+  preferred_resolution: read-only Git top-level metadata
+  fallback_resolution: current working directory
+  multi_repository_behavior: evaluate each registered repository root independently and aggregate only concise findings
+availability:
+  statuses:
+  - available
+  - unavailable
+  - not_needed
+  - failed
+  - possibly_stale
+  usable_only_when:
+  - repository root is resolved
+  - a supported Graphify executable or integration is available
+  - a usable project graph is confirmed by the installed integration
+  - the active agent may execute the required read-only operation
+  discovery_order:
+  - installed Graphify skill documentation
+  - Graphify-related SKILL.md files
+  - repository Graphify integration files
+  - graphify --help
+  - relevant subcommand help discovered from local help
+  - existing project scripts
+  graph_path: never hardcode; use only the locally documented integration
+  quiet: true
+structural_discovery_required_when:
+- architecture or unfamiliar repository exploration crosses files or modules
+- dependency, call-chain, request, execution, persistence, event, or message flow is required
+- behavior crosses services, repositories, modules, contracts, schemas, or deployment boundaries
+- change-impact analysis must identify callers, consumers, configurations, tests, schemas, migrations, or documentation
+skip_when:
+- an exact file or exact symbol is already known
+- the change is trivial, localized, or formatting-only
+- the task is only build, test, lint, or formatter execution
+- the human supplied the authoritative path and graph traversal adds no meaningful value
+- the target is generated or vendored code
+query_policy:
+  mode: focused-read-only
+  load_complete_graph: false
+  record_exact_query: true
+  command_source: local Graphify documentation, help, integration, or project script only
+  user_facing_announcement: only when failure materially reduces confidence or completeness
+  automatically_install: false
+  automatically_upgrade: false
+  automatically_initialize: false
+  automatically_generate_graph: false
+  automatically_rebuild_graph: false
+  automatically_update_graph: false
+verification_boundary:
+  graphify_is:
+  - repository-navigation evidence
+  - dependency and relationship discovery evidence
+  - execution-flow and change-impact candidate evidence
+  graphify_is_not:
+  - final implementation authority
+  - proof that runtime wiring exists
+  - permission to modify an affected area
+  verify_with:
+  - source code and configuration
+  - language-server or symbol resolution
+  - compiler and type checker
+  - build, unit, integration, and contract tests
+  - database schema and migrations
+  - dependency-injection, messaging, and deployment configuration
+  dynamic_relationship_risks:
+  - reflection
+  - dependency injection
+  - dynamic dispatch
+  - generated code
+  - framework conventions
+  - runtime configuration
+  - event and message routing
+  - database-side logic
+  - plugins
+  - external systems
+freshness:
+  possibly_stale_when:
+  - relevant source files changed after graph generation
+  - the current branch or revision differs materially from the graph source
+  - generated code or configuration changed
+  - the Graphify integration reports stale data
+  - Graphify findings conflict with source
+  response:
+  - verify material relationships directly from source
+  - reduce graph-derived confidence
+  - expose the uncertainty in delegated context
+  - update the graph only when explicit authority and existing project policy permit it
+failure_behavior:
+- Do not stop the task.
+- Continue with source inspection, search, language-server, compiler, build, and tests.
+- Mention the failure only when it materially affects confidence or completeness.
+- Do not install, initialize, generate, mutate, update, or rebuild Graphify automatically.
+delegation:
+  optional_field: repository_intelligence
+  omit_when: Graphify was not evaluated and structural discovery was unnecessary
+  requirements:
+  - preserve availability status
+  - include only focused queries and concise findings
+  - list affected areas and unresolved dynamic relationships
+  - list mandatory source or executable verification
+  - do not include large raw graph output

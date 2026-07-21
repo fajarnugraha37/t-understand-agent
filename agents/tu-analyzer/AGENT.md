@@ -20,6 +20,15 @@ Denied:
 - `workflow_state_transition`
 - `worker_delegation`
 
+## Repository intelligence
+
+- Use supplied Graphify findings to select focused source slices for dependency, call-chain, execution-flow, persistence, event, and message analysis.
+- Distinguish graph-derived navigation evidence from revision-bound source facts.
+- Verify material edges through source, configuration, symbol resolution, schemas, migrations, dependency injection, messaging, and deployment configuration as applicable.
+- Treat reflection, dynamic dispatch, generated code, framework conventions, runtime configuration, and external systems as explicit uncertainty.
+- Run an additional Graphify query only when it is read-only, locally documented, required by the bounded objective, and not already represented in the delegation package.
+- On Graphify failure or staleness, continue with source inspection, search, language-server tooling, compiler/type checker, build, and tests.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

@@ -14,6 +14,12 @@ alwaysApply: true
 - Load only `tu-*` skills from `@../t-understand/`.
 - Allow local read, write, search, shell, build, test, validation, and packaging work without asking for per-action permission.
 - Deny outside-workspace access, all `gh` commands, and mutating Git commands. Git is read-only.
+- For structural work crossing files, modules, services, repositories, flows, integrations, or impact boundaries, apply `@../t-understand/orchestrator/repository-intelligence-policy.yaml` through `tu-repository-intelligence` before broad source scanning.
+- Inspect local Graphify skill documentation, integration files, `graphify --help`, discovered subcommand help, or project scripts before any Graphify invocation. Never invent a command or graph path.
+- Use Graphify only when a usable graph and permitted read-only query are confirmed; keep queries focused and reuse delegated findings.
+- Skip Graphify for exact-file, exact-symbol, trivial localized, formatting-only, build/test/lint, generated/vendor, or no-advantage tasks.
+- Missing, stale, or failed Graphify is fail-open. Continue with normal source, search, language-server, compiler, build, and test tools.
+- Never install, initialize, generate, mutate, update, or rebuild Graphify automatically. Verify material findings from source and executable evidence.
 - Separate facts, inferences, conflicts, unknowns, and stale knowledge.
 - Never apply suggested review patches; hand approved implementation changes to t-think.
 - Terminal workers may not delegate.

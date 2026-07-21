@@ -29,6 +29,15 @@ Use this skill when the user asks a natural-language question about the reposito
 6. Never write application source, mutate Git, call `gh`, fabricate approval, or apply suggested patches.
 7. Prefer bounded evidence slices, one objective, a critic pass, and deterministic verification.
 
+## Repository intelligence
+
+1. For structural work crossing files, modules, services, repositories, flows, integrations, contracts, schemas, or impact boundaries, apply the packaged `orchestrator/repository-intelligence-policy.yaml` through `tu-repository-intelligence` before broad source scanning.
+2. Inspect local Graphify skill documentation, integration files, `graphify --help`, discovered subcommand help, or project scripts before invoking a command. Never invent a command or graph path.
+3. Use Graphify only when a usable graph and permitted read-only query are confirmed. Keep queries focused and delegate concise findings, affected areas, uncertainty, and verification requirements.
+4. Skip Graphify for exact-file, exact-symbol, trivial localized, formatting-only, build/test/lint, generated/vendor, or no-advantage tasks.
+5. Missing, stale, or failed Graphify is fail-open. Continue with source search, symbol resolution, compiler/type checker, build, and tests.
+6. Never install, upgrade, initialize, generate, mutate, update, or rebuild Graphify automatically. Graphify never replaces source or executable verification.
+
 ## Mandatory intent routing
 
 1. Invoke private `agent-plan` with the exact human prompt before selecting a workflow.
