@@ -19,6 +19,12 @@ rules:
   requirement: Platform permission grants do not expand agent authority; t-understand still writes durable outputs only to approved context or runtime targets.
 - id: TPP-007
   requirement: Terminal workers remain unable to delegate even when their local tools are broadly allowed.
+- id: TPP-008
+  requirement: Graphify executable detection, local documentation inspection, repository-root detection, and locally documented read-only Graphify queries are allowed inside the active working directory.
+- id: TPP-009
+  requirement: Graphify installation, upgrade, initialization, graph generation, graph mutation, graph update, and graph rebuild are denied by default and must never be attempted automatically.
+- id: TPP-010
+  requirement: An intentionally sandboxed worker without shell access does not gain shell access for Graphify; it consumes repository-intelligence findings supplied by t-understand.
 allowed_local_capabilities:
 - read
 - search
@@ -32,6 +38,8 @@ allowed_local_capabilities:
 - validate
 - package
 - local-process-management
+- graphify-availability-check
+- graphify-read-only-query
 read_only_git_commands:
 - status
 - diff
@@ -67,4 +75,11 @@ deny:
 - gh
 - git-mutation
 - nested-delegation
+- graphify-installation
+- graphify-upgrade
+- graphify-initialization
+- graphify-graph-generation
+- graphify-graph-mutation
+- graphify-graph-update
+- graphify-graph-rebuild
 prompt_fallback: denied
