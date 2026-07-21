@@ -31,12 +31,16 @@ ADAPTER_FILES = {
     "adapters/codex/tu-understand/SKILL.md",
     "adapters/cursor/t-understand.mdc",
 }
+CODEX_ROLE_FILES = {
+    f"adapters/codex/tu-understand/references/agents/{agent}.md" for agent in AGENTS
+}
 GRAPHIFY_TEXT_FILES = {
     "orchestrator/repository-intelligence-policy.yaml",
     "skills/discovery/tu-repository-intelligence/SKILL.md",
     "docs/graphify-first-repository-intelligence.md",
     "examples/repository-intelligence.yaml",
     *ADAPTER_FILES,
+    *CODEX_ROLE_FILES,
     *(f"agents/{agent}/AGENT.md" for agent in AGENTS),
 }
 
@@ -156,10 +160,14 @@ def audit() -> dict[str, Any]:
         check("repository-intelligence-policy.yaml" in text or "canonical repository-intelligence policy" in text, "GRF-ADAPTER-001", "platform adapter is not aligned", path)
         check("fail-open" in text or "never blocks" in text, "GRF-ADAPTER-002", "platform adapter lacks fail-open semantics", path)
 
+    for path in sorted(CODEX_ROLE_FILES):
+        text = (ROOT / path).read_text(encoding="utf-8")
+        check("Repository intelligence" in text, "GRF-CODEX-ROLE-001", "Codex role reference is stale", path)
+
     installation = (ROOT / "runtime/tu_runtime/core/installation.py").read_text(encoding="utf-8")
     check('"orchestrator"' in installation and 'rglob("SKILL.md")' in installation, "GRF-INSTALL-001", "installer must package canonical policy and skill automatically")
 
-    command_pattern = re.compile(r"(?i)\bgraphify\s+([^\s`'\"]+)")
+    command_pattern = re.compile(r"`graphify\s+([^`\s]+)(?:[^`]*)`", re.IGNORECASE)
     for path in sorted(GRAPHIFY_TEXT_FILES):
         text = (ROOT / path).read_text(encoding="utf-8")
         for match in command_pattern.finditer(text):
