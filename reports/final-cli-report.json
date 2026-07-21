@@ -5,7 +5,7 @@
     {
       "args": [
         "--context-root",
-        "/tmp/tmp3fgdjpyx/installer-state",
+        "/tmp/tmpv2g0rdau/installer-state",
         "qualification-matrix"
       ],
       "returncode": 0
@@ -13,7 +13,7 @@
     {
       "args": [
         "--context-root",
-        "/tmp/tmp3fgdjpyx/installer-state",
+        "/tmp/tmpv2g0rdau/installer-state",
         "platforms"
       ],
       "returncode": 0
@@ -33,48 +33,48 @@
     {
       "args": [
         "--context-root",
-        "/tmp/tmp3fgdjpyx/installer-state",
+        "/tmp/tmpv2g0rdau/installer-state",
         "platform-install",
         "--platform",
         "opencode",
         "--target-root",
-        "/tmp/tmp3fgdjpyx/opencode"
+        "/tmp/tmpv2g0rdau/opencode"
       ],
       "returncode": 0
     },
     {
       "args": [
         "--context-root",
-        "/tmp/tmp3fgdjpyx/installer-state",
+        "/tmp/tmpv2g0rdau/installer-state",
         "platform-install",
         "--platform",
         "opencode",
         "--target-root",
-        "/tmp/tmp3fgdjpyx/opencode"
+        "/tmp/tmpv2g0rdau/opencode"
       ],
       "returncode": 0
     },
     {
       "args": [
         "--context-root",
-        "/tmp/tmp3fgdjpyx/installer-state",
+        "/tmp/tmpv2g0rdau/installer-state",
         "platform-install",
         "--platform",
         "opencode",
         "--target-root",
-        "/tmp/tmp3fgdjpyx/opencode"
+        "/tmp/tmpv2g0rdau/opencode"
       ],
       "returncode": 2
     },
     {
       "args": [
         "--context-root",
-        "/tmp/tmp3fgdjpyx/installer-state",
+        "/tmp/tmpv2g0rdau/installer-state",
         "platform-install",
         "--platform",
         "opencode",
         "--target-root",
-        "/tmp/tmp3fgdjpyx/opencode",
+        "/tmp/tmpv2g0rdau/opencode",
         "--force"
       ],
       "returncode": 0
@@ -82,24 +82,24 @@
     {
       "args": [
         "--context-root",
-        "/tmp/tmp3fgdjpyx/installer-state",
+        "/tmp/tmpv2g0rdau/installer-state",
         "platform-doctor",
         "--platform",
         "opencode",
         "--target-root",
-        "/tmp/tmp3fgdjpyx/opencode"
+        "/tmp/tmpv2g0rdau/opencode"
       ],
       "returncode": 0
     },
     {
       "args": [
         "--context-root",
-        "/tmp/tmp3fgdjpyx/installer-state",
+        "/tmp/tmpv2g0rdau/installer-state",
         "platform-uninstall",
         "--platform",
         "opencode",
         "--target-root",
-        "/tmp/tmp3fgdjpyx/opencode"
+        "/tmp/tmpv2g0rdau/opencode"
       ],
       "returncode": 0
     }

@@ -409,3 +409,10 @@ skills:
   workflow: foundation
   status: implemented
   description: Generate deterministic file and dependency inventory.
+- id: tu-capability-help
+  owner: t-understand
+  implementation_phase: 20
+  workflow: foundation
+  status: implemented
+  description: Render repository-aware greeting, help, and capability details without
+    heavyweight analysis.

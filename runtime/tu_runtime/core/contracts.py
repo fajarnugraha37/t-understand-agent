@@ -89,6 +89,9 @@ SCHEMA_FILES = {
     "release-qualification": "release-qualification.schema.json",
     "software-bill-of-materials": "software-bill-of-materials.schema.json",
     "platform-adapter": "platform-adapter.schema.json",
+    "capability-catalog": "capability-catalog.schema.json",
+    "agent-operation-plan": "agent-operation-plan.schema.json",
+    "agent-completion": "agent-completion.schema.json",
 }
 
 

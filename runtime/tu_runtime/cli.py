@@ -28,6 +28,7 @@ from .core.release import ReleaseManager
 from .core.errors import TUnderstandError
 from .core.io import load_yaml
 from .core.snapshot import SnapshotManager, parse_target_assignments
+from .core.conversation import AgentConversationManager, active_workspace_root as conversation_workspace_root, context_root_for, bootstrap_workspace
 
 
 def project_root() -> Path:
@@ -165,7 +166,8 @@ DISCOVERY_COMMANDS = {
     "adapter-validate",
     "adapter-capabilities",
 }
-NO_RUNTIME_COMMANDS = {"workflows", "agent-bootstrap", "validate-packet", "validate-result"} | APPLICATION_COMMANDS | SNAPSHOT_COMMANDS | DISCOVERY_COMMANDS | KNOWLEDGE_COMMANDS | MODELING_COMMANDS | DOCUMENTATION_COMMANDS | QNA_COMMANDS | REVIEW_COMMANDS | QUALITY_COMMANDS | QUALIFICATION_COMMANDS | INSTALLATION_COMMANDS | FINAL_COMMANDS
+AGENT_NATIVE_COMMANDS = {"agent-plan", "agent-capabilities", "agent-document", "agent-response-validate"}
+NO_RUNTIME_COMMANDS = {"workflows", "agent-bootstrap", "validate-packet", "validate-result"} | AGENT_NATIVE_COMMANDS | APPLICATION_COMMANDS | SNAPSHOT_COMMANDS | DISCOVERY_COMMANDS | KNOWLEDGE_COMMANDS | MODELING_COMMANDS | DOCUMENTATION_COMMANDS | QNA_COMMANDS | REVIEW_COMMANDS | QUALITY_COMMANDS | QUALIFICATION_COMMANDS | INSTALLATION_COMMANDS | FINAL_COMMANDS
 
 
 def engine(args: argparse.Namespace) -> LifecycleEngine:
@@ -271,6 +273,15 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("workflows")
     sub.add_parser("agent-bootstrap", help="Silently prepare the active workspace for agent-native use")
+    agent_plan = sub.add_parser("agent-plan", help="Private agent intent and completion planning")
+    agent_plan.add_argument("--prompt", required=True)
+    agent_caps = sub.add_parser("agent-capabilities", help="Private capability greeting/help renderer")
+    agent_caps.add_argument("--mode", choices=["greeting", "help", "details"], default="greeting")
+    agent_document = sub.add_parser("agent-document", help="Private artifact-first documentation workflow")
+    agent_document.add_argument("--prompt", required=True)
+    agent_response = sub.add_parser("agent-response-validate", help="Private final response contract validator")
+    agent_response.add_argument("--prompt", required=True)
+    agent_response.add_argument("--response-file", required=True)
 
     init = sub.add_parser("init")
     init.add_argument("--work-id", required=True)
@@ -700,6 +711,22 @@ def main(argv: list[str] | None = None) -> int:
                 emit(manager.show_review_target(args.review_id))
             elif args.command == "review-target-validate":
                 report = manager.validate_review_target(args.review_id)
+                emit(report)
+                return 0 if report["status"] == "PASS" else 2
+            return 0
+
+        if args.command in AGENT_NATIVE_COMMANDS:
+            manager = AgentConversationManager(project_root(), active_workspace_root(), resolved_context_root(args))
+            if args.command == "agent-plan":
+                emit(manager.plan(args.prompt))
+            elif args.command == "agent-capabilities":
+                prompt = {"greeting": "hi", "help": "help", "details": "show all capabilities"}[args.mode]
+                emit(manager.plan(prompt))
+            elif args.command == "agent-document":
+                emit(manager.generate_documentation(args.prompt))
+            elif args.command == "agent-response-validate":
+                response = sys.stdin.read() if args.response_file == "-" else Path(args.response_file).read_text(encoding="utf-8")
+                report = manager.validate_response(args.prompt, response)
                 emit(report)
                 return 0 if report["status"] == "PASS" else 2
             return 0

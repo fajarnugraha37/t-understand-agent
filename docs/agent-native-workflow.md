@@ -103,3 +103,12 @@ The coordinator generates IDs from operation type, UTC time, and content identit
 ## Failure behavior
 
 The coordinator asks a human question only when the answer changes the meaning or scope of the requested analysis. It does not ask questions merely because an internal default can be selected safely.
+
+
+## Capability greeting
+
+Greeting-only prompts use the canonical capability catalog and perform only lightweight workspace detection. They do not create state or start repository analysis. `hi, <task>` routes directly to the substantive task.
+
+## Artifact-first documentation
+
+Prompts that explicitly request documentation invoke the private `agent-document` workflow. Completion requires generated files, manifest, plan, coverage, traceability, critique, and validation under `.t-understand/output/documentation/latest/`. Chat-only prose cannot satisfy this workflow. The final chat response is a concise summary and is validated for private-reasoning leakage and unsupported execution claims.

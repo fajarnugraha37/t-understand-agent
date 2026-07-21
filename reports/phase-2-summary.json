@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "0.2.0",
+  "version": "1.0.3",
   "phase": 2,
   "phase_name": "Core Runtime and Lifecycle Engine",
   "status": "PASS",

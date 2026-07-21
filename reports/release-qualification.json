@@ -1,14 +1,14 @@
 {
   "schema_id": "https://t-understand.dev/schemas/release-qualification.schema.json",
   "schema_version": "1.0.0",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "status": "PASS",
   "gates": [
     {
-      "id": "version-1.0.2",
+      "id": "version-1.0.3",
       "status": "PASS",
       "evidence": [
-        "VERSION=1.0.2"
+        "VERSION=1.0.3"
       ]
     },
     {
@@ -44,6 +44,30 @@
       ]
     },
     {
+      "id": "documentation-test-report",
+      "status": "PASS",
+      "evidence": [
+        "reports/documentation-test-report.json",
+        "status=PASS"
+      ]
+    },
+    {
+      "id": "agent-native-test-report",
+      "status": "PASS",
+      "evidence": [
+        "reports/agent-native-test-report.json",
+        "status=PASS"
+      ]
+    },
+    {
+      "id": "agent-native-cli-report",
+      "status": "PASS",
+      "evidence": [
+        "reports/agent-native-cli-report.json",
+        "status=PASS"
+      ]
+    },
+    {
       "id": "clean-source-tree",
       "status": "PASS",
       "evidence": [
@@ -62,7 +86,7 @@
       "id": "skill-tu-namespace",
       "status": "PASS",
       "evidence": [
-        "canonical_skills=67",
+        "canonical_skills=68",
         "aggregate=tu-understand"
       ]
     },
@@ -72,19 +96,34 @@
       "evidence": [
         "orchestrator/tool-permission-policy.yaml"
       ]
+    },
+    {
+      "id": "capability-catalog",
+      "status": "PASS",
+      "evidence": [
+        "orchestrator/capabilities.yaml"
+      ]
+    },
+    {
+      "id": "artifact-first-documentation",
+      "status": "PASS",
+      "evidence": [
+        "runtime/tu_runtime/core/conversation.py",
+        ".t-understand/output/documentation/latest/"
+      ]
     }
   ],
   "inventory": {
-    "schemas": 85,
-    "skill_packages": 67,
+    "schemas": 88,
+    "skill_packages": 68,
     "aggregate_skills": 1,
     "platform_adapters": 4,
-    "files": 571
+    "files": 586
   },
   "limitations": [
     "No live commercial or open-weight model was invoked by the provider-neutral qualification harness.",
     "Hosted third-party documentation renderers and remote code-host review APIs were not invoked.",
     "Platform permission profiles were structurally validated but the external OpenCode, Codex, Claude Code, and Cursor executables were not invoked by release qualification."
   ],
-  "generated_at": "2026-07-21T17:07:09Z"
+  "generated_at": "2026-07-21T17:48:02Z"
 }

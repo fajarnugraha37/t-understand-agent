@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "0.12.0",
+  "version": "1.0.3",
   "phase": 11,
   "phase_name": "Documentation Generation",
   "status": "PASS",

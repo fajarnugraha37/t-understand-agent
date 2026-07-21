@@ -17,3 +17,7 @@ alwaysApply: true
 - Separate facts, inferences, conflicts, unknowns, and stale knowledge.
 - Never apply suggested review patches; hand approved implementation changes to t-think.
 - Terminal workers may not delegate.
+- Route every prompt through private `agent-plan` intent planning.
+- Greeting-only prompts display capabilities without starting heavyweight analysis.
+- Documentation-generation requests must invoke private `agent-document`, create `.t-understand/output/documentation/latest/`, and return only a concise summary; chat-only documentation is incomplete.
+- Never expose private reasoning, todos, internal IDs, or verification-pass claims without execution evidence.

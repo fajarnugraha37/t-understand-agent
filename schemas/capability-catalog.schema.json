@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/capability-catalog.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "interaction", "intents", "capabilities", "limitations"],
+  "properties": {
+    "contract": {"type": "object", "required": ["id", "version", "status"]},
+    "interaction": {"type": "object", "required": ["greeting_only", "help_phrases", "details_phrases", "substantive_task_overrides_greeting", "repeat_greeting_in_same_session"]},
+    "intents": {"type": "object", "required": ["precedence", "documentation_verbs", "documentation_nouns", "review_verbs"]},
+    "capabilities": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "category", "requires", "examples"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]+$"},
+          "title": {"type": "string", "minLength": 3},
+          "category": {"enum": ["understand", "ask", "review", "document", "maintain"]},
+          "requires": {"type": "array", "items": {"type": "string"}},
+          "examples": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+        }
+      }
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}

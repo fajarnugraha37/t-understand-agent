@@ -1,6 +1,6 @@
 # t-understand
 
-Version **1.0.2** is an agent-native release of the complete Phase 1–20 platform.
+Version **1.0.3** is an agent-native release of the complete Phase 1–20 platform.
 
 The human-facing interface is the conversation inside OpenCode, Codex, Claude Code, or Cursor. The deterministic runtime, snapshots, evidence, memory, documentation, QnA, review, and quality artifacts are implementation details managed by the installed agent.
 
@@ -81,6 +81,25 @@ The agent automatically:
 8. explains the useful result in normal language.
 
 The user is never expected to invoke the internal runtime or understand its storage layout.
+
+
+## Greeting and documentation behavior
+
+A greeting-only message such as `hi` returns a concise capability card and does not start heavyweight analysis. A substantive request overrides the greeting prefix.
+
+Explicit documentation requests are artifact-first. For example:
+
+```text
+Understand this repository deeply and write comprehensive documentation.
+```
+
+The agent runs the private understanding pipeline, writes multiple documents under:
+
+```text
+<workspace>/.t-understand/output/documentation/latest/
+```
+
+and returns only a concise completion summary in chat. A long chat-only documentation response is treated as incomplete. Build and test success are never claimed unless those commands were actually executed with captured evidence.
 
 ## Managed internal state
 

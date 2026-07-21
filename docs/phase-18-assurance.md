@@ -1,10 +1,10 @@
 # Phase 18 Assurance — Platform Adapters and Installation
 
-Status: **PASS**, requalified for v1.0.2.
+Status: **PASS**, requalified for v1.0.3.
 
 Phase 18 implements package generation and managed installation for OpenCode, Codex, Claude Code, and Cursor representations.
 
-v1.0.2 hardening evidence:
+v1.0.3 hardening evidence:
 
 - `reports/installation-contract-report.json`: 158 checks PASS;
 - `reports/installation-test-report.json`: 8 tests PASS;

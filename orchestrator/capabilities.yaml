@@ -1,0 +1,102 @@
+contract:
+  id: TU-CAPABILITY-CATALOG
+  version: 1.0.0
+  status: canonical
+interaction:
+  greeting_only:
+    - hi
+    - hello
+    - hey
+    - hai
+    - halo
+  help_phrases:
+    - help
+    - what can you do
+    - apa yang bisa kamu lakukan
+  details_phrases:
+    - show all capabilities
+    - show capabilities
+    - capability details
+    - tampilkan semua kemampuan
+  substantive_task_overrides_greeting: true
+  repeat_greeting_in_same_session: false
+intents:
+  precedence:
+    - DOCUMENTATION_GENERATION
+    - CODE_REVIEW
+    - QUESTION_ANSWERING
+    - EXPLANATION
+    - CAPABILITY_DETAILS
+    - HELP
+    - GREETING
+  documentation_verbs:
+    - write
+    - generate
+    - create
+    - produce
+    - document
+    - buat
+    - tulis
+    - hasilkan
+  documentation_nouns:
+    - documentation
+    - docs
+    - onboarding guide
+    - architecture document
+    - technical document
+    - dokumentasi
+  review_verbs:
+    - review
+    - audit
+    - inspect changes
+    - check my changes
+    - tinjau
+    - periksa perubahan
+capabilities:
+  - id: explain-architecture
+    title: Explain architecture and code flows
+    category: understand
+    requires: [repository]
+    examples:
+      - Explain how this repository works.
+  - id: source-grounded-qna
+    title: Answer questions using source evidence
+    category: ask
+    requires: [repository]
+    examples:
+      - Where is this behavior implemented?
+  - id: review-current-changes
+    title: Review changes, commits, or branches
+    category: review
+    requires: [git_repository]
+    examples:
+      - Review my current changes against HEAD.
+  - id: documentation-drift
+    title: Detect documentation and implementation drift
+    category: review
+    requires: [repository]
+    examples:
+      - Check whether the documentation matches the code.
+  - id: generate-documentation
+    title: Generate comprehensive documentation as files
+    category: document
+    requires: [repository]
+    examples:
+      - Generate comprehensive repository documentation.
+  - id: change-impact
+    title: Analyze change impact and stale knowledge
+    category: maintain
+    requires: [git_repository]
+    examples:
+      - What changed since the last analysis?
+  - id: trace-interfaces
+    title: Trace APIs, types, events, data, and dependencies
+    category: understand
+    requires: [repository]
+    examples:
+      - Trace this event from producer to consumer.
+limitations:
+  - Application source is read-only.
+  - Git mutation and GitHub CLI are denied.
+  - Suggested patches are advisory and are not applied.
+  - Tests and builds are not claimed as passed unless execution evidence exists.

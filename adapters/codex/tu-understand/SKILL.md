@@ -28,3 +28,11 @@ Use this skill when the user asks a natural-language question about the reposito
 5. Require schema-valid outputs, evidence IDs, exact source locations, classifications, limitations, and validator results.
 6. Never write application source, mutate Git, call `gh`, fabricate approval, or apply suggested patches.
 7. Prefer bounded evidence slices, one objective, a critic pass, and deterministic verification.
+
+## Mandatory intent routing
+
+1. Invoke private `agent-plan` with the exact human prompt before selecting a workflow.
+2. For greeting/help intents, return the catalog response without heavy analysis.
+3. For `DOCUMENTATION_GENERATION`, invoke private `agent-document`; do not write the documentation body directly in chat.
+4. Treat documentation completion as valid only when `.t-understand/output/documentation/latest/` and its `_meta` contracts validate.
+5. Return only the concise completion summary and reject private reasoning, internal IDs, or unsupported execution claims.

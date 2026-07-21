@@ -245,3 +245,17 @@ verify-phase-17: qualification-contract qualification-tests final-cli
 verify-phase-18: installation-contract installation-tests final-cli
 verify-phase-19: integration-tests
 verify-phase-20: release-contract release-audit checksums
+
+agent-native-contract:
+	$(PYTHON) scripts/validate_installation_contract.py --report reports/installation-contract-report.json
+
+agent-native-tests:
+	PYTHONPATH=runtime:. $(PYTHON) scripts/run_agent_native_tests.py --report reports/agent-native-test-report.json
+
+agent-native-cli:
+	PYTHONPATH=runtime:. $(PYTHON) scripts/test_agent_native_cli.py --report reports/agent-native-cli-report.json
+
+v1.0.3-summary:
+	$(PYTHON) scripts/generate_v1_0_3_summary.py
+
+verify-v1.0.3: schemas governance negative documentation-contract documentation-tests agent-native-contract agent-native-tests agent-native-cli release-contract v1.0.3-summary

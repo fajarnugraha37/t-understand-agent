@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": 6,
+  "check_names": [
+    "greeting-plan",
+    "documentation-plan",
+    "documentation-run",
+    "stable-output",
+    "response-validation",
+    "leakage-rejection"
+  ],
+  "errors": []
+}

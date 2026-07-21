@@ -1,40 +1,76 @@
-# t-understand 1.0.2
+# t-understand 1.0.3
 
-`t-understand` 1.0.2 changes the product from CLI-oriented onboarding to an agent-native conversational workflow.
+`t-understand` 1.0.3 hardens the agent-native conversation contract and makes documentation requests artifact-first.
 
-## Human-facing changes
+## Capability greeting
 
-- The normal interface is now the conversation in OpenCode, Codex, Claude Code, or Cursor.
-- Users are never asked for `ContextRoot`, `$TU`, internal artifact IDs, package IDs, installation IDs, or pipeline commands.
-- The active Git worktree is detected automatically.
-- Workspace state is managed automatically under `<workspace>/.t-understand/`.
-- Internal state is excluded from snapshots, discovery, code review, and Git operations.
-- Platform packages now include the private deterministic engine, schemas, policies, adapters, and templates.
+Greeting-only prompts such as `hi`, `hello`, `hai`, or `halo` now produce a concise repository-aware capability card. They do not start discovery, analysis, or memory construction.
 
-## Installer changes
+A substantive task always overrides the greeting prefix:
 
-PowerShell installation is now:
+```text
+hi
+→ capability greeting
 
-```powershell
-.\bin\install.ps1 -Target opencode
+hi, review my current changes
+→ review workflow
 ```
 
-Replacement is explicit:
+The canonical capability catalog lives in `orchestrator/capabilities.yaml` and is copied privately into every platform package.
 
-```powershell
-.\bin\install.ps1 -Target opencode -Force
+## Artifact-first documentation
+
+Explicit requests to write, generate, create, produce, or document repository documentation now have precedence over explanation and QnA routing.
+
+The private `agent-document` workflow performs:
+
+```text
+workspace bootstrap
+→ worktree snapshot
+→ discovery
+→ language/contract extraction
+→ analysis
+→ graph
+→ canonical memory
+→ modeling
+→ documentation generation
+→ critique
+→ verification
+→ stable user-facing publication
 ```
 
-The same semantics are available in shell through `./bin/install.sh opencode [--force]`.
+Generated documentation is published under:
 
-`-Force` now replaces both unmanaged collisions and an existing managed installation. Existing files are backed up, prior installation backups are restored before replacement, a fresh manifest is written, and doctor validation remains mandatory.
+```text
+<workspace>/.t-understand/output/documentation/latest/
+```
+
+The stable view includes multiple Markdown documents plus manifest, document plan, coverage ledger, traceability, critique, and validation metadata.
+
+A documentation request cannot complete with chat prose alone. The chat response is limited to a concise completion summary and output location.
+
+## Verification-claim safety
+
+The root agent now distinguishes source verification, implementation inference, repository declarations, discovered-but-not-executed commands, and actually executed results. Build, test, migration, infrastructure, or smoke-test success may not be claimed without captured execution evidence.
+
+Private reasoning, internal todos, `Thought:` lines, internal artifact IDs, `ContextRoot`, and `$TU` are rejected by the final-response validator.
+
+## Regression fixture
+
+The following literal prompt is a permanent regression fixture:
+
+```text
+Understand this repository deeply, precisely and write comprehensive, detailed, deep, sensible documentation
+```
+
+It must create documentation files and return only a concise chat summary.
 
 ## Preserved guarantees
 
-- all skills remain namespaced `tu-*`;
-- local work does not fall back to permission prompts;
-- `gh` remains denied;
-- Git remains read-only;
-- application source remains read-only to t-understand;
-- suggested review patches remain advisory;
-- all Phase 1–20 capabilities remain included.
+- all canonical skills use the `tu-*` namespace;
+- normal use remains conversation-only;
+- application source remains read-only;
+- `.t-understand/**` remains managed metadata excluded from source evidence;
+- Git remains read-only and `gh` remains denied;
+- local tools do not fall back to per-operation permission prompts;
+- suggested patches remain advisory.

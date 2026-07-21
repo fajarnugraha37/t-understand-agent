@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/agent-operation-plan.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "intent", "prompt_sha256", "workspace", "response_mode", "artifact_required", "required_action", "completion_contract", "created_at"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/agent-operation-plan.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "plan_id": {"type": "string", "pattern": "^PLAN-[A-Z0-9_-]{3,123}$"},
+    "intent": {"enum": ["GREETING", "HELP", "CAPABILITY_DETAILS", "EXPLANATION", "QUESTION_ANSWERING", "CODE_REVIEW", "DOCUMENTATION_GENERATION"]},
+    "prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "workspace": {
+      "type": "object",
+      "required": ["status", "repository_name", "knowledge_available", "changes_detected"],
+      "properties": {
+        "status": {"enum": ["NO_WORKSPACE", "NEW_REPOSITORY", "KNOWN_REPOSITORY"]},
+        "repository_name": {"type": ["string", "null"]},
+        "knowledge_available": {"type": "boolean"},
+        "changes_detected": {"type": "boolean"}
+      }
+    },
+    "response_mode": {"enum": ["DIRECT", "CONVERSATIONAL", "SUMMARY_ONLY"]},
+    "artifact_required": {"type": "boolean"},
+    "required_action": {"type": "string"},
+    "direct_response": {"type": "string"},
+    "completion_contract": {
+      "type": "object",
+      "required": ["required_artifacts", "chat_only_completion", "max_chat_characters", "forbidden_leakage"],
+      "properties": {
+        "required_artifacts": {"type": "array", "items": {"type": "string"}},
+        "chat_only_completion": {"enum": ["allowed", "forbidden"]},
+        "max_chat_characters": {"type": "integer", "minimum": 200},
+        "forbidden_leakage": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/agent-completion.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "intent", "status", "workspace_root", "output_path", "documents", "coverage", "verification", "execution_claims", "chat_response", "completed_at"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/agent-completion.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "run_id": {"type": "string", "pattern": "^RUN-[A-Z0-9_-]{3,123}$"},
+    "intent": {"const": "DOCUMENTATION_GENERATION"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "workspace_root": {"type": "string"},
+    "output_path": {"type": "string"},
+    "documents": {"type": "integer", "minimum": 5},
+    "coverage": {"type": "number", "minimum": 0, "maximum": 1},
+    "verification": {"type": "object", "required": ["documentation", "critique", "user_view"]},
+    "execution_claims": {
+      "type": "object",
+      "required": ["build", "unit_tests", "integration_tests"],
+      "additionalProperties": {"enum": ["NOT_EXECUTED", "EXECUTED_PASS", "EXECUTED_FAIL"]}
+    },
+    "chat_response": {"type": "string", "minLength": 20, "maxLength": 4000},
+    "completed_at": {"type": "string", "format": "date-time"}
+  }
+}

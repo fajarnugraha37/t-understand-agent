@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "t-understand"
-version = "1.0.2"
+version = "1.0.3"
 description = "Evidence-first multi-repository understanding, canonical memory, documentation, QnA, code review, quality qualification, and platform packaging"
 requires-python = ">=3.10"
 dependencies = ["PyYAML>=6.0", "jsonschema>=4.20"]

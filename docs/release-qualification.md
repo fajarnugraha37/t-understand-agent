@@ -1,10 +1,10 @@
 # Release Qualification
 
-Phase 20 is the final release gate; v1.0.2 requalifies the complete v1.0.0 platform after agent-native UX, installer, namespace, and permission hardening. It does not implement another analysis capability; it proves that the complete source tree, registries, reports, adapters, and package are coherent.
+Phase 20 is the final release gate; v1.0.3 requalifies the complete v1.0.0 platform after agent-native UX, installer, namespace, and permission hardening. It does not implement another analysis capability; it proves that the complete source tree, registries, reports, adapters, and package are coherent.
 
 ## Release gates
 
-- `VERSION` is exactly `1.0.2`;
+- `VERSION` is exactly `1.0.3`;
 - Phase 16 quality tests pass;
 - Phase 17 qualification tests pass;
 - Phase 18 installation tests pass;
@@ -26,7 +26,7 @@ Phase 20 is the final release gate; v1.0.2 requalifies the complete v1.0.0 platf
 reports/release-qualification.json
 reports/software-bill-of-materials.json
 CHECKSUMS.sha256
-t-understand-v1.0.2-agent-native-bundle.zip
+t-understand-v1.0.3-agent-native-bundle.zip
 ```
 
 The software bill of materials records path, SHA-256, and size for release files, plus declared Python dependencies.

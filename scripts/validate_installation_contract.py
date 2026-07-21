@@ -86,7 +86,7 @@ checks+=1
 if 'CONTEXT_ROOT' in install_sh:errors.append('shell installer still exposes CONTEXT_ROOT')
 
 root_agent=(ROOT/'agents/t-understand/AGENT.md').read_text()
-for expected in ('Human interaction contract','Never require the human','<workspace>/.t-understand/','Generate stable operation IDs automatically'):
+for expected in ('Human interaction contract','Never require the human','<workspace>/.t-understand/','Generate stable operation IDs automatically','Conversation routing contract','agent-document','chat-only answer'):
     checks+=1
     if expected not in root_agent:errors.append(f'root agent missing agent-native rule: {expected}')
 
@@ -94,6 +94,13 @@ engine_source=(ROOT/'runtime/tu_runtime/core/installation.py').read_text()
 for expected in ('def install_platform(', 't-understand-engine/agent_runtime.py', 'rerun with Force to replace it'):
     checks+=1
     if expected not in engine_source:errors.append(f'installer runtime missing {expected}')
+
+for required in ('orchestrator/capabilities.yaml','schemas/capability-catalog.schema.json','schemas/agent-operation-plan.schema.json','schemas/agent-completion.schema.json','runtime/tu_runtime/core/conversation.py'):
+    checks+=1
+    if not (ROOT/required).exists():errors.append(f'missing agent-native conversation resource {required}')
+for expected in ('DOCUMENTATION_GENERATION','chat_only_completion','generate_documentation','validate_response'):
+    checks+=1
+    if expected not in (ROOT/'runtime/tu_runtime/core/conversation.py').read_text():errors.append(f'conversation runtime missing {expected}')
 
 result={'status':'PASS' if not errors else 'FAIL','checks':checks,'errors':errors}
 Path(args.report).write_text(json.dumps(result,indent=2)+'\n')

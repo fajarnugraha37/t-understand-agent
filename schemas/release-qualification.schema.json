@@ -23,7 +23,7 @@
     },
     "version": {
       "type": "string",
-      "pattern": "^1\\.0\\.2$"
+      "pattern": "^1\\.0\\.3$"
     },
     "status": {
       "enum": [

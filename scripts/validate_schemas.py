@@ -20,6 +20,7 @@ for inst,sch in [
  (Path('orchestrator/authority-matrix.yaml'),Path('schemas/authority-matrix.schema.json')),
  (Path('orchestrator/artifact-registry.yaml'),Path('schemas/artifact-registry.schema.json')),
  (Path('orchestrator/workflow-registry.yaml'),Path('schemas/workflow-registry.schema.json')),
+ (Path('orchestrator/capabilities.yaml'),Path('schemas/capability-catalog.schema.json')),
 ]: validate(inst,sch)
 for agent in sorted((root/'agents').glob('*/agent.yaml')):
     validate(agent.relative_to(root),Path('schemas/agent-manifest.schema.json'))

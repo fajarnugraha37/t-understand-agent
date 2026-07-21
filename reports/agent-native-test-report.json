@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "greeting": 1,
+    "intent_precedence": 2,
+    "artifact_documentation": 1,
+    "response_sanitation": 1
+  }
+}

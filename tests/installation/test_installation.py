@@ -53,7 +53,7 @@ class InstallationTests(unittest.TestCase):
  def test_agent_native_platform_install_generates_ids_and_packages_engine(self):
   target=self.base/'opencode-global'
   result=self.m.install_platform('opencode',target)
-  self.assertEqual(result['platform'],'opencode');self.assertTrue(result['install_id'].startswith('INST-OPENCODE'));self.assertTrue((target/'t-understand-engine/agent_runtime.py').is_file());self.assertTrue((target/'t-understand-engine/runtime/tu_runtime/cli.py').is_file());self.assertEqual(self.m.doctor_platform('opencode',target)['status'],'PASS')
+  self.assertEqual(result['platform'],'opencode');self.assertTrue(result['install_id'].startswith('INST-OPENCODE'));self.assertTrue((target/'t-understand-engine/agent_runtime.py').is_file());self.assertTrue((target/'t-understand-engine/runtime/tu_runtime/cli.py').is_file());self.assertTrue((target/'t-understand-engine/runtime/tu_runtime/core/conversation.py').is_file());self.assertTrue((target/'t-understand-engine/orchestrator/capabilities.yaml').is_file());self.assertEqual(self.m.doctor_platform('opencode',target)['status'],'PASS')
   # Force is an explicit replacement path, including managed installations.
   (target/'AGENTS.md').write_text('tampered')
   replaced=self.m.install_platform('opencode',target,True);self.assertEqual(replaced['status'],'INSTALLED');self.assertEqual(self.m.doctor_platform('opencode',target)['status'],'PASS')
@@ -63,5 +63,5 @@ class InstallationTests(unittest.TestCase):
   self.assertIn('[--force]',sh);self.assertNotIn('CONTEXT_ROOT',sh);self.assertIn('platform-install --platform',sh)
  def test_root_agent_hides_internal_context_and_cli_from_humans(self):
   root=(ROOT/'agents/t-understand/AGENT.md').read_text()
-  self.assertIn('Human interaction contract',root);self.assertIn('Never require the human',root);self.assertIn('<workspace>/.t-understand/',root);self.assertIn('Generate stable operation IDs automatically',root)
+  self.assertIn('Human interaction contract',root);self.assertIn('Never require the human',root);self.assertIn('<workspace>/.t-understand/',root);self.assertIn('Generate stable operation IDs automatically',root);self.assertIn('Conversation routing contract',root);self.assertIn('agent-document',root);self.assertIn('chat-only answer',root)
 

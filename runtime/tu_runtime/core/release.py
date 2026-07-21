@@ -15,8 +15,8 @@ class ReleaseManager:
  def audit(self)->dict[str,Any]:
   version=(self.project_root/"VERSION").read_text().strip();gates=[]
   def gate(i,status,evidence):gates.append({"id":i,"status":"PASS" if status else "FAIL","evidence":evidence})
-  gate("version-1.0.2",version=="1.0.2",[f"VERSION={version}"])
-  required=["quality-test-report.json","qualification-test-report.json","installation-test-report.json","integration-test-report.json"]
+  gate("version-1.0.3",version=="1.0.3",[f"VERSION={version}"])
+  required=["quality-test-report.json","qualification-test-report.json","installation-test-report.json","integration-test-report.json","documentation-test-report.json","agent-native-test-report.json","agent-native-cli-report.json"]
   for name in required:
    r=self._read_report(name);gate(name.removesuffix('.json'),r.get("status")=="PASS",[f"reports/{name}",f"status={r.get('status')}"])
   pycache=list(self.project_root.rglob("__pycache__"));pyc=list(self.project_root.rglob("*.pyc"));gate("clean-source-tree",not pycache and not pyc,[f"pycache={len(pycache)}",f"pyc={len(pyc)}"])
@@ -31,6 +31,10 @@ class ReleaseManager:
   gate("skill-tu-namespace",namespace_ok,[f"canonical_skills={skill_count}","aggregate=tu-understand"])
   permission_policy=self.project_root/"orchestrator"/"tool-permission-policy.yaml"
   gate("no-prompt-permission-policy",permission_policy.exists(),[str(permission_policy.relative_to(self.project_root)) if permission_policy.exists() else "missing"])
+  capability=self.project_root/"orchestrator"/"capabilities.yaml"
+  conversation=self.project_root/"runtime"/"tu_runtime"/"core"/"conversation.py"
+  gate("capability-catalog",capability.exists(),["orchestrator/capabilities.yaml"])
+  gate("artifact-first-documentation",conversation.exists() and "generate_documentation" in conversation.read_text(),["runtime/tu_runtime/core/conversation.py",".t-understand/output/documentation/latest/"])
   inventory={"schemas":schema_count,"skill_packages":skill_count,"aggregate_skills":1 if aggregate.exists() else 0,"platform_adapters":adapter_count,"files":sum(1 for p in self.project_root.rglob('*') if p.is_file())}
   report={"schema_id":"https://t-understand.dev/schemas/release-qualification.schema.json","schema_version":"1.0.0","version":version,"status":"PASS" if all(x["status"]=="PASS" for x in gates) else "FAIL","gates":gates,"inventory":inventory,"limitations":["No live commercial or open-weight model was invoked by the provider-neutral qualification harness.","Hosted third-party documentation renderers and remote code-host review APIs were not invoked.","Platform permission profiles were structurally validated but the external OpenCode, Codex, Claude Code, and Cursor executables were not invoked by release qualification."],"generated_at":utc_now()}
   self.contracts.validate("release-qualification",report)

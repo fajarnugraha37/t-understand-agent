@@ -393,3 +393,15 @@ artifacts:
   source_repository_write_required: false
   schema_required: true
   revision_bound: true
+- id: agent-operation-plan
+  canonical_writer: t-understand
+  domain: control
+  source_repository_write_required: false
+  schema_required: true
+  revision_bound: false
+- id: agent-completion-report
+  canonical_writer: t-understand
+  domain: control
+  source_repository_write_required: false
+  schema_required: true
+  revision_bound: true

@@ -1,0 +1,291 @@
+{
+  "product": "t-understand",
+  "version": "1.0.3",
+  "status": "PASS",
+  "changes": {
+    "capability_greeting": true,
+    "substantive_task_overrides_greeting": true,
+    "documentation_intent_precedence": true,
+    "artifact_required_completion": true,
+    "stable_documentation_output": ".t-understand/output/documentation/latest/",
+    "chat_only_completion_denied": true,
+    "private_reasoning_sanitation": true,
+    "unexecuted_pass_claim_denied": true,
+    "literal_prompt_regression": true
+  },
+  "inventory": {
+    "schemas": 88,
+    "skills": 68,
+    "canonical_artifacts": 67,
+    "private_cli_commands": 111,
+    "platform_adapters": 4
+  },
+  "validation": {
+    "agent-native-test-report.json": {
+      "status": "PASS",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "categories": {
+        "greeting": 1,
+        "intent_precedence": 2,
+        "artifact_documentation": 1,
+        "response_sanitation": 1
+      }
+    },
+    "agent-native-cli-report.json": {
+      "status": "PASS",
+      "checks": 6,
+      "check_names": [
+        "greeting-plan",
+        "documentation-plan",
+        "documentation-run",
+        "stable-output",
+        "response-validation",
+        "leakage-rejection"
+      ],
+      "errors": []
+    },
+    "documentation-test-report.json": {
+      "status": "PASS",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "categories": {
+        "catalog_traceability": 1,
+        "business_disclosure": 1,
+        "invalidation": 1,
+        "atomic_rollback": 1,
+        "tamper": 1
+      }
+    },
+    "installation-contract-report.json": {
+      "status": "PASS",
+      "checks": 186,
+      "errors": []
+    },
+    "governance-report.json": {
+      "status": "PASS",
+      "checks": 256,
+      "errors": []
+    },
+    "negative-governance-report.json": {
+      "status": "PASS",
+      "cases": 25,
+      "results": [
+        {
+          "id": "worker_can_delegate",
+          "expected": "GOV-DELEGATE-001",
+          "observed": [
+            "GOV-DELEGATE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "worker_depth_one",
+          "expected": "GOV-DELEGATE-001",
+          "observed": [
+            "GOV-DELEGATE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "worker_human_interaction",
+          "expected": "GOV-HUMAN-001",
+          "observed": [
+            "GOV-HUMAN-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "source_write_not_denied",
+          "expected": "GOV-SOURCE-001",
+          "observed": [
+            "GOV-SOURCE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "worker_state_transition_not_denied",
+          "expected": "GOV-STATE-001",
+          "observed": [
+            "GOV-STATE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "worker_delegation_not_denied",
+          "expected": "GOV-DELEGATE-002",
+          "observed": [
+            "GOV-DELEGATE-002"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "second_memory_writer",
+          "expected": "GOV-MEMORY-001",
+          "observed": [
+            "GOV-EXCLUSIVE-001",
+            "GOV-MEMORY-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "curator_loses_memory_authority",
+          "expected": "GOV-MEMORY-001",
+          "observed": [
+            "GOV-EXCLUSIVE-001",
+            "GOV-MEMORY-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "reviewer_can_apply_patch",
+          "expected": "GOV-REVIEW-001",
+          "observed": [
+            "GOV-REVIEW-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "artifact_requires_source_write",
+          "expected": "GOV-ARTIFACT-003",
+          "observed": [
+            "GOV-ARTIFACT-003"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "unknown_artifact_writer",
+          "expected": "GOV-ARTIFACT-002",
+          "observed": [
+            "GOV-ARTIFACT-002",
+            "GOV-ARTIFACT-004"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "unknown_skill_owner",
+          "expected": "GOV-SKILL-002",
+          "observed": [
+            "GOV-SKILL-002"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "unknown_state_owner",
+          "expected": "GOV-STATE-002",
+          "observed": [
+            "GOV-STATE-002"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "unknown_state_skill",
+          "expected": "GOV-STATE-003",
+          "observed": [
+            "GOV-STATE-003"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "unknown_state_output",
+          "expected": "GOV-STATE-004",
+          "observed": [
+            "GOV-STATE-004"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "economy_parallel",
+          "expected": "GOV-ECON-003",
+          "observed": [
+            "GOV-ECON-003"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "economy_flagship",
+          "expected": "GOV-ECON-002",
+          "observed": [
+            "GOV-ECON-002"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "economy_silent_assumption",
+          "expected": "GOV-ECON-006",
+          "observed": [
+            "GOV-ECON-006"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "second_technical_writer",
+          "expected": "GOV-EXCLUSIVE-001",
+          "observed": [
+            "GOV-EXCLUSIVE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "second_business_writer",
+          "expected": "GOV-EXCLUSIVE-001",
+          "observed": [
+            "GOV-EXCLUSIVE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "second_qna_writer",
+          "expected": "GOV-EXCLUSIVE-001",
+          "observed": [
+            "GOV-EXCLUSIVE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "second_review_writer",
+          "expected": "GOV-EXCLUSIVE-001",
+          "observed": [
+            "GOV-EXCLUSIVE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "second_critic",
+          "expected": "GOV-EXCLUSIVE-001",
+          "observed": [
+            "GOV-EXCLUSIVE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "second_verifier",
+          "expected": "GOV-EXCLUSIVE-001",
+          "observed": [
+            "GOV-EXCLUSIVE-001"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "worker_approval_boundary_missing",
+          "expected": "GOV-HUMAN-002",
+          "observed": [
+            "GOV-HUMAN-002"
+          ],
+          "status": "PASS"
+        }
+      ]
+    },
+    "release-contract-report.json": {
+      "status": "PASS",
+      "checks": 223,
+      "errors": []
+    }
+  },
+  "limitations": [
+    "External host executables are structurally packaged but not invoked by this harness.",
+    "Repository builds and tests are not executed by documentation generation unless separately requested and evidenced."
+  ]
+}

@@ -34,3 +34,19 @@ catalog:
     - lifecycle-states
   mixed:
     - terminology
+agent_native_completion:
+  intent_precedence: documentation_generation_over_explanation
+  artifact_required: true
+  chat_only_completion: deny
+  stable_output_path: .t-understand/output/documentation/latest/
+  minimum_documents_for_comprehensive_request: 5
+  required_user_view_artifacts:
+    - _meta/manifest.yaml
+    - _meta/document-plan.yaml
+    - _meta/coverage-ledger.yaml
+    - _meta/traceability.jsonl
+    - _meta/validation.yaml
+    - index.md
+  full_documentation_body_in_chat: deny
+  unexecuted_verification_pass_claim: deny
+  private_reasoning_leakage: deny

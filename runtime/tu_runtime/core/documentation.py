@@ -65,6 +65,14 @@ class DocumentationManager:
     def invalidations_root(self) -> Path:
         return self.context_root / "documentation" / "invalidations"
 
+    @property
+    def user_output_root(self) -> Path:
+        return self.context_root / "output" / "documentation"
+
+    @property
+    def latest_output(self) -> Path:
+        return self.user_output_root / "latest"
+
     @contextmanager
     def lock(self) -> Iterator[None]:
         lock = self.context_root / "runtime" / "locks" / "documentation.lock"
@@ -121,6 +129,8 @@ class DocumentationManager:
                 manifest={**base,"content_digest":_canonical_digest(base)}; self.contracts.validate('documentation-manifest',manifest); atomic_write_yaml(temp/'documentation-manifest.yaml',manifest)
                 os.replace(temp,final)
                 if self.validate(docset_id)['status']!='PASS' or self.critique(docset_id)['status']!='PASS': raise TUnderstandError("DOC-VERIFY-001","Generated documentation failed validation or critique")
+                self._publish_user_view(docset_id)
+                if self.validate_user_view()['status']!='PASS': raise TUnderstandError("DOC-VIEW-001","Generated user-facing documentation view failed validation")
                 if make_current: atomic_write_yaml(self.root/'current.yaml',{"docset_id":docset_id,"model_id":model_id,"snapshot_id":model['snapshot_id'],"manifest_sha256":sha256_file(final/'documentation-manifest.yaml'),"updated_at":utc_now()})
             except Exception:
                 shutil.rmtree(temp, ignore_errors=True)
@@ -128,6 +138,78 @@ class DocumentationManager:
                     shutil.rmtree(final, ignore_errors=True)
                 raise
         return self.show(docset_id)
+
+
+    def _publish_user_view(self, docset_id: str) -> None:
+        source = self._dir(docset_id)
+        self.user_output_root.mkdir(parents=True, exist_ok=True)
+        temp = self.user_output_root / f".latest.{uuid.uuid4().hex}.tmp"
+        backup = self.user_output_root / f".latest.{uuid.uuid4().hex}.backup"
+        try:
+            shutil.copytree(source / "docs", temp)
+            meta = temp / "_meta"
+            meta.mkdir(parents=True, exist_ok=True)
+            mapping = {
+                "documentation-manifest.yaml": "manifest.yaml",
+                "document-plan.yaml": "document-plan.yaml",
+                "information-architecture.yaml": "information-architecture.yaml",
+                "coverage-ledger.yaml": "coverage-ledger.yaml",
+                "sections.jsonl": "sections.jsonl",
+                "traceability.jsonl": "traceability.jsonl",
+            }
+            for source_name, target_name in mapping.items():
+                shutil.copy2(source / source_name, meta / target_name)
+            reports = self.reports_root / docset_id
+            shutil.copy2(reports / "verification.yaml", meta / "validation.yaml")
+            shutil.copy2(reports / "critique.yaml", meta / "critique.yaml")
+            files = []
+            for path in sorted(item for item in temp.rglob("*") if item.is_file()):
+                files.append({"path": path.relative_to(temp).as_posix(), "sha256": sha256_file(path)})
+            atomic_write_yaml(meta / "user-view.yaml", {
+                "docset_id": docset_id,
+                "entrypoint": "index.md",
+                "documents": len([item for item in files if item["path"].endswith(".md") and not item["path"].startswith("_meta/")]),
+                "files": files,
+                "generated_at": utc_now(),
+            })
+            if self.latest_output.exists():
+                os.replace(self.latest_output, backup)
+            os.replace(temp, self.latest_output)
+            shutil.rmtree(backup, ignore_errors=True)
+        except Exception:
+            shutil.rmtree(temp, ignore_errors=True)
+            if backup.exists() and not self.latest_output.exists():
+                os.replace(backup, self.latest_output)
+            raise
+
+    def validate_user_view(self) -> dict[str, Any]:
+        errors: list[str] = []
+        checks = 0
+        required = [
+            "index.md",
+            "_meta/manifest.yaml",
+            "_meta/document-plan.yaml",
+            "_meta/coverage-ledger.yaml",
+            "_meta/traceability.jsonl",
+            "_meta/validation.yaml",
+            "_meta/critique.yaml",
+            "_meta/user-view.yaml",
+        ]
+        for rel in required:
+            checks += 1
+            if not (self.latest_output / rel).is_file():
+                errors.append(f"missing user-facing documentation artifact: {rel}")
+        if not errors:
+            view = load_yaml(self.latest_output / "_meta/user-view.yaml")
+            checks += 1
+            if view.get("documents", 0) < 5:
+                errors.append("comprehensive documentation requires at least five documents")
+            for item in view.get("files", []):
+                checks += 1
+                path = self.latest_output / item["path"]
+                if not path.is_file() or sha256_file(path) != item["sha256"]:
+                    errors.append(f"user-facing documentation checksum mismatch: {item['path']}")
+        return {"status": "PASS" if not errors else "FAIL", "checks": checks, "errors": errors}
 
     def _render_document(self,docset_id,document_id,title,audience,model,records):
         lines=["---",f"title: {title}",f"document_id: {document_id}",f"docset_id: {docset_id}",f"snapshot_id: {model['snapshot_id']}",f"memory_id: {model['memory_id']}",f"model_id: {model['model_id']}",f"audience: {audience}","---","",f"# {title}","",f"> Generated from immutable model `{model['model_id']}` and snapshot `{model['snapshot_id']}`. Classifications below are part of the factual contract.",""]
