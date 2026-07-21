@@ -19,6 +19,14 @@ Denied:
 - `workflow_state_transition`
 - `worker_delegation`
 
+## Repository intelligence
+
+- Consume affected components, contracts, schemas, events, tests, and documentation areas from the delegation package when planning or reconciling models.
+- Use Graphify edges to identify candidate model boundaries and verification work, not as automatic model facts or business intent.
+- Verify dynamic relationships and implementation ownership from source and runtime configuration before promoting them.
+- Preserve graph staleness, ambiguous ownership, reflection, dependency injection, event routing, database logic, and external-system uncertainty.
+- Do not turn every graph edge into a model record or implementation task.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
