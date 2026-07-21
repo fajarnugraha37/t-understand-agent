@@ -55,6 +55,8 @@ SCHEMA_FILES = {
     "model-verification": "model-verification.schema.json",
     "model-reconciliation": "model-reconciliation.schema.json",
     "documentation-section": "documentation-section.schema.json",
+    "documentation-requirements": "documentation-requirements.schema.json",
+    "documentation-generation-record": "documentation-generation-record.schema.json",
     "documentation-manifest": "documentation-manifest.schema.json",
     "document-plan": "document-plan.schema.json",
     "documentation-trace": "documentation-trace.schema.json",
@@ -91,6 +93,7 @@ SCHEMA_FILES = {
     "platform-adapter": "platform-adapter.schema.json",
     "capability-catalog": "capability-catalog.schema.json",
     "agent-operation-plan": "agent-operation-plan.schema.json",
+    "agent-workspace-discovery": "agent-workspace-discovery.schema.json",
     "agent-completion": "agent-completion.schema.json",
 }
 

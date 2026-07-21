@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 19,
   "phase_name": "Complete Integration Scenarios",
   "status": "PASS",
@@ -8,13 +8,22 @@
     "scenarios": 7,
     "passed": 7
   },
+  "scenario_ids": [
+    "single-repo-complete-pipeline",
+    "monorepo-module-coverage",
+    "multi-repo-contract-graph",
+    "diff-review-matrix",
+    "freshness-invalidation-refresh",
+    "platform-package-install-uninstall",
+    "cheap-model-contract-qualification"
+  ],
   "assurances": [
     "isolated_scenario_evidence",
-    "single_repo",
+    "single_repository",
     "monorepo",
-    "multi_repo",
+    "multi_repository",
     "review_matrix",
-    "freshness",
+    "freshness_refresh",
     "installation",
     "qualification"
   ]

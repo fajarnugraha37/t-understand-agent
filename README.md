@@ -1,6 +1,6 @@
 # t-understand
 
-Version **1.0.3** is an agent-native release of the complete Phase 1–20 platform.
+Version **1.1.0** is an agent-native release of the complete Phase 1–20 platform.
 
 The human-facing interface is the conversation inside OpenCode, Codex, Claude Code, or Cursor. The deterministic runtime, snapshots, evidence, memory, documentation, QnA, review, and quality artifacts are implementation details managed by the installed agent.
 
@@ -82,6 +82,22 @@ The agent automatically:
 
 The user is never expected to invoke the internal runtime or understand its storage layout.
 
+
+## Multi-repository applications
+
+Open any repository in an application workspace and explicitly refer to all repositories when you want application-level understanding:
+
+```text
+Treat all repositories in this workspace as one application. Understand them deeply and generate comprehensive documentation.
+```
+
+The agent discovers bounded sibling/child Git roots, creates one application workspace, stores managed state at the common root, captures one multi-repository snapshot, and generates application-level plus per-repository documentation.
+
+## Deep business, domain, and flow documentation
+
+Version 1.1.0 uses a requirements-driven adaptive plan. It starts from 41 mandatory documents, adds seven documents for every repository, creates deep Tier-1 flow documentation, and retains every lower-tier flow in the flow catalog. Publication requires 100% requirement, model-record, required-section, repository, flow, inference-disclosure, and traceability coverage.
+
+Business intent is never invented from code. Repository boundaries, roles, enums, exceptions, and call graphs remain explicitly classified as candidates or partial evidence unless stronger evidence exists. Missing knowledge is documented as an unknown rather than silently omitted.
 
 ## Greeting and documentation behavior
 

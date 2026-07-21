@@ -1,6 +1,6 @@
 ---
 name: tu-evidence-coverage
-description: Execute the t-understand evidence coverage workflow with evidence-first, schema-bound, read-only behavior.
+description: Enforce complete requirement, model-record, section, repository, flow, inference, and traceability coverage for generated documentation.
 compatibility: t-understand, opencode, codex, claude-code
 metadata:
   owner: t-understand
@@ -15,32 +15,27 @@ metadata:
 
 ## Objective
 
-Measure evidence coverage.
+Prove that documentation generation did not silently skip planned knowledge.
 
-## Required inputs
+## Required measures
 
-- Immutable application snapshot or an artifact already bound to one.
-- Canonical memory/model identifiers required by the current workflow state.
-- A delegation packet with one bounded objective and explicit expected outputs.
+- Documentation-requirement coverage.
+- Model-record coverage.
+- Required-section coverage.
+- Repository coverage.
+- Flow coverage.
+- Business-inference disclosure.
+- Supported-section traceability.
+- Unsupported, stale, conflicting, and unknown area counts.
 
-## Output contract
+## Gate behavior
 
-- Produce only the artifact type assigned by the workflow and artifact registry.
-- Preserve application, snapshot, memory, model, and document identifiers.
-- Classify statements as fact, implemented behavior, business inference, human-confirmed, unknown, conflict, or limitation.
-- Bind every supported statement to canonical claims and evidence.
-
-## Safety rules
-
-- Never write to source repositories.
-- Never invent product intent, business ownership, requirements, runtime behavior, or human approval.
-- Prefer an explicit unknown or limitation over unsupported completion.
-- Do not delegate to another worker.
-- Return schema-valid structured output for deterministic verification.
+- A missing planned document is a blocker.
+- An uncovered model record, repository, or flow is a blocker.
+- A supported section without claim and evidence references is a blocker.
+- An undisclosed business inference is a blocker.
+- Unknowns count as covered only when explicitly documented as unknowns, not when omitted.
 
 ## Completion criteria
 
-- All required records are present and deterministically ordered.
-- Evidence and claim references resolve.
-- Conflicts and stale inputs remain visible.
-- The relevant critique and verification gates can pass.
+All mandatory coverage metrics equal `1.0`, every gap list is empty, and all generated artifacts validate against their schemas.

@@ -1,76 +1,67 @@
-# t-understand 1.0.3
+# t-understand 1.1.0
 
-`t-understand` 1.0.3 hardens the agent-native conversation contract and makes documentation requests artifact-first.
+`t-understand` 1.1.0 adds agent-native multi-repository application discovery and a requirements-driven deep documentation system for business, domain, and application flows.
 
-## Capability greeting
+## Multi-repository application bootstrap
 
-Greeting-only prompts such as `hi`, `hello`, `hai`, or `halo` now produce a concise repository-aware capability card. They do not start discovery, analysis, or memory construction.
+A human can open one child repository or an application parent and ask the agent to treat all repositories as one application. The agent resolves bounded sibling/child Git roots, infers conservative repository roles, initializes one application manifest, stores `.t-understand/` at the common application root, and captures one snapshot containing every repository-local revision.
 
-A substantive task always overrides the greeting prefix:
+Existing application workspaces are reused automatically. Normal single-repository prompts remain single-repository unless multi-repository scope is explicit or already registered.
 
-```text
-hi
-→ capability greeting
+## Adaptive documentation plan
 
-hi, review my current changes
-→ review workflow
-```
+The fixed 13-document catalog is replaced by a requirements-driven plan:
 
-The canonical capability catalog lives in `orchestrator/capabilities.yaml` and is copied privately into every platform package.
+- 41 mandatory application/business/domain/flow/integration/data/operations/reference documents;
+- seven documents repeated for every repository;
+- five deep documents for each Tier-1 flow;
+- one complete document for each Tier-2 flow;
+- catalog coverage for every Tier-3 flow.
 
-## Artifact-first documentation
+Every document has a stable requirement ID, unique path, scope, required headings, source-model set, and generation mode. A generation ledger must contain exactly one successful record for every requirement.
 
-Explicit requests to write, generate, create, produce, or document repository documentation now have precedence over explanation and QnA routing.
+## Deep business and domain modeling
 
-The private `agent-document` workflow performs:
+The model catalog now includes goals, capabilities, processes, actors, rules, policies, controls, domain overview, bounded contexts, aggregates/entities, value objects, invariants, domain services, commands, domain events, states, decision tables, ownership boundaries, flow failures, consistency, observability, and repository models.
 
-```text
-workspace bootstrap
-→ worktree snapshot
-→ discovery
-→ language/contract extraction
-→ analysis
-→ graph
-→ canonical memory
-→ modeling
-→ documentation generation
-→ critique
-→ verification
-→ stable user-facing publication
-```
+Anti-hallucination rules prevent these invalid promotions:
 
-Generated documentation is published under:
+- repository → confirmed bounded context;
+- role/permission → confirmed business persona;
+- enum → complete state machine;
+- exception → confirmed business policy;
+- call graph → complete application flow;
+- discovered build/test command → passed execution.
 
-```text
-<workspace>/.t-understand/output/documentation/latest/
-```
+Missing business intent remains an explicit unknown. Business inference requires evidence and a visible limitation.
 
-The stable view includes multiple Markdown documents plus manifest, document plan, coverage ledger, traceability, critique, and validation metadata.
+## Multi-perspective application flows
 
-A documentation request cannot complete with chat prose alone. The chat response is limited to a concise completion summary and output location.
+Important flows are documented across intent, trigger, participants, repository attribution, sequence, sync/async boundaries, state/data impact, transactions/consistency, failures/recovery, security, observability/operations, evidence, and unknowns.
 
-## Verification-claim safety
+Flow depth is risk-sensitive and scales without silently truncating the plan.
 
-The root agent now distinguishes source verification, implementation inference, repository declarations, discovered-but-not-executed commands, and actually executed results. Build, test, migration, infrastructure, or smoke-test success may not be claimed without captured execution evidence.
+## Completeness and quality gates
 
-Private reasoning, internal todos, `Thought:` lines, internal artifact IDs, `ContextRoot`, and `$TU` are rejected by the final-response validator.
+Stable publication is denied unless all mandatory metrics equal `1.0`:
 
-## Regression fixture
+- requirement coverage;
+- model-record coverage;
+- required-section coverage;
+- repository coverage;
+- flow coverage;
+- inference disclosure;
+- supported-section traceability.
 
-The following literal prompt is a permanent regression fixture:
-
-```text
-Understand this repository deeply, precisely and write comprehensive, detailed, deep, sensible documentation
-```
-
-It must create documentation files and return only a concise chat summary.
+The verifier also rejects missing documents, missing headings, unsupported facts, stale supported content, duplicate IDs/paths/content, shallow sections/documents, placeholders, broken links, checksum mismatches, and planned/generated requirement differences.
 
 ## Preserved guarantees
 
-- all canonical skills use the `tu-*` namespace;
-- normal use remains conversation-only;
-- application source remains read-only;
-- `.t-understand/**` remains managed metadata excluded from source evidence;
-- Git remains read-only and `gh` remains denied;
-- local tools do not fall back to per-operation permission prompts;
-- suggested patches remain advisory.
+- conversation-only normal use;
+- application source read-only;
+- Git inspection-only and `gh` denied;
+- `.t-understand/**` excluded from source evidence and Git mutation;
+- immutable snapshots, memory, models, and canonical docsets;
+- concise chat completion with documentation written as files;
+- no build/test pass claims without execution evidence;
+- private reasoning and internal IDs remain hidden.

@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 4,
   "phase_name": "Snapshot and Git Target Engine",
   "status": "PASS",
@@ -17,7 +17,7 @@
     "snapshot_negative_tests": 11,
     "snapshot_capture_tests": 8,
     "snapshot_review_target_tests": 5,
-    "snapshot_cli_checks": 13
+    "snapshot_cli_checks": 14
   },
   "assurances": {
     "source_repository_access": "READ_ONLY",

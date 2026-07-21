@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 9,
   "phase_name": "Canonical Memory and Freshness",
   "status": "PASS",
@@ -24,7 +24,7 @@
   "validation": {
     "contract_checks": 30,
     "tests": 5,
-    "cli_checks": 21
+    "cli_checks": 22
   },
   "assurances": {
     "sole_canonical_writer": "tu-memory-curator",
@@ -41,6 +41,6 @@
   "explicit_limitations": [
     "Embeddings are not implemented and are not required for canonical correctness.",
     "Freshness across different snapshots is stale until a digest comparison and refresh are completed.",
-    "Downstream model and document invalidation hooks are reserved for Phases 10 and 11 because those artifacts do not yet exist."
+    "Downstream model and document invalidation are implemented by Phases 10 and 11; Phase 9 remains responsible only for canonical-memory impact records."
   ]
 }

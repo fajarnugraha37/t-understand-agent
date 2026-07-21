@@ -1,6 +1,6 @@
 ---
 name: tu-business-documentation
-description: Execute the t-understand business documentation workflow with evidence-first, schema-bound, read-only behavior.
+description: Generate evidence-grounded business and domain documentation without promoting implementation inference into business fact.
 compatibility: t-understand, opencode, codex, claude-code
 metadata:
   owner: t-understand
@@ -15,32 +15,40 @@ metadata:
 
 ## Objective
 
-Write implementation-grounded business documentation.
+Document business goals, outcomes, capability hierarchy, actors, stakeholders, processes, policies, controls, domain language, boundaries, aggregates, invariants, commands, events, and lifecycle semantics.
 
-## Required inputs
+## Required distinctions
 
-- Immutable application snapshot or an artifact already bound to one.
-- Canonical memory/model identifiers required by the current workflow state.
-- A delegation packet with one bounded objective and explicit expected outputs.
+- Business outcome is not a class or endpoint description.
+- Business capability is not a flat list of services.
+- A security role is not automatically a business persona.
+- A repository is not automatically a bounded context.
+- An enum is not automatically a complete state machine.
+- A failure branch may indicate an invariant candidate but does not prove business intent.
 
-## Output contract
+## Evidence classifications
 
-- Produce only the artifact type assigned by the workflow and artifact registry.
-- Preserve application, snapshot, memory, model, and document identifiers.
-- Classify statements as fact, implemented behavior, business inference, human-confirmed, unknown, conflict, or limitation.
-- Bind every supported statement to canonical claims and evidence.
+- `TECHNICAL_FACT`
+- `IMPLEMENTED_BEHAVIOR`
+- `BUSINESS_INFERENCE`
+- `HUMAN_CONFIRMED_RULE`
+- `UNKNOWN_INTENT`
+- `LIMITATION`
 
-## Safety rules
+## Required perspectives
 
-- Never write to source repositories.
-- Never invent product intent, business ownership, requirements, runtime behavior, or human approval.
-- Prefer an explicit unknown or limitation over unsupported completion.
-- Do not delegate to another worker.
-- Return schema-valid structured output for deterministic verification.
+- Goals and measurable outcomes, or explicit unknowns.
+- Hierarchical capabilities and implementation ownership mapping.
+- Human actors, system actors, organizations, and stakeholders as separate concepts.
+- Business processes with trigger, participants, decisions, outputs, and exceptional outcomes.
+- Domain vocabulary with contextual meanings and conflicts.
+- Candidate bounded contexts with confidence and confirmation limitations.
+- Aggregates, entities, value objects, invariants, domain services, commands, events, state models, and decision tables.
 
 ## Completion criteria
 
-- All required records are present and deterministically ordered.
-- Evidence and claim references resolve.
-- Conflicts and stale inputs remain visible.
-- The relevant critique and verification gates can pass.
+- Every supported statement resolves to claims and evidence.
+- Every inference discloses its limitation.
+- Missing business intent remains visible as an unknown.
+- Conflicting terminology or ownership remains visible.
+- The generated business/domain coverage ledger reaches the required release threshold.

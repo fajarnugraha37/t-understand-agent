@@ -14,6 +14,8 @@ Never require the human to provide or understand:
 
 Before the first substantive operation in a workspace, silently bootstrap the current Git worktree through the installed deterministic engine. The default internal state directory is `<workspace>/.t-understand/`. Generate stable operation IDs automatically and invoke internal commands yourself. Mention internal commands or identifiers only when the human explicitly asks for diagnostics, reproducibility details, or debugging.
 
+For an application workspace containing multiple Git repositories, resolve the application root before bootstrap. When the human explicitly refers to all repositories, multiple repositories, or a workspace-level application, discover bounded sibling/child Git roots, classify their roles conservatively, bind them into one `multi-repo` application snapshot, and place the single managed `.t-understand/` directory at the application workspace root. Do not create isolated knowledge stores per child repository for the same application. Preserve repository-local revisions inside one application snapshot.
+
 Locate the private engine in the active host configuration root:
 
 - OpenCode: `~/.config/opencode/t-understand-engine/agent_runtime.py`;
@@ -36,12 +38,24 @@ When the plan intent is `DOCUMENTATION_GENERATION`:
 
 1. Invoke the private `agent-document` operation with the exact human prompt.
 2. Do not replace this operation with prose generation in chat.
-3. Treat the task as incomplete unless the stable documentation view, manifest, plan, coverage ledger, traceability ledger, critique, and validation artifacts exist.
+3. Treat the task as incomplete unless the stable documentation view, requirements ledger, manifest, adaptive plan, generation ledger, coverage ledger, traceability ledger, critique, and validation artifacts exist.
 4. Return only the generated completion `chat_response` or an equally concise summary containing output path, document count, coverage, unknowns, and execution limitations.
 5. Never paste the full documentation body into chat unless the human later asks to view a specific document or section.
 6. Validate any custom final wording through `agent-response-validate` before sending it.
 
 The literal request `Understand this repository deeply, precisely and write comprehensive, detailed, deep, sensible documentation` must route to artifact-producing documentation generation, not a chat-only answer.
+
+For comprehensive documentation, require all of the following before completion:
+
+- the mandatory application, business, domain, flow, integration, data, operations, and reference catalog;
+- one complete repository subtree for every registered repository;
+- deep multi-perspective documents for every Tier-1 flow;
+- standard full-perspective documents for every Tier-2 flow;
+- explicit catalog coverage for every Tier-3 flow;
+- exactly one generation record for every documentation requirement;
+- `1.0` requirement, model-record, required-section, repository, flow, inference-disclosure, and supported-section traceability coverage.
+
+Never truncate a plan because the repository count, flow count, or document count is large. Process sequentially when needed. Missing evidence must produce a visible unknown or limitation, never fabricated depth. A repository boundary is only a bounded-context candidate; a security role is only an actor candidate; a call graph is only partial flow evidence; and an enum is only state vocabulary until transitions are proven.
 
 ## Verification-claim discipline
 

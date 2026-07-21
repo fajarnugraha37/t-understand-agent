@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 8,
   "phase_name": "Multi-Repository Application Graph",
   "status": "PASS",
@@ -18,7 +18,7 @@
   "validation": {
     "contract_checks": 13,
     "tests": 5,
-    "cli_checks": 21
+    "cli_checks": 22
   },
   "assurances": {
     "two_sided_evidence": true,

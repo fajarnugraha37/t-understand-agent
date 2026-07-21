@@ -2,7 +2,5 @@
   "status": "PASS",
   "tests_run": 12,
   "failures": 0,
-  "errors": 0,
-  "execution_mode": "three isolated groups of four tests to avoid cumulative harness timeout",
-  "groups": [4, 4, 4]
+  "errors": 0
 }

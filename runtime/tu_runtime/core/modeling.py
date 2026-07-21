@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import shutil
 import uuid
 from collections import defaultdict
@@ -28,10 +29,55 @@ def _jsonl(values: list[dict[str, Any]]) -> str:
 
 
 MODEL_TYPES = (
-    "application-model", "architecture-model", "dependency-model", "data-model",
-    "event-model", "deployment-model", "security-model", "business-capabilities",
-    "business-rules", "actors", "state-model", "flows", "terminology",
+    "application-model",
+    "architecture-model",
+    "repository-model",
+    "dependency-model",
+    "data-model",
+    "event-model",
+    "deployment-model",
+    "security-model",
+    "observability-model",
+    "business-goals",
+    "business-capabilities",
+    "business-processes",
+    "actors",
+    "business-rules",
+    "policies-decisions",
+    "controls-compliance",
+    "domain-overview",
+    "bounded-contexts",
+    "aggregates-entities",
+    "value-objects",
+    "invariants",
+    "domain-services",
+    "commands",
+    "domain-events",
+    "state-model",
+    "decision-tables",
+    "ownership-boundaries",
+    "flows",
+    "flow-failures",
+    "consistency-model",
+    "terminology",
 )
+
+BUSINESS_VERBS = {
+    "create", "submit", "approve", "reject", "cancel", "close", "open", "assign", "publish",
+    "finalize", "review", "decide", "calculate", "price", "quote", "order", "pay", "triage",
+    "investigate", "recommend", "sanction", "appeal", "fulfill", "activate", "suspend", "renew",
+}
+
+
+def _humanize(value: str) -> str:
+    value = value.split(":")[-1].split("/")[-1]
+    value = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", value)
+    value = re.sub(r"[^A-Za-z0-9]+", " ", value).strip()
+    return " ".join(part.capitalize() for part in value.split()) or "Unnamed"
+
+
+def _lower_words(value: str) -> set[str]:
+    return {part.lower() for part in re.findall(r"[A-Za-z][A-Za-z0-9]*", _humanize(value))}
 
 
 class ModelManager:
@@ -183,66 +229,363 @@ class ModelManager:
         return claim_ids,evidence
 
     def _derive(self, model_id, memory, entities, relations, claims, conflicts, claim_by_entity, claim_by_relation):
-        app=memory["application_id"]; snap=memory["snapshot_id"]; mid=memory["memory_id"]
-        grouped: dict[str, list[dict[str, Any]]] = {x: [] for x in MODEL_TYPES}
+        app = memory["application_id"]
+        snap = memory["snapshot_id"]
+        mid = memory["memory_id"]
+        grouped: dict[str, list[dict[str, Any]]] = {name: [] for name in MODEL_TYPES}
         by_repo: dict[str, list[dict[str, Any]]] = defaultdict(list)
-        for e in entities: by_repo[e["repository_id"]].append(e)
-        for repo, ents in sorted(by_repo.items()):
-            eids=[e["id"] for e in ents]; cs,ev=self._support(eids,[],claim_by_entity,claim_by_relation)
-            grouped["application-model"].append(self._record(model_id,"application-model",repo,"FACT",repo,
-                f"Repository {repo} is present in the analyzed application snapshot with {len(ents)} extracted entities.",cs,ev,eids,attributes={"repository_id":repo,"entity_count":len(ents),"entity_kinds":sorted({e['kind'] for e in ents})}))
-            grouped["architecture-model"].append(self._record(model_id,"architecture-model",repo,"IMPLEMENTED_BEHAVIOR",f"Component {repo}",
-                f"The implementation surface for {repo} exposes the recorded entry points and contracts listed in its attributes.",cs,ev,eids,attributes={"repository_id":repo,"entry_points":[e['qualified_name'] for e in ents if e['kind']=='entry-point'],"contracts":[e['qualified_name'] for e in ents if e['kind'] in {'http-provider','interface','event-producer','event-consumer'}]}))
-        for rel in relations:
-            rid=rel["id"]; cs,ev=self._support([], [rid], claim_by_entity, claim_by_relation)
-            classification="BUSINESS_INFERENCE" if rel.get("classification") in {"INFERENCE","INFERRED"} else "IMPLEMENTED_BEHAVIOR"
-            target=rel.get("target_repository") or rel.get("target_entity") or rel.get("target_key") or rel.get("contract_key")
-            rec=self._record(model_id,"dependency-model",rid,classification,rel["type"],f"{rel.get('source_repository') or rel.get('source_entity')} {rel['type']} {target}.",cs or [c['id'] for c in claims if set(c.get('evidence',[])) & set(rel.get('evidence',[]))],ev or rel.get('evidence',[]),[x for x in (rel.get('source_entity'),rel.get('target_entity')) if x],[rid],{"contract_key":rel.get('contract_key') or rel.get('target_key'),"source_repository":rel.get('source_repository'),"target_repository":rel.get('target_repository')},limitations=["Relationship semantics are inferred from exact complementary source surfaces; runtime execution was not observed."] if classification=="BUSINESS_INFERENCE" else None)
-            grouped["dependency-model"].append(rec)
-            if rel["type"] in {"PRODUCES_FOR"}:
-                grouped["event-model"].append({**rec,"id":_id('MODREC','event-model',rid),"model_type":"event-model"})
-            if rel["type"] in {"SHARES_DATA_WITH","READS","WRITES"}:
-                grouped["data-model"].append({**rec,"id":_id('MODREC','data-model',rid),"model_type":"data-model"})
-            if rel["type"] in {"CALLS","PRODUCES_FOR"}:
-                grouped["flows"].append({**rec,"id":_id('MODREC','flows',rid),"model_type":"flows"})
-        for e in entities:
-            cs,ev=self._support([e["id"]],[],claim_by_entity,claim_by_relation)
-            if e["kind"] in {"event-producer","event-consumer"}:
-                grouped["event-model"].append(self._record(model_id,"event-model",e["id"],"IMPLEMENTED_BEHAVIOR",e["qualified_name"],f"{e['repository_id']} contains {e['kind']} {e['qualified_name']}.",cs,ev or e['evidence'],[e['id']],attributes={"repository_id":e['repository_id'],"kind":e['kind']}))
-            if e["kind"] in {"data-reader","data-writer","table","view"}:
-                grouped["data-model"].append(self._record(model_id,"data-model",e["id"],"IMPLEMENTED_BEHAVIOR",e["qualified_name"],f"{e['repository_id']} contains the recorded data access surface {e['qualified_name']}.",cs,ev or e['evidence'],[e['id']],attributes={"repository_id":e['repository_id'],"kind":e['kind']}))
-            if e["kind"] in {"http-provider","interface","entry-point"}:
-                grouped["business-capabilities"].append(self._record(model_id,"business-capabilities",e["id"],"BUSINESS_INFERENCE",e["name"],f"The implemented surface {e['qualified_name']} indicates a candidate application capability; its business intent is not asserted.",cs,ev or e['evidence'],[e['id']],attributes={"repository_id":e['repository_id'],"technical_surface":e['qualified_name']},limitations=["Capability name and intent require human confirmation."]))
-            if e["kind"] in {"http-provider","interface","event-consumer","event-producer"}:
-                grouped["actors"].append(self._record(model_id,"actors",e["id"],"BUSINESS_INFERENCE",f"Actor interacting with {e['name']}",f"An external or internal actor interacts with {e['qualified_name']}; actor identity is not derivable from source alone.",cs,ev or e['evidence'],[e['id']],limitations=["Actor identity and organizational ownership are unknown."]))
-            if any(x in e["kind"] for x in ("deploy","kubernetes","terraform","docker")):
-                grouped["deployment-model"].append(self._record(model_id,"deployment-model",e["id"],"IMPLEMENTED_BEHAVIOR",e["qualified_name"],f"Deployment-related source surface {e['qualified_name']} is present.",cs,ev or e['evidence'],[e['id']]))
-            if any(x in e["kind"] for x in ("security","authorization","authentication")):
-                grouped["security-model"].append(self._record(model_id,"security-model",e["id"],"IMPLEMENTED_BEHAVIOR",e["qualified_name"],f"Security-related source surface {e['qualified_name']} is present.",cs,ev or e['evidence'],[e['id']]))
-        # conservative unknowns rather than invented knowledge
-        unknowns={
-            "deployment-model":"No complete deployment topology can be proven from the current evidence.",
-            "security-model":"No complete security architecture can be proven from the current evidence.",
-            "business-rules":"Business rules are not promoted from implementation unless an explicit validated rule is evidenced.",
-            "state-model":"No complete domain state machine can be proven from the current evidence.",
+        by_path: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+        entity_by_id = {entity["id"]: entity for entity in entities}
+        for entity in entities:
+            by_repo[entity["repository_id"]].append(entity)
+            by_path[(entity["repository_id"], entity["path"])].append(entity)
+
+        def support(entity_ids: list[str], relation_ids: list[str] | None = None, fallback: list[str] | None = None):
+            claim_ids, evidence_ids = self._support(entity_ids, relation_ids or [], claim_by_entity, claim_by_relation)
+            if fallback:
+                evidence_ids = sorted(set(evidence_ids) | set(fallback))
+            return claim_ids, evidence_ids
+
+        def add(
+            model_type: str,
+            key: str,
+            classification: str,
+            title: str,
+            description: str,
+            entity_ids: list[str] | None = None,
+            relation_ids: list[str] | None = None,
+            attributes: dict[str, Any] | None = None,
+            limitations: list[str] | None = None,
+            fallback_evidence: list[str] | None = None,
+        ) -> dict[str, Any]:
+            entity_ids = entity_ids or []
+            relation_ids = relation_ids or []
+            claim_ids, evidence_ids = support(entity_ids, relation_ids, fallback_evidence)
+            record = self._record(
+                model_id,
+                model_type,
+                key,
+                classification,
+                title,
+                description,
+                claim_ids,
+                evidence_ids,
+                entity_ids,
+                relation_ids,
+                attributes,
+                limitations,
+            )
+            grouped[model_type].append(record)
+            return record
+
+        # Application and repository boundaries are factual because repository membership is snapshot-bound.
+        for repository_id, repository_entities in sorted(by_repo.items()):
+            entity_ids = [entity["id"] for entity in repository_entities]
+            kinds = sorted({entity["kind"] for entity in repository_entities})
+            entry_points = sorted({entity["qualified_name"] for entity in repository_entities if entity["kind"] == "entry-point"})
+            contracts = sorted({
+                entity["qualified_name"] for entity in repository_entities
+                if entity["kind"] in {"http-provider", "http-consumer", "event-producer", "event-consumer", "interface"}
+            })
+            add(
+                "application-model", repository_id, "FACT", repository_id,
+                f"Repository {repository_id} is part of the analyzed application snapshot and contributed {len(repository_entities)} extracted entities.",
+                entity_ids,
+                attributes={"repository_id": repository_id, "entity_count": len(repository_entities), "entity_kinds": kinds},
+                fallback_evidence=[evidence for entity in repository_entities for evidence in entity.get("evidence", [])],
+            )
+            add(
+                "repository-model", repository_id, "FACT", f"Repository {repository_id}",
+                f"Repository {repository_id} owns the implementation surfaces listed in this record for the captured snapshot.",
+                entity_ids,
+                attributes={"repository_id": repository_id, "entry_points": entry_points, "contracts": contracts, "entity_kinds": kinds},
+                fallback_evidence=[evidence for entity in repository_entities for evidence in entity.get("evidence", [])],
+            )
+            add(
+                "architecture-model", repository_id, "IMPLEMENTED_BEHAVIOR", f"Component {repository_id}",
+                f"The implementation surface for {repository_id} exposes its recorded entry points, contracts, configuration, and dependencies.",
+                entity_ids,
+                attributes={"repository_id": repository_id, "entry_points": entry_points, "contracts": contracts},
+                fallback_evidence=[evidence for entity in repository_entities for evidence in entity.get("evidence", [])],
+            )
+            add(
+                "ownership-boundaries", repository_id, "IMPLEMENTED_BEHAVIOR", f"Implementation ownership: {repository_id}",
+                f"Source artifacts and contracts located in {repository_id} are implementation-owned by that repository in the analyzed snapshot; organizational ownership is not inferred.",
+                entity_ids,
+                attributes={"repository_id": repository_id, "owned_surfaces": contracts},
+                limitations=["Organizational and business ownership require human confirmation."],
+                fallback_evidence=[evidence for entity in repository_entities for evidence in entity.get("evidence", [])],
+            )
+            add(
+                "bounded-contexts", repository_id, "BUSINESS_INFERENCE", f"Candidate context: {_humanize(repository_id)}",
+                f"The vocabulary and implementation boundary in {repository_id} form a candidate domain context. A repository boundary alone does not prove a DDD bounded context.",
+                entity_ids,
+                attributes={"repository_id": repository_id, "candidate": True, "vocabulary": sorted({_humanize(entity["name"]) for entity in repository_entities if entity["kind"] not in {"file", "import"}})[:100]},
+                limitations=["Bounded-context status and context-map relationship require domain-owner confirmation."],
+                fallback_evidence=[evidence for entity in repository_entities for evidence in entity.get("evidence", [])],
+            )
+
+        # Technical relations, integrations, flow edges, and consistency boundaries.
+        for relation in relations:
+            relation_id = relation["id"]
+            source_entity = entity_by_id.get(relation.get("source_entity"))
+            target_entity = entity_by_id.get(relation.get("target_entity"))
+            repository_id = relation.get("source_repository") or relation.get("repository_id") or (source_entity or {}).get("repository_id")
+            target_repository = relation.get("target_repository") or (target_entity or {}).get("repository_id")
+            target = relation.get("target_repository") or relation.get("target_entity") or relation.get("target_key") or relation.get("contract_key")
+            inferred = relation.get("classification") in {"INFERENCE", "INFERRED"}
+            classification = "BUSINESS_INFERENCE" if inferred else "IMPLEMENTED_BEHAVIOR"
+            limitations = ["Relationship semantics are inferred from complementary source surfaces; runtime execution was not observed."] if inferred else None
+            attributes = {
+                "contract_key": relation.get("contract_key") or relation.get("target_key"),
+                "source_repository": repository_id,
+                "target_repository": target_repository,
+                "confidence": relation.get("confidence"),
+                "relation_type": relation["type"],
+            }
+            add(
+                "dependency-model", relation_id, classification, relation["type"],
+                f"{repository_id or relation.get('source_entity')} {relation['type']} {target}.",
+                [item for item in (relation.get("source_entity"), relation.get("target_entity")) if item],
+                [relation_id], attributes, limitations, relation.get("evidence", []),
+            )
+            if relation["type"] in {"PRODUCES", "CONSUMES", "PRODUCES_FOR"}:
+                add(
+                    "event-model", relation_id, classification, _humanize(str(target)),
+                    f"The captured implementation records event interaction {relation['type']} for {target}.",
+                    [item for item in (relation.get("source_entity"), relation.get("target_entity")) if item],
+                    [relation_id], attributes, limitations, relation.get("evidence", []),
+                )
+            if relation["type"] in {"READS", "WRITES", "SHARES_DATA_WITH"}:
+                add(
+                    "data-model", relation_id, classification, _humanize(str(target)),
+                    f"The captured implementation records data interaction {relation['type']} for {target}.",
+                    [item for item in (relation.get("source_entity"), relation.get("target_entity")) if item],
+                    [relation_id], attributes, limitations, relation.get("evidence", []),
+                )
+            if relation["type"] == "TRANSACTION_BOUNDARY":
+                add(
+                    "consistency-model", relation_id, "IMPLEMENTED_BEHAVIOR", "Local transaction boundary",
+                    f"An explicit local transaction boundary is present in {repository_id}; remote operations and cross-repository atomicity are not implied.",
+                    [relation.get("source_entity")] if relation.get("source_entity") else [],
+                    [relation_id], attributes,
+                    ["Cross-resource consistency, retry, compensation, and reconciliation behavior require additional evidence."],
+                    relation.get("evidence", []),
+                )
+            if relation["type"] == "THROWS":
+                add(
+                    "flow-failures", relation_id, "IMPLEMENTED_BEHAVIOR", _humanize(str(target)),
+                    f"The implementation explicitly raises or throws {target}; caller handling and user-visible outcome may require additional evidence.",
+                    [relation.get("source_entity")] if relation.get("source_entity") else [],
+                    [relation_id], attributes,
+                    ["Recovery, retryability, and operational response are not assumed without evidence."],
+                    relation.get("evidence", []),
+                )
+                add(
+                    "invariants", relation_id, "BUSINESS_INFERENCE", f"Guard associated with {_humanize(str(target))}",
+                    f"The explicit failure {target} indicates a guarded condition or invariant candidate in {repository_id}.",
+                    [relation.get("source_entity")] if relation.get("source_entity") else [],
+                    [relation_id], attributes,
+                    ["The exact business rule and predicate must be confirmed from surrounding implementation or domain documentation."],
+                    relation.get("evidence", []),
+                )
+
+        # Entity-level semantic models. Classification is conservative when semantics are derived from naming or placement.
+        for entity in entities:
+            kind = entity["kind"]
+            name = entity["name"]
+            qualified = entity["qualified_name"]
+            repository_id = entity["repository_id"]
+            path = entity["path"].lower()
+            words = _lower_words(name)
+            suffix = name.lower()
+            evidence = entity.get("evidence", [])
+            attributes = {"repository_id": repository_id, "kind": kind, "path": entity["path"], "technical_surface": qualified}
+
+            if kind in {"event-producer", "event-consumer"}:
+                add("event-model", entity["id"], "IMPLEMENTED_BEHAVIOR", qualified, f"{repository_id} contains {kind} {qualified}.", [entity["id"]], attributes=attributes, fallback_evidence=evidence)
+                add("domain-events", entity["id"], "BUSINESS_INFERENCE", _humanize(name), f"The event surface {qualified} is a candidate domain or integration event relevant to application behavior.", [entity["id"]], attributes={**attributes, "event_role": kind}, limitations=["Business semantics, payload meaning, and delivery guarantees require contract or handler evidence."], fallback_evidence=evidence)
+            if kind in {"data-reader", "data-writer", "table", "view", "materialized view"}:
+                add("data-model", entity["id"], "IMPLEMENTED_BEHAVIOR", qualified, f"{repository_id} contains the recorded data surface {qualified}.", [entity["id"]], attributes=attributes, fallback_evidence=evidence)
+            if kind in {"http-provider", "interface", "entry-point", "http-mapping", "http-route", "http-operation"}:
+                title = _humanize(name)
+                add("business-capabilities", entity["id"], "BUSINESS_INFERENCE", title, f"The implemented entry surface {qualified} indicates a candidate application capability.", [entity["id"]], attributes=attributes, limitations=["Business purpose, value, outcome, and capability hierarchy require domain confirmation."], fallback_evidence=evidence)
+            if kind in {"http-provider", "http-consumer", "event-consumer", "event-producer", "interface"}:
+                actor_type = "system actor" if kind in {"http-consumer", "event-consumer", "event-producer"} else "external or internal actor"
+                add("actors", entity["id"], "BUSINESS_INFERENCE", f"Actor interacting with {_humanize(name)}", f"A {actor_type} interacts with {qualified}; identity, goals, and organizational responsibility are not derivable from this surface alone.", [entity["id"]], attributes={**attributes, "actor_type": actor_type}, limitations=["Actor identity and stakeholder classification require human confirmation."], fallback_evidence=evidence)
+            if kind in {"process", "collaboration", "decisionService", "entry-definition"}:
+                add("business-processes", entity["id"], "IMPLEMENTED_BEHAVIOR", _humanize(name), f"The workflow or decision definition {qualified} provides an implemented process surface.", [entity["id"]], attributes=attributes, limitations=["The technical workflow may not represent the complete human business process."], fallback_evidence=evidence)
+            if kind in {"exclusiveGateway", "inclusiveGateway", "eventBasedGateway", "decision", "decisionService", "businessKnowledgeModel"}:
+                add("policies-decisions", entity["id"], "IMPLEMENTED_BEHAVIOR", _humanize(name), f"The implementation contains decision or routing surface {qualified}.", [entity["id"]], attributes=attributes, limitations=["Decision inputs, outputs, precedence, and business ownership require expression or table evidence."], fallback_evidence=evidence)
+                add("decision-tables", entity["id"], "BUSINESS_INFERENCE", _humanize(name), f"The routing or decision surface {qualified} is a candidate for normalized decision-table documentation.", [entity["id"]], attributes=attributes, limitations=["A complete condition/action matrix cannot be asserted unless all branches and predicates are extracted."], fallback_evidence=evidence)
+            if any(token in suffix for token in ("authorization", "authentication", "permission", "security", "audit", "compliance", "consent")):
+                add("security-model", entity["id"], "IMPLEMENTED_BEHAVIOR", _humanize(name), f"Security-related implementation surface {qualified} is present.", [entity["id"]], attributes=attributes, fallback_evidence=evidence)
+                add("controls-compliance", entity["id"], "BUSINESS_INFERENCE", _humanize(name), f"The implementation surface {qualified} indicates a control or compliance concern.", [entity["id"]], attributes=attributes, limitations=["Control objective, regulatory source, control owner, and evidence of operating effectiveness require human confirmation."], fallback_evidence=evidence)
+            if any(token in suffix for token in ("metric", "trace", "span", "health", "readiness", "liveness", "logger", "logging", "telemetry")):
+                add("observability-model", entity["id"], "IMPLEMENTED_BEHAVIOR", _humanize(name), f"Observability-related implementation surface {qualified} is present.", [entity["id"]], attributes=attributes, fallback_evidence=evidence)
+            if any(token in kind.lower() for token in ("deploy", "kubernetes", "terraform", "docker", "workload", "network-interface", "base-image")):
+                add("deployment-model", entity["id"], "IMPLEMENTED_BEHAVIOR", qualified, f"Deployment-related source surface {qualified} is present.", [entity["id"]], attributes=attributes, fallback_evidence=evidence)
+
+            semantic_classification = "BUSINESS_INFERENCE"
+            semantic_limit = ["Semantic classification is derived from naming, source placement, and implementation structure; domain-owner confirmation is required."]
+            is_domain_path = any(token in path for token in ("/domain/", "/model/", "/aggregate/", "/entity/", "/valueobject/", "/value-object/"))
+            if kind in {"class", "record", "struct", "type", "interface"} and (is_domain_path or suffix.endswith(("aggregate", "entity", "record"))):
+                add("aggregates-entities", entity["id"], semantic_classification, _humanize(name), f"{qualified} is a candidate aggregate or domain entity represented in {repository_id}.", [entity["id"]], attributes={**attributes, "semantic_kind": "aggregate-or-entity"}, limitations=semantic_limit, fallback_evidence=evidence)
+            if kind in {"record", "struct", "type", "class"} and (suffix.endswith(("id", "identifier", "code", "money", "amount", "address", "period", "range", "value")) or "value" in path):
+                add("value-objects", entity["id"], semantic_classification, _humanize(name), f"{qualified} is a candidate value object or identity type.", [entity["id"]], attributes={**attributes, "semantic_kind": "value-object"}, limitations=semantic_limit, fallback_evidence=evidence)
+            if suffix.endswith(("command", "request")) or (kind == "method" and words & BUSINESS_VERBS):
+                add("commands", entity["id"], semantic_classification, _humanize(name), f"{qualified} represents a candidate command or application action.", [entity["id"]], attributes={**attributes, "command_candidate": True}, limitations=semantic_limit, fallback_evidence=evidence)
+            if suffix.endswith(("event", "created", "updated", "approved", "rejected", "submitted", "cancelled", "closed")) and kind in {"class", "record", "type", "interface"}:
+                add("domain-events", entity["id"], semantic_classification, _humanize(name), f"{qualified} is a candidate event describing an occurrence in the application domain.", [entity["id"]], attributes={**attributes, "event_candidate": True}, limitations=semantic_limit, fallback_evidence=evidence)
+            if suffix.endswith(("service", "policy", "specification", "validator", "calculator")) and is_domain_path:
+                target_type = "domain-services" if suffix.endswith(("service", "calculator")) else "policies-decisions"
+                add(target_type, entity["id"], semantic_classification, _humanize(name), f"{qualified} is a candidate domain {target_type.replace('-', ' ').rstrip('s')}.", [entity["id"]], attributes=attributes, limitations=semantic_limit, fallback_evidence=evidence)
+            if kind == "enum" and (suffix.endswith(("status", "state", "phase")) or words & {"status", "state", "phase"}):
+                add("state-model", entity["id"], semantic_classification, _humanize(name), f"{qualified} defines a candidate lifecycle state vocabulary.", [entity["id"]], attributes={**attributes, "state_container": True}, limitations=["Enum constants and legal transitions must be extracted before claiming a complete state machine."], fallback_evidence=evidence)
+            if suffix.endswith(("rule", "policy", "specification", "validator")):
+                add("business-rules", entity["id"], semantic_classification, _humanize(name), f"{qualified} indicates a candidate rule or policy implementation.", [entity["id"]], attributes=attributes, limitations=["Rule predicate, precedence, exception handling, and business ownership require direct implementation or human evidence."], fallback_evidence=evidence)
+
+            if qualified.startswith(("http:", "event:", "data:", "config:")) or kind in {"class", "record", "enum", "process", "decision"}:
+                add("terminology", entity["id"], "IMPLEMENTED_BEHAVIOR", _humanize(name), f"The technical term {qualified} is observed in {repository_id}.", [entity["id"]], attributes={"term": name, "qualified_term": qualified, "repository_id": repository_id, "kind": kind}, fallback_evidence=evidence)
+
+        # Build use-case and cross-repository flow records from explicit interface/event/data relations.
+        flow_relations = [relation for relation in relations if relation["type"] in {"CALLS", "EXPOSES", "PRODUCES", "CONSUMES", "PRODUCES_FOR", "READS", "WRITES", "SHARES_DATA_WITH"}]
+        grouped_flows: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for relation in flow_relations:
+            key = str(relation.get("contract_key") or relation.get("target_key") or relation["id"])
+            grouped_flows[key].append(relation)
+        for flow_key, flow_edges in sorted(grouped_flows.items()):
+            relation_ids = [edge["id"] for edge in flow_edges]
+            entity_ids = sorted({item for edge in flow_edges for item in (edge.get("source_entity"), edge.get("target_entity")) if item})
+            repositories = sorted({
+                value for edge in flow_edges for value in (
+                    edge.get("source_repository"), edge.get("target_repository"),
+                    (entity_by_id.get(edge.get("source_entity")) or {}).get("repository_id"),
+                    (entity_by_id.get(edge.get("target_entity")) or {}).get("repository_id"),
+                ) if value
+            })
+            edge_types = sorted({edge["type"] for edge in flow_edges})
+            async_flow = any(edge["type"] in {"PRODUCES", "CONSUMES", "PRODUCES_FOR"} or flow_key.startswith("event:") for edge in flow_edges)
+            cross_repo = len(repositories) > 1
+            score = (3 if cross_repo else 0) + (2 if async_flow else 0) + (2 if any(edge["type"] == "WRITES" for edge in flow_edges) else 0)
+            related_paths = {(entity_by_id[eid]["repository_id"], entity_by_id[eid]["path"]) for eid in entity_ids if eid in entity_by_id}
+            related_entities = [entity for key in related_paths for entity in by_path.get(key, [])]
+            failures = sorted({_humanize(entity["name"]) for entity in related_entities if entity["kind"] == "failure"})
+            transactions = sorted({entity["qualified_name"] for entity in related_entities if entity["kind"] == "transaction-boundary"})
+            security = sorted({entity["qualified_name"] for entity in related_entities if any(token in entity["name"].lower() for token in ("auth", "permission", "security", "role"))})
+            if failures:
+                score += 1
+            if transactions:
+                score += 2
+            if security:
+                score += 2
+            tier = "TIER_1" if score >= 6 else "TIER_2" if score >= 3 else "TIER_3"
+            flow_type = "EVENT_FLOW" if async_flow else "CROSS_REPOSITORY_FLOW" if cross_repo else "APPLICATION_USE_CASE"
+            steps = []
+            for index, edge in enumerate(sorted(flow_edges, key=lambda item: item["id"]), 1):
+                source = edge.get("source_repository") or (entity_by_id.get(edge.get("source_entity")) or {}).get("repository_id")
+                target = edge.get("target_repository") or (entity_by_id.get(edge.get("target_entity")) or {}).get("repository_id") or edge.get("target_key")
+                steps.append({"order": index, "source": source, "action": edge["type"], "target": target, "contract": edge.get("contract_key") or edge.get("target_key")})
+            add(
+                "flows", flow_key, "IMPLEMENTED_BEHAVIOR" if all(edge.get("classification") == "OBSERVED" for edge in flow_edges) else "BUSINESS_INFERENCE",
+                _humanize(flow_key),
+                f"The captured source describes a {flow_type.lower().replace('_', ' ')} around {flow_key} spanning {len(repositories)} repository or repositories.",
+                entity_ids, relation_ids,
+                attributes={
+                    "flow_key": flow_key,
+                    "flow_type": flow_type,
+                    "tier": tier,
+                    "criticality_score": score,
+                    "repositories": repositories,
+                    "steps": steps,
+                    "trigger": flow_key,
+                    "synchronous": not async_flow,
+                    "transaction_boundaries": transactions,
+                    "failure_candidates": failures,
+                    "security_surfaces": security,
+                    "state_impact": [],
+                    "data_impact": sorted({edge.get("target_key") for edge in flow_edges if edge["type"] in {"READS", "WRITES", "SHARES_DATA_WITH"} and edge.get("target_key")}),
+                    "observability": [],
+                },
+                limitations=["Business intention, actor, postconditions, SLA, recovery ownership, and unobserved alternative paths require additional evidence."] if any(edge.get("classification") != "OBSERVED" for edge in flow_edges) else ["Runtime execution was not observed; this flow is reconstructed from source-bound evidence."],
+                fallback_evidence=[evidence for edge in flow_edges for evidence in edge.get("evidence", [])],
+            )
+
+        # Domain overview summarizes discovered semantic records without inventing product intent.
+        semantic_counts = {name: len(grouped[name]) for name in (
+            "bounded-contexts", "aggregates-entities", "value-objects", "invariants", "domain-services", "commands", "domain-events", "state-model"
+        )}
+        all_semantic_entities = sorted({entity for name in semantic_counts for record in grouped[name] for entity in record["source_entities"]})
+        if all_semantic_entities:
+            add(
+                "domain-overview", app, "BUSINESS_INFERENCE", f"Domain overview for {_humanize(app)}",
+                "The domain view summarizes implementation-derived concepts, boundaries, actions, events, rules, and lifecycle candidates while preserving unknown business intent.",
+                all_semantic_entities,
+                attributes={"counts": semantic_counts, "application_id": app},
+                limitations=["This overview is implementation-derived and must not be treated as a substitute for domain-expert confirmation."],
+                fallback_evidence=[evidence for entity_id in all_semantic_entities for evidence in entity_by_id.get(entity_id, {}).get("evidence", [])],
+            )
+        else:
+            add(
+                "domain-overview", app, "UNKNOWN", f"Domain overview for {_humanize(app)}",
+                "No source-grounded domain concepts, boundaries, actions, events, rules, or lifecycle candidates were proven by the current evidence set.",
+                attributes={"counts": semantic_counts, "application_id": app},
+                limitations=["Domain documentation requires source evidence or domain-expert confirmation."],
+            )
+
+        # Goals cannot be safely inferred from technical surfaces. Preserve a first-class unknown instead of fabricating one.
+        add(
+            "business-goals", "unconfirmed-goals", "UNKNOWN", "Business goals and measurable outcomes",
+            "No authoritative business-goal or measurable-outcome source was proven by the current evidence set.",
+            attributes={"required_confirmation": ["business problem", "stakeholders", "target outcomes", "success measures"]},
+            limitations=["Human-confirmed product or business documentation is required."],
+        )
+
+        unknown_messages = {
+            "deployment-model": "No complete deployment topology can be proven from the current evidence.",
+            "security-model": "No complete security architecture can be proven from the current evidence.",
+            "observability-model": "No complete logging, metrics, tracing, alerting, or SLO model can be proven from the current evidence.",
+            "business-processes": "No complete business-process map can be proven from the current evidence.",
+            "business-rules": "No complete business-rule catalog can be proven from the current evidence.",
+            "policies-decisions": "No complete policy and decision model can be proven from the current evidence.",
+            "controls-compliance": "No complete controls and compliance model can be proven from the current evidence.",
+            "aggregates-entities": "No aggregate or entity semantics can be proven from the current evidence.",
+            "value-objects": "No value-object semantics can be proven from the current evidence.",
+            "invariants": "No complete invariant catalog can be proven from the current evidence.",
+            "domain-services": "No domain-service semantics can be proven from the current evidence.",
+            "commands": "No complete command catalog can be proven from the current evidence.",
+            "domain-events": "No complete domain-event catalog can be proven from the current evidence.",
+            "state-model": "No complete domain state machine can be proven from the current evidence.",
+            "decision-tables": "No complete condition/action decision table can be proven from the current evidence.",
+            "flow-failures": "No complete failure and recovery model can be proven from the current evidence.",
+            "consistency-model": "No complete transaction and consistency model can be proven from the current evidence.",
         }
-        for typ,msg in unknowns.items():
-            if not grouped[typ]:
-                grouped[typ].append(self._record(model_id,typ,"unknown","UNKNOWN",typ.replace('-',' ').title(),msg,[],[],limitations=[msg]))
-        terms={}
-        for e in entities:
-            q=e["qualified_name"]
-            if q.startswith(("http:","event:","table:")):
-                terms[q]=e
-        for term,e in sorted(terms.items()):
-            cs,ev=self._support([e['id']],[],claim_by_entity,claim_by_relation)
-            grouped["terminology"].append(self._record(model_id,"terminology",term,"IMPLEMENTED_BEHAVIOR",term,f"Canonical technical term observed in {e['repository_id']}.",cs,ev or e['evidence'],[e['id']],attributes={"term":term,"repository_id":e['repository_id']}))
+        for model_type, message in unknown_messages.items():
+            if not grouped[model_type]:
+                add(model_type, "unknown", "UNKNOWN", _humanize(model_type), message, limitations=[message])
+
         if conflicts:
-            for c in conflicts:
-                grouped["architecture-model"].append(self._record(model_id,"architecture-model",c['id'],"CONFLICT","Conflicting architecture evidence",c['statement'],c.get('conflicting_claims',[]),c.get('evidence',[]),attributes={"conflict_id":c['id']}))
-        result={}
-        for typ in MODEL_TYPES:
-            result[typ]={"schema_id":"https://t-understand.dev/schemas/model-artifact.schema.json","schema_version":"1.0.0","model_id":model_id,"model_type":typ,"application_id":app,"snapshot_id":snap,"memory_id":mid,"status":"CONFLICTED" if conflicts else "CURRENT","records":sorted(grouped[typ],key=lambda x:x['id']),"limitations":[]}
+            for conflict in conflicts:
+                grouped["architecture-model"].append(self._record(
+                    model_id, "architecture-model", conflict["id"], "CONFLICT", "Conflicting architecture evidence",
+                    conflict["statement"], conflict.get("conflicting_claims", []), conflict.get("evidence", []),
+                    attributes={"conflict_id": conflict["id"]},
+                ))
+
+        result = {}
+        for model_type in MODEL_TYPES:
+            result[model_type] = {
+                "schema_id": "https://t-understand.dev/schemas/model-artifact.schema.json",
+                "schema_version": "1.0.0",
+                "model_id": model_id,
+                "model_type": model_type,
+                "application_id": app,
+                "snapshot_id": snap,
+                "memory_id": mid,
+                "status": "CONFLICTED" if conflicts else "CURRENT",
+                "records": sorted(grouped[model_type], key=lambda item: item["id"]),
+                "limitations": [],
+            }
         return result
 
     def reconcile(self, reconciliation_id: str, candidate_model_id: str, base_model_id: str, memory_id: str) -> dict[str, Any]:

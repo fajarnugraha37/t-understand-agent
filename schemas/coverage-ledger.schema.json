@@ -56,6 +56,61 @@
     "generated_at": {
       "type": "string",
       "format": "date-time"
+    },
+    "requirement_coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "section_coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "repository_coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "flow_coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "category_coverage": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "expected",
+          "generated",
+          "coverage"
+        ],
+        "properties": {
+          "expected": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "generated": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "coverage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "business_coverage": {
+      "type": "object"
+    },
+    "domain_coverage": {
+      "type": "object"
+    },
+    "flow_detail": {
+      "type": "object"
     }
   }
 }

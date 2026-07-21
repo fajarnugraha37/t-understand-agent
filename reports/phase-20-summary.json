@@ -1,22 +1,26 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 20,
   "phase_name": "Release Qualification",
   "status": "PASS",
   "validation": {
-    "release_contract_checks": 140,
-    "schemas": 85,
-    "governance_checks": 253,
+    "release_contract_checks": 244,
+    "schemas": 91,
+    "governance_checks": 256,
     "negative_cases": 25,
     "integration_scenarios": 7,
-    "final_release_audit": "PASS"
+    "agent_native_tests": 7,
+    "agent_native_cli_checks": 6
   },
   "assurances": [
     "version_consistency",
-    "sbom",
+    "software_bill_of_materials",
     "checksums",
     "deterministic_zip",
-    "extracted_package_verification"
+    "extracted_package_verification_required"
+  ],
+  "limitations": [
+    "Deterministic ZIP and extracted-package verification are performed during final release freeze, after this source-tree summary is generated."
   ]
 }

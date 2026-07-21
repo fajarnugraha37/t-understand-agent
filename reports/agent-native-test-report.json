@@ -1,12 +1,14 @@
 {
   "status": "PASS",
-  "tests": 5,
+  "tests": 7,
   "failures": 0,
   "errors": 0,
   "categories": {
     "greeting": 1,
     "intent_precedence": 2,
     "artifact_documentation": 1,
-    "response_sanitation": 1
+    "response_sanitation": 1,
+    "multi_repository_discovery": 1,
+    "multi_repository_documentation": 1
   }
 }

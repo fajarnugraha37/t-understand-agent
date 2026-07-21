@@ -1,57 +1,287 @@
 contract:
   id: TU-DOCUMENTATION-CATALOG
-  version: 1.0.0
+  version: 1.1.0
   status: canonical
+planning:
+  base_documents: mandatory
+  dynamic_documents:
+  - per-repository
+  - tier-1-deep-flow
+  - tier-2-standard-flow
+  completion_gate: all requirements, model records, required sections, repositories,
+    and flows must reach 100% coverage
 documents:
-  - id: application-overview
-    path: index.md
-    audience: mixed
-    source_models: [application-model]
-  - id: system-context
-    path: architecture/system-context.md
-    audience: technical
-    source_models: [architecture-model]
-  - id: dependencies
-    path: architecture/dependencies.md
-    audience: technical
-    source_models: [dependency-model, flows]
-  - id: repositories
-    path: repositories/index.md
-    audience: technical
-    source_models: [application-model]
-  - id: interfaces
-    path: interfaces/http-and-events.md
-    audience: technical
-    source_models: [event-model, architecture-model]
-  - id: data-model
-    path: data/data-model.md
-    audience: technical
-    source_models: [data-model]
-  - id: deployment-security
-    path: operations/deployment-and-security.md
-    audience: technical
-    source_models: [deployment-model, security-model]
-  - id: business-overview
-    path: business/overview.md
-    audience: business
-    source_models: [business-capabilities]
-  - id: business-capabilities
-    path: business/capabilities.md
-    audience: business
-    source_models: [business-capabilities]
-  - id: actors
-    path: business/actors.md
-    audience: business
-    source_models: [actors]
-  - id: business-rules
-    path: business/business-rules.md
-    audience: business
-    source_models: [business-rules]
-  - id: lifecycle-states
-    path: business/lifecycle-and-states.md
-    audience: business
-    source_models: [state-model, flows]
-  - id: terminology
-    path: reference/terminology.md
-    audience: mixed
-    source_models: [terminology]
+- id: application-overview
+  path: index.md
+  audience: mixed
+  source_models:
+  - application-model
+  - business-goals
+  - domain-overview
+  - flows
+- id: application-architecture
+  path: application/architecture.md
+  audience: technical
+  source_models:
+  - architecture-model
+  - dependency-model
+  - deployment-model
+  - security-model
+- id: repository-landscape
+  path: application/repository-landscape.md
+  audience: mixed
+  source_models:
+  - repository-model
+  - application-model
+  - ownership-boundaries
+- id: application-capability-map
+  path: application/capability-map.md
+  audience: mixed
+  source_models:
+  - business-capabilities
+  - ownership-boundaries
+  - repository-model
+- id: end-to-end-flows
+  path: application/end-to-end-flows.md
+  audience: mixed
+  source_models:
+  - flows
+  - business-processes
+  - consistency-model
+- id: business-goals
+  path: business/goals-and-outcomes.md
+  audience: business
+  source_models:
+  - business-goals
+- id: business-capabilities
+  path: business/capabilities.md
+  audience: business
+  source_models:
+  - business-capabilities
+  - ownership-boundaries
+- id: business-actors
+  path: business/actors-and-stakeholders.md
+  audience: business
+  source_models:
+  - actors
+- id: business-processes
+  path: business/business-processes.md
+  audience: business
+  source_models:
+  - business-processes
+  - flows
+- id: business-policies
+  path: business/policies-and-decisions.md
+  audience: business
+  source_models:
+  - policies-decisions
+  - business-rules
+  - decision-tables
+- id: business-controls
+  path: business/controls-and-compliance.md
+  audience: business
+  source_models:
+  - controls-compliance
+  - security-model
+- id: domain-overview
+  path: domain/overview.md
+  audience: mixed
+  source_models:
+  - domain-overview
+- id: bounded-contexts
+  path: domain/bounded-contexts.md
+  audience: mixed
+  source_models:
+  - bounded-contexts
+  - ownership-boundaries
+- id: ubiquitous-language
+  path: domain/ubiquitous-language.md
+  audience: mixed
+  source_models:
+  - terminology
+- id: aggregates-entities
+  path: domain/aggregates-and-entities.md
+  audience: technical
+  source_models:
+  - aggregates-entities
+- id: value-objects
+  path: domain/value-objects.md
+  audience: technical
+  source_models:
+  - value-objects
+- id: domain-invariants
+  path: domain/invariants.md
+  audience: mixed
+  source_models:
+  - invariants
+  - business-rules
+- id: domain-services
+  path: domain/domain-services.md
+  audience: technical
+  source_models:
+  - domain-services
+- id: commands
+  path: domain/commands.md
+  audience: mixed
+  source_models:
+  - commands
+- id: domain-events
+  path: domain/domain-events.md
+  audience: mixed
+  source_models:
+  - domain-events
+  - event-model
+- id: state-machines
+  path: domain/state-machines.md
+  audience: mixed
+  source_models:
+  - state-model
+  - flows
+- id: decision-tables
+  path: domain/decision-tables.md
+  audience: mixed
+  source_models:
+  - decision-tables
+  - policies-decisions
+- id: ownership-boundaries
+  path: domain/ownership-and-boundaries.md
+  audience: mixed
+  source_models:
+  - ownership-boundaries
+  - bounded-contexts
+  - data-model
+- id: flow-index
+  path: flows/index.md
+  audience: mixed
+  source_models:
+  - flows
+- id: flow-catalog
+  path: flows/flow-catalog.md
+  audience: mixed
+  source_models:
+  - flows
+- id: flow-failure-catalog
+  path: flows/failure-and-recovery.md
+  audience: mixed
+  source_models:
+  - flow-failures
+  - consistency-model
+- id: integration-overview
+  path: integrations/overview.md
+  audience: technical
+  source_models:
+  - dependency-model
+  - flows
+- id: http-contract-map
+  path: integrations/http-contract-map.md
+  audience: technical
+  source_models:
+  - dependency-model
+  - architecture-model
+- id: event-topology
+  path: integrations/event-topology.md
+  audience: technical
+  source_models:
+  - event-model
+  - flows
+- id: data-dependency-map
+  path: integrations/data-and-dependency-map.md
+  audience: technical
+  source_models:
+  - data-model
+  - dependency-model
+- id: data-model
+  path: data/data-model.md
+  audience: technical
+  source_models:
+  - data-model
+  - aggregates-entities
+  - value-objects
+- id: consistency-transactions
+  path: data/consistency-and-transactions.md
+  audience: technical
+  source_models:
+  - consistency-model
+  - flows
+  - flow-failures
+- id: build-development
+  path: operations/build-and-development.md
+  audience: technical
+  source_models:
+  - application-model
+  - repository-model
+- id: configuration
+  path: operations/configuration.md
+  audience: technical
+  source_models:
+  - architecture-model
+  - repository-model
+- id: deployment
+  path: operations/deployment.md
+  audience: technical
+  source_models:
+  - deployment-model
+- id: security
+  path: operations/security.md
+  audience: technical
+  source_models:
+  - security-model
+  - controls-compliance
+- id: observability
+  path: operations/observability.md
+  audience: technical
+  source_models:
+  - observability-model
+- id: operational-failures
+  path: operations/failure-and-recovery.md
+  audience: technical
+  source_models:
+  - flow-failures
+  - consistency-model
+- id: testing-verification
+  path: operations/testing-and-verification.md
+  audience: technical
+  source_models:
+  - application-model
+  - business-rules
+  - flows
+- id: terminology
+  path: reference/terminology.md
+  audience: mixed
+  source_models:
+  - terminology
+- id: known-unknowns
+  path: reference/known-unknowns.md
+  audience: mixed
+  source_models:
+  - application-model
+  - architecture-model
+  - repository-model
+  - dependency-model
+  - data-model
+  - event-model
+  - deployment-model
+  - security-model
+  - observability-model
+  - business-goals
+  - business-capabilities
+  - business-processes
+  - actors
+  - business-rules
+  - policies-decisions
+  - controls-compliance
+  - domain-overview
+  - bounded-contexts
+  - aggregates-entities
+  - value-objects
+  - invariants
+  - domain-services
+  - commands
+  - domain-events
+  - state-model
+  - decision-tables
+  - ownership-boundaries
+  - flows
+  - flow-failures
+  - consistency-model
+  - terminology

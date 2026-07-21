@@ -1,9 +1,13 @@
 {
+  "product": "t-understand",
+  "version": "1.1.0",
   "phase": 15,
+  "phase_name": "Review Export",
   "status": "PASS",
-  "version": "0.15.0",
-  "contract_checks": 16,
-  "tests": 2,
+  "validation": {
+    "contract_checks": 16,
+    "shared_review_tests": 6
+  },
   "profiles": [
     "canonical",
     "github",
@@ -11,5 +15,9 @@
     "cli",
     "json"
   ],
-  "note": "Focused CLI smoke checks passed; runtime and exporter behavior are covered by end-to-end tests."
+  "assurances": [
+    "canonical_semantics_preserved",
+    "source_review_digest",
+    "tamper_detection"
+  ]
 }

@@ -5,7 +5,7 @@ from tu_runtime.core.contracts import SCHEMA_FILES
 from tu_runtime.core.documentation import DOCUMENT_CATALOG
 import yaml
 p=argparse.ArgumentParser(); p.add_argument('--report',default=str(ROOT/'reports/documentation-contract-report.json')); a=p.parse_args(); errors=[]; checks=0
-for x in ('documentation-section','documentation-manifest','document-plan','documentation-trace','coverage-ledger','documentation-critique','documentation-verification','document-invalidation'):
+for x in ('documentation-section','documentation-manifest','documentation-requirements','documentation-generation-record','document-plan','documentation-trace','coverage-ledger','documentation-critique','documentation-verification','document-invalidation'):
  checks+=1; errors += [] if x in SCHEMA_FILES else [f'missing {x}']
 paths=[x[1] for x in DOCUMENT_CATALOG]; checks+=len(paths)
 template=yaml.safe_load((ROOT/'templates/documentation/catalog.yaml').read_text()); checks+=1

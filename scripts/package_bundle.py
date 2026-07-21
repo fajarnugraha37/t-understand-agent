@@ -1,7 +1,7 @@
 from pathlib import Path
 import argparse, zipfile
 root=Path(__file__).resolve().parents[1]
-p=argparse.ArgumentParser(); p.add_argument('--output',default=str(root.parent/'t-understand-v1.0.3-capability-documentation-bundle.zip')); args=p.parse_args()
+p=argparse.ArgumentParser(); p.add_argument('--output',default=str(root.parent/'t-understand-v1.1.0-multi-repo-deep-documentation-bundle.zip')); args=p.parse_args()
 out=Path(args.output).resolve(); files=[]
 for f in root.rglob('*'):
     if not f.is_file() or '__pycache__' in f.parts or f.suffix=='.pyc': continue

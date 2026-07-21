@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 5,
   "phase_name": "Repository Discovery Engine",
   "status": "PASS",
@@ -13,7 +13,7 @@
   "validation": {
     "contract_checks": 49,
     "tests": 13,
-    "cli_checks": 10
+    "cli_checks": 11
   },
   "assurances": {
     "source_repository_access": "READ_ONLY",

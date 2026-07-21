@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/documentation-generation-record.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "docset_id", "requirement_id", "document_id", "path", "status", "required_sections", "generated_sections", "model_record_ids", "sha256", "generated_at"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/documentation-generation-record.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "docset_id": {"type": "string"},
+    "requirement_id": {"pattern": "^DOCREQ-[A-F0-9]{16}$"},
+    "document_id": {"type": "string"},
+    "path": {"type": "string"},
+    "status": {"enum": ["GENERATED", "FAILED"]},
+    "required_sections": {"type": "array", "items": {"type": "string"}},
+    "generated_sections": {"type": "array", "items": {"type": "string"}},
+    "model_record_ids": {"type": "array", "uniqueItems": true, "items": {"pattern": "^MODREC-"}},
+    "sha256": {"pattern": "^[a-f0-9]{64}$"},
+    "generated_at": {"type": "string", "format": "date-time"}
+  }
+}

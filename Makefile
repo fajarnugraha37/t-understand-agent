@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: schemas governance negative contracts economy phase1-summary runtime-static runtime-contract runtime-tests runtime-cli phase2-summary application-contract application-tests application-cli phase3-summary snapshot-contract snapshot-tests snapshot-cli phase4-summary discovery-contract discovery-tests discovery-cli phase5-summary adapter-tests phase6-summary analysis-contract analysis-tests knowledge-cli phase7-summary graph-contract graph-tests phase8-summary memory-contract memory-tests phase9-summary model-contract model-tests phase10-summary documentation-contract documentation-tests documentation-cli phase11-summary export-contract export-tests phase12-summary checksums verify-phase-1 verify-phase-2 verify-phase-3 verify-phase-4 verify-phase-5 verify-phase-6 verify-phase-7 verify-phase-8 verify-phase-9 verify-phase-10 verify-phase-11 verify-phase-12 verify package clean qna-contract qna-tests review-contract review-tests review-export-contract qna-review-cli verify-phase-13 verify-phase-14 verify-phase-15 quality-contract quality-tests qualification-contract qualification-tests installation-contract installation-tests final-cli integration-tests release-contract release-audit verify-phase-16 verify-phase-17 verify-phase-18 verify-phase-19 verify-phase-20
+.PHONY: late-phase-summaries v1.1.0-summary verify-v1.1.0 schemas governance negative contracts economy phase1-summary runtime-static runtime-contract runtime-tests runtime-cli phase2-summary application-contract application-tests application-cli phase3-summary snapshot-contract snapshot-tests snapshot-cli phase4-summary discovery-contract discovery-tests discovery-cli phase5-summary adapter-tests phase6-summary analysis-contract analysis-tests knowledge-cli phase7-summary graph-contract graph-tests phase8-summary memory-contract memory-tests phase9-summary model-contract model-tests phase10-summary documentation-contract documentation-tests documentation-cli phase11-summary export-contract export-tests phase12-summary checksums verify-phase-1 verify-phase-2 verify-phase-3 verify-phase-4 verify-phase-5 verify-phase-6 verify-phase-7 verify-phase-8 verify-phase-9 verify-phase-10 verify-phase-11 verify-phase-12 verify package clean qna-contract qna-tests review-contract review-tests review-export-contract qna-review-cli verify-phase-13 verify-phase-14 verify-phase-15 quality-contract quality-tests qualification-contract qualification-tests installation-contract installation-tests final-cli integration-tests release-contract late-phase-summaries release-audit verify-phase-16 verify-phase-17 verify-phase-18 verify-phase-19 verify-phase-20
 
 schemas:
 	$(PYTHON) scripts/validate_schemas.py
@@ -166,7 +166,7 @@ verify-phase-8: graph-contract graph-tests knowledge-cli phase8-summary
 
 verify-phase-9: memory-contract memory-tests knowledge-cli phase9-summary
 
-verify: verify-phase-1 verify-phase-2 verify-phase-3 verify-phase-4 verify-phase-5 verify-phase-6 verify-phase-7 verify-phase-8 verify-phase-9 verify-phase-10 verify-phase-11 verify-phase-12 verify-phase-13 verify-phase-14 verify-phase-15 quality-contract quality-tests qualification-contract qualification-tests installation-contract installation-tests final-cli integration-tests release-contract release-audit verify-phase-16 verify-phase-17 verify-phase-18 verify-phase-19 verify-phase-20 checksums
+verify: verify-phase-1 verify-phase-2 verify-phase-3 verify-phase-4 verify-phase-5 verify-phase-6 verify-phase-7 verify-phase-8 verify-phase-9 verify-phase-10 verify-phase-11 verify-phase-12 verify-phase-13 verify-phase-14 verify-phase-15 quality-contract quality-tests qualification-contract qualification-tests installation-contract installation-tests final-cli integration-tests release-contract late-phase-summaries release-audit verify-phase-16 verify-phase-17 verify-phase-18 verify-phase-19 verify-phase-20 checksums
 
 package: verify
 	$(PYTHON) scripts/package_bundle.py
@@ -235,6 +235,9 @@ integration-tests:
 release-contract:
 	PYTHONPATH=runtime:. $(PYTHON) scripts/validate_release_contract.py --report reports/release-contract-report.json
 
+late-phase-summaries:
+	$(PYTHON) scripts/generate_late_phase_summaries.py
+
 release-audit:
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +
 	find . -type f -name '*.pyc' -delete
@@ -255,7 +258,8 @@ agent-native-tests:
 agent-native-cli:
 	PYTHONPATH=runtime:. $(PYTHON) scripts/test_agent_native_cli.py --report reports/agent-native-cli-report.json
 
-v1.0.3-summary:
-	$(PYTHON) scripts/generate_v1_0_3_summary.py
 
-verify-v1.0.3: schemas governance negative documentation-contract documentation-tests agent-native-contract agent-native-tests agent-native-cli release-contract v1.0.3-summary
+v1.1.0-summary:
+	$(PYTHON) scripts/generate_v1_1_0_summary.py
+
+verify-v1.1.0: schemas governance negative model-contract model-tests documentation-contract documentation-tests agent-native-contract agent-native-tests agent-native-cli release-contract v1.1.0-summary

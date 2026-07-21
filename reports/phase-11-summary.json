@@ -1,20 +1,22 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 11,
   "phase_name": "Documentation Generation",
   "status": "PASS",
   "inventory": {
-    "canonical_documents": 13,
+    "base_catalog_documents": 41,
+    "adaptive_repository_documents": true,
+    "adaptive_flow_documents": true,
     "schemas": 8,
     "cli_commands": 6,
     "canonical_format": "Markdown",
     "traceability": "section-level"
   },
   "validation": {
-    "contract_checks": 24,
+    "contract_checks": 63,
     "tests": 5,
-    "shared_cli_checks": 12
+    "shared_cli_checks": 13
   },
   "assurances": {
     "model_bound": true,

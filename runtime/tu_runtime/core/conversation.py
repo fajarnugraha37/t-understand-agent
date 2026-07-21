@@ -24,6 +24,14 @@ from .io import atomic_write_text, atomic_write_yaml, load_yaml, utc_now
 from .memory import MemoryManager
 from .modeling import ModelManager
 from .snapshot import SnapshotManager
+from .workspace_discovery import (
+    WorkspaceDiscovery,
+    discover_git_roots,
+    find_existing_application_root,
+    git_root,
+    resolve_workspace,
+    write_workspace_discovery,
+)
 
 
 DIRECT_INTENTS = {"GREETING", "HELP", "CAPABILITY_DETAILS"}
@@ -60,10 +68,12 @@ def active_workspace_root() -> Path:
     override = os.environ.get("T_UNDERSTAND_WORKSPACE")
     if override:
         return Path(override).expanduser().resolve()
-    completed = _git(Path.cwd().resolve(), "rev-parse", "--show-toplevel")
-    if completed.returncode == 0 and completed.stdout.strip():
-        return Path(completed.stdout.strip()).resolve()
-    return Path.cwd().resolve()
+    current = Path.cwd().resolve()
+    existing = find_existing_application_root(current)
+    if existing:
+        return existing
+    root = git_root(current)
+    return root if root else current
 
 
 def context_root_for(workspace: Path) -> Path:
@@ -71,7 +81,13 @@ def context_root_for(workspace: Path) -> Path:
     return Path(override).expanduser().resolve() if override else workspace / ".t-understand"
 
 
-def bootstrap_workspace(project_root: Path, workspace: Path, context_root: Path) -> dict[str, Any]:
+def bootstrap_workspace(
+    project_root: Path,
+    workspace: Path,
+    context_root: Path,
+    prompt: str = "",
+    discovery: WorkspaceDiscovery | None = None,
+) -> dict[str, Any]:
     manager = ApplicationManager(project_root, context_root)
     if manager.manifest_path.exists():
         resolution = manager.resolve()
@@ -80,24 +96,54 @@ def bootstrap_workspace(project_root: Path, workspace: Path, context_root: Path)
             "workspace_root": str(workspace),
             "managed_state": str(context_root),
             "application_id": resolution["application_id"],
+            "workspace_model": resolution["workspace_model"],
             "repositories": len(resolution["repositories"]),
         }
-    git_check = _git(workspace, "rev-parse", "--is-inside-work-tree")
-    if git_check.returncode != 0 or git_check.stdout.strip() != "true":
-        raise TUnderstandError("AGENT-WORKSPACE-001", "Open a Git repository before asking for repository documentation")
-    app_id = _slug(workspace.name)
-    manager.initialize(app_id, workspace.name, "single-repo", default_machine_id(), "Auto-managed by the t-understand agent")
-    remote = _git(workspace, "remote", "get-url", "origin")
-    remote_value = remote.stdout.strip() if remote.returncode == 0 else ""
-    kwargs = {"remote": remote_value} if remote_value else {"identity_key": f"local-{app_id}"}
-    manager.add_repository(app_id, workspace.name, "application-repository", default_ref=None, tags=["auto-discovered"], **kwargs)
-    manager.bind_repository(app_id, workspace)
+    discovered = discovery or resolve_workspace(workspace, prompt)
+    app_id = _slug(discovered.workspace_root.name)
+    manager.initialize(
+        app_id,
+        discovered.workspace_root.name,
+        discovered.workspace_model,
+        default_machine_id(),
+        "Auto-managed by the t-understand agent from the active application workspace",
+    )
+    for candidate in discovered.repositories:
+        kwargs: dict[str, Any]
+        if candidate.identity_kind == "remote" and candidate.remote:
+            kwargs = {"remote": candidate.remote}
+        else:
+            kwargs = {"identity_key": candidate.identity_value}
+        try:
+            manager.add_repository(
+                candidate.repository_id,
+                candidate.name,
+                candidate.role,
+                default_ref=None,
+                tags=["auto-discovered", candidate.role],
+                **kwargs,
+            )
+        except TUnderstandError as exc:
+            if candidate.identity_kind != "remote" or exc.code not in {"APP-REMOTE-001", "APP-REMOTE-002", "APP-REMOTE-003", "APP-REMOTE-004", "APP-REMOTE-005", "APP-REMOTE-006"}:
+                raise
+            manager.add_repository(
+                candidate.repository_id,
+                candidate.name,
+                candidate.role,
+                default_ref=None,
+                tags=["auto-discovered", candidate.role],
+                identity_key=f"local-{candidate.repository_id}-{hashlib.sha256(candidate.identity_value.encode()).hexdigest()[:20]}",
+            )
+        manager.bind_repository(candidate.repository_id, candidate.path)
+    write_workspace_discovery(context_root, discovered)
+    ContractValidator(project_root).validate("agent-workspace-discovery", discovered.as_dict())
     resolution = manager.resolve()
     return {
         "status": "INITIALIZED",
-        "workspace_root": str(workspace),
+        "workspace_root": str(discovered.workspace_root),
         "managed_state": str(context_root),
         "application_id": resolution["application_id"],
+        "workspace_model": resolution["workspace_model"],
         "repositories": len(resolution["repositories"]),
     }
 
@@ -105,11 +151,23 @@ def bootstrap_workspace(project_root: Path, workspace: Path, context_root: Path)
 class AgentConversationManager:
     def __init__(self, project_root: Path, workspace: Path | None = None, context_root: Path | None = None):
         self.project_root = project_root
+        self._explicit_workspace = workspace is not None
+        self._explicit_context_root = context_root is not None or bool(os.environ.get("T_UNDERSTAND_CONTEXT_ROOT"))
         self.workspace = (workspace or active_workspace_root()).resolve()
         self.context_root = (context_root or context_root_for(self.workspace)).resolve()
         self.contracts = ContractValidator(project_root)
         self.catalog = load_yaml(project_root / "orchestrator" / "capabilities.yaml")
         self.contracts.validate("capability-catalog", self.catalog)
+
+    def _prepare_workspace_scope(self, prompt: str) -> WorkspaceDiscovery:
+        discovery = resolve_workspace(self.workspace, prompt)
+        if not self._explicit_context_root:
+            self.workspace = discovery.workspace_root
+            self.context_root = context_root_for(self.workspace).resolve()
+        elif discovery.workspace_root != self.workspace and self._explicit_workspace:
+            # Explicit callers control storage but can still request sibling discovery.
+            self.workspace = discovery.workspace_root
+        return discovery
 
     @property
     def plans_root(self) -> Path:
@@ -120,18 +178,34 @@ class AgentConversationManager:
         return self.context_root / "agent" / "runs"
 
     def workspace_status(self) -> dict[str, Any]:
-        git_check = _git(self.workspace, "rev-parse", "--is-inside-work-tree")
-        if git_check.returncode != 0 or git_check.stdout.strip() != "true":
-            return {"status": "NO_WORKSPACE", "repository_name": None, "knowledge_available": False, "changes_detected": False}
-        status = _git(self.workspace, "status", "--porcelain", "--untracked-files=normal")
-        changes = any(
-            line and not line[3:].replace("\\", "/").startswith(".t-understand/")
-            for line in status.stdout.splitlines()
-        )
         known = (self.context_root / "application.yaml").exists()
+        roots: list[Path] = []
+        current = git_root(self.workspace)
+        if current:
+            roots = [current]
+        elif self.workspace.is_dir():
+            # Greeting/help stays lightweight: only direct and one-level child Git roots.
+            roots = discover_git_roots(self.workspace, max_depth=1)
+        if not roots:
+            return {
+                "status": "NO_WORKSPACE",
+                "repository_name": None,
+                "repository_count": 0,
+                "workspace_model": None,
+                "knowledge_available": known,
+                "changes_detected": False,
+            }
+        changes = False
+        for root in roots:
+            status = _git(root, "status", "--porcelain", "--untracked-files=normal")
+            if any(line and not line[3:].replace("\\", "/").startswith(".t-understand/") for line in status.stdout.splitlines()):
+                changes = True
+                break
         return {
             "status": "KNOWN_REPOSITORY" if known else "NEW_REPOSITORY",
             "repository_name": self.workspace.name,
+            "repository_count": len(roots),
+            "workspace_model": "single-repo" if len(roots) == 1 else "multi-repo",
             "knowledge_available": known,
             "changes_detected": changes,
         }
@@ -187,6 +261,9 @@ class AgentConversationManager:
 
     def plan(self, prompt: str) -> dict[str, Any]:
         intent = self.classify(prompt)
+        discovery: WorkspaceDiscovery | None = None
+        if intent not in DIRECT_INTENTS:
+            discovery = self._prepare_workspace_scope(prompt)
         status = self.workspace_status()
         artifact_required = intent == "DOCUMENTATION_GENERATION"
         response_mode = "DIRECT" if intent in DIRECT_INTENTS else "SUMMARY_ONLY" if artifact_required else "CONVERSATIONAL"
@@ -230,7 +307,8 @@ class AgentConversationManager:
             base["direct_response"] = self._direct_response(intent, status)
             self.contracts.validate("agent-operation-plan", base)
             return base
-        bootstrap_workspace(self.project_root, self.workspace, self.context_root)
+        bootstrap = bootstrap_workspace(self.project_root, self.workspace, self.context_root, prompt, discovery)
+        base["workspace"] = {**status, "workspace_model": bootstrap["workspace_model"], "repository_count": bootstrap["repositories"]}
         plan_id = f"PLAN-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{base['prompt_sha256'][:8].upper()}-{uuid.uuid4().hex[:4].upper()}"
         base["plan_id"] = plan_id
         self.contracts.validate("agent-operation-plan", base)
@@ -285,18 +363,23 @@ class AgentConversationManager:
         if any(item["status"] != "PASS" for item in (verification, critique, user_view)):
             raise TUnderstandError("AGENT-DOC-VERIFY-001", "Documentation artifacts failed final validation")
         relative_output = ".t-understand/output/documentation/latest/"
-        coverage = load_yaml(self.context_root / "documentation" / "canonical" / ids["docset"] / "coverage-ledger.yaml")["coverage"]
+        coverage_ledger = load_yaml(self.context_root / "documentation" / "canonical" / ids["docset"] / "coverage-ledger.yaml")
+        coverage = coverage_ledger["coverage"]
+        workspace_model = resolution["workspace_model"]
+        repository_count = len(resolution["repositories"])
         chat_response = "\n".join(
             [
                 "Documentation generated successfully.",
                 "",
+                f"Workspace: {workspace_model} ({repository_count} repositories).",
                 f"Created {len(manifest['documents'])} documentation files under:",
                 relative_output,
                 "",
                 "Main entry point:",
                 f"{relative_output}index.md",
                 "",
-                f"Model-record coverage: {coverage * 100:.1f}%.",
+                f"Coverage: requirements {coverage_ledger['requirement_coverage'] * 100:.1f}%, model records {coverage * 100:.1f}%, repositories {coverage_ledger['repository_coverage'] * 100:.1f}%, flows {coverage_ledger['flow_coverage'] * 100:.1f}%.",
+                "Unknown or weakly evidenced business/domain areas remain explicitly marked instead of being invented.",
                 "Build, unit tests, and integration tests were not executed during this documentation run; no pass claim is made for them.",
                 "Application source files and Git state were not modified.",
             ]
@@ -311,6 +394,15 @@ class AgentConversationManager:
             "output_path": relative_output,
             "documents": len(manifest["documents"]),
             "coverage": coverage,
+            "workspace_model": workspace_model,
+            "repositories": repository_count,
+            "quality": {
+                "requirement_coverage": coverage_ledger["requirement_coverage"],
+                "model_record_coverage": coverage_ledger["coverage"],
+                "required_section_coverage": coverage_ledger["section_coverage"],
+                "repository_coverage": coverage_ledger["repository_coverage"],
+                "flow_coverage": coverage_ledger["flow_coverage"],
+            },
             "verification": {"documentation": "PASS", "critique": "PASS", "user_view": "PASS"},
             "execution_claims": {"build": "NOT_EXECUTED", "unit_tests": "NOT_EXECUTED", "integration_tests": "NOT_EXECUTED"},
             "chat_response": chat_response,

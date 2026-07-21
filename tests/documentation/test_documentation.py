@@ -18,7 +18,7 @@ class DocumentationTests(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory(); self.context=Path(self.tmp.name)/'context'; shutil.copytree(self.fx.context,self.context); self.docs=DocumentationManager(ROOT,self.context)
     def tearDown(self): self.tmp.cleanup()
     def test_catalog_traceability_and_quality(self):
-        m=self.docs.generate('DOCS_A','MODEL_A'); self.assertEqual(len(m['documents']),len(DOCUMENT_CATALOG)); self.assertEqual(m['quality']['catalog_coverage'],1.0); self.assertEqual(m['quality']['section_traceability'],1.0); self.assertEqual(self.docs.validate('DOCS_A')['status'],'PASS'); self.assertEqual(self.docs.critique('DOCS_A')['status'],'PASS')
+        m=self.docs.generate('DOCS_A','MODEL_A'); self.assertGreaterEqual(len(m['documents']),len(DOCUMENT_CATALOG)); self.assertEqual(m['quality']['catalog_coverage'],1.0); self.assertEqual(m['quality']['requirement_coverage'],1.0); self.assertEqual(m['quality']['model_record_coverage'],1.0); self.assertEqual(m['quality']['required_section_coverage'],1.0); self.assertEqual(m['quality']['repository_coverage'],1.0); self.assertEqual(m['quality']['flow_coverage'],1.0); self.assertEqual(m['quality']['section_traceability'],1.0); self.assertEqual(self.docs.validate('DOCS_A')['status'],'PASS'); self.assertEqual(self.docs.critique('DOCS_A')['status'],'PASS')
         for s in self.docs._jsonl('DOCS_A','sections.jsonl'):
             if s['classification'] not in {'LIMITATION','UNKNOWN_INTENT'}: self.assertTrue(s['claims'] and s['evidence'])
     def test_business_inference_is_disclosed(self):

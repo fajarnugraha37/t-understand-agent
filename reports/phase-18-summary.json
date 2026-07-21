@@ -1,12 +1,12 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 18,
   "phase_name": "Platform Adapters and Installation",
   "status": "PASS",
   "validation": {
-    "contract_checks": 77,
-    "tests": 5,
+    "contract_checks": 186,
+    "tests": 12,
     "platforms": 4
   },
   "assurances": [
@@ -15,9 +15,10 @@
     "backup_restore",
     "doctor",
     "modified_file_refusal",
-    "safe_uninstall"
+    "safe_uninstall",
+    "agent_native_private_engine_packaging"
   ],
   "limitations": [
-    "Cursor project-local activation requires a human-reviewed manual copy when the target is a registered source repository."
+    "External OpenCode, Codex, Claude Code, and Cursor executables are not invoked by the release harness."
   ]
 }

@@ -1,18 +1,20 @@
 {
+  "product": "t-understand",
+  "version": "1.1.0",
   "phase": 14,
+  "phase_name": "Repository Review",
   "status": "PASS",
-  "version": "0.15.0",
-  "contract_checks": 45,
-  "tests": 4,
-  "capabilities": [
-    "static audit",
-    "diff review",
-    "coverage ledger",
-    "specialized findings",
-    "impact tracing",
-    "deduplication",
-    "critic challenge",
-    "severity calibration",
-    "merge gate"
+  "validation": {
+    "contract_checks": 45,
+    "tests": 6
+  },
+  "assurances": [
+    "static_and_diff_review",
+    "coverage_ledger",
+    "impact_tracing",
+    "finding_deduplication",
+    "critic_challenge",
+    "severity_calibration",
+    "merge_gate"
   ]
 }

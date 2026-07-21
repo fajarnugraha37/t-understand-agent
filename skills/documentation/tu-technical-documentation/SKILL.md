@@ -1,6 +1,6 @@
 ---
 name: tu-technical-documentation
-description: Execute the t-understand technical documentation workflow with evidence-first, schema-bound, read-only behavior.
+description: Generate complete application, repository, integration, data, operational, and end-to-end flow documentation from validated evidence.
 compatibility: t-understand, opencode, codex, claude-code
 metadata:
   owner: t-understand
@@ -15,32 +15,40 @@ metadata:
 
 ## Objective
 
-Write technical documentation.
+Write application-level and per-repository technical documentation, including cross-repository contracts and application flows.
 
-## Required inputs
+## Required application-flow perspectives
 
-- Immutable application snapshot or an artifact already bound to one.
-- Canonical memory/model identifiers required by the current workflow state.
-- A delegation packet with one bounded objective and explicit expected outputs.
+- Business and application intent.
+- Trigger and preconditions.
+- Participants and repository attribution.
+- Ordered synchronous and asynchronous interactions.
+- State and data impact.
+- Transaction, consistency, idempotency, retry, compensation, and reconciliation boundaries.
+- Alternative paths, failures, and recovery.
+- Authentication, authorization, classification, and sensitive-data considerations.
+- Logs, metrics, traces, alerts, SLOs, runbooks, and operational unknowns.
+- Evidence, traceability, and explicit limitations.
 
-## Output contract
+## Scale behavior
 
-- Produce only the artifact type assigned by the workflow and artifact registry.
-- Preserve application, snapshot, memory, model, and document identifiers.
-- Classify statements as fact, implemented behavior, business inference, human-confirmed, unknown, conflict, or limitation.
-- Bind every supported statement to canonical claims and evidence.
+- Generate the mandatory application catalog first.
+- Repeat repository documentation for every repository.
+- Generate deep Tier-1 flow documents and standard Tier-2 flow documents.
+- Retain Tier-3 flows in the complete catalog.
+- Process requirements sequentially when necessary; never silently truncate a large plan.
 
-## Safety rules
+## Safety and accuracy
 
-- Never write to source repositories.
-- Never invent product intent, business ownership, requirements, runtime behavior, or human approval.
-- Prefer an explicit unknown or limitation over unsupported completion.
-- Do not delegate to another worker.
-- Return schema-valid structured output for deterministic verification.
+- Never write to source repositories or mutate Git.
+- Do not turn a call graph into a complete use-case claim.
+- Do not claim observed runtime ordering without execution evidence.
+- Do not claim tests or builds passed unless execution evidence exists.
+- Prefer unknown or partial coverage over fabricated detail.
 
 ## Completion criteria
 
-- All required records are present and deterministically ordered.
-- Evidence and claim references resolve.
-- Conflicts and stale inputs remain visible.
-- The relevant critique and verification gates can pass.
+- Every planned document exists.
+- Every required heading exists.
+- Every supported section is traceable.
+- Repository, flow, requirement, model-record, and section coverage all pass.

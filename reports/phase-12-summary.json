@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 12,
   "phase_name": "Documentation Exporters",
   "status": "PASS",
@@ -19,7 +19,7 @@
   "validation": {
     "contract_checks": 10,
     "tests": 5,
-    "shared_cli_checks": 12
+    "shared_cli_checks": 13
   },
   "assurances": {
     "canonical_document_unchanged": true,

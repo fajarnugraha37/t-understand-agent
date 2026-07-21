@@ -7,7 +7,7 @@ import shutil
 import sqlite3
 import uuid
 from collections import Counter, defaultdict
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from pathlib import Path
 from typing import Any, Iterator
 
@@ -287,7 +287,7 @@ class MemoryManager:
                     errors.append(f"{conflict['id']} has missing conflicting claim references")
             db = self.runtime_root / memory_id / "index.sqlite"
             if db.exists():
-                with sqlite3.connect(db) as conn:
+                with closing(sqlite3.connect(db)) as conn:
                     counts = {table: conn.execute(f"select count(*) from {table}").fetchone()[0] for table in ("evidence", "entities", "relations", "claims")}
                 expected = {"evidence": len(loaded["evidence"]), "entities": len(loaded["entities"]), "relations": len(loaded["relations"]), "claims": len(loaded["claims"]) + len(loaded["conflicts"])}
                 sqlite_status = "PASS" if counts == expected else "FAIL"
@@ -309,7 +309,7 @@ class MemoryManager:
         temp = target / f"index.{uuid.uuid4().hex}.tmp.sqlite"
         final = target / "index.sqlite"
         if temp.exists(): temp.unlink()
-        with sqlite3.connect(temp) as conn:
+        with closing(sqlite3.connect(temp)) as conn:
             conn.executescript("""
                 PRAGMA journal_mode=OFF;
                 CREATE TABLE evidence(id TEXT PRIMARY KEY, repository TEXT, path TEXT, body TEXT);
@@ -346,7 +346,7 @@ class MemoryManager:
             raise TUnderstandError("MEM-SEARCH-001", "Search query cannot be empty")
         db = self.runtime_root / memory_id / "index.sqlite"
         if not db.exists(): self.rebuild_index(memory_id)
-        with sqlite3.connect(db) as conn:
+        with closing(sqlite3.connect(db)) as conn:
             try:
                 rows = conn.execute("select kind, record_id, text from search where search match ? limit ?", (query, limit)).fetchall()
             except sqlite3.OperationalError:

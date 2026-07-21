@@ -4,43 +4,43 @@
   "errors": [],
   "commands": [
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context model-build --model-id MODEL_A --memory-id MEM_A",
+      "command": "--context-root /tmp/tmphzt52rue/context model-build --model-id MODEL_A --memory-id MEM_A",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context model-validate --model-id MODEL_A",
+      "command": "--context-root /tmp/tmphzt52rue/context model-validate --model-id MODEL_A",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context model-critique --model-id MODEL_A",
+      "command": "--context-root /tmp/tmphzt52rue/context model-critique --model-id MODEL_A",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context model-artifact --model-id MODEL_A --name business-rules",
+      "command": "--context-root /tmp/tmphzt52rue/context model-artifact --model-id MODEL_A --name business-rules",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context model-reconcile --reconciliation-id RECON_A --model-id MODEL_B --base-model-id MODEL_A --memory-id MEM_A",
+      "command": "--context-root /tmp/tmphzt52rue/context model-reconcile --reconciliation-id RECON_A --model-id MODEL_B --base-model-id MODEL_A --memory-id MEM_A",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context documentation-generate --docset-id DOCS_A --model-id MODEL_A",
+      "command": "--context-root /tmp/tmphzt52rue/context documentation-generate --docset-id DOCS_A --model-id MODEL_A",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context documentation-validate --docset-id DOCS_A",
+      "command": "--context-root /tmp/tmphzt52rue/context documentation-validate --docset-id DOCS_A",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context documentation-critique --docset-id DOCS_A",
+      "command": "--context-root /tmp/tmphzt52rue/context documentation-critique --docset-id DOCS_A",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context export-create --export-id EXPORT_A --docset-id DOCS_A --profile mintlify-mdx",
+      "command": "--context-root /tmp/tmphzt52rue/context export-create --export-id EXPORT_A --docset-id DOCS_A --profile mintlify-mdx",
       "returncode": 0
     },
     {
-      "command": "--context-root /tmp/tmp0o1vr1ox/context export-validate --export-id EXPORT_A",
+      "command": "--context-root /tmp/tmphzt52rue/context export-validate --export-id EXPORT_A",
       "returncode": 0
     },
     {

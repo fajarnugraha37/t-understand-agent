@@ -273,7 +273,7 @@ QnA answers and review runs are immutable, snapshot-bound artifacts. Never use g
 
 ## Locked Phase 20 release invariants
 
-- Current release version is `1.0.3`.
+- Current release version is `1.1.0`.
 - Release qualification and SBOM are machine-generated.
 - Python cache files are excluded.
 - Checksums cover the released source tree.
@@ -290,9 +290,9 @@ make verify-phase-19
 make verify-phase-20
 ```
 
-A `1.0.3` release is complete only when Phase 1–15 backward regressions, Phase 16–20 contracts/tests, release audit, checksum verification, deterministic packaging, and extracted-package verification all pass.
+A `1.1.0` release is complete only when Phase 1–15 backward regressions, Phase 16–20 contracts/tests, release audit, checksum verification, deterministic packaging, and extracted-package verification all pass.
 
-## Locked v1.0.3 agent-native invariants
+## Locked v1.1.0 agent-native invariants
 
 - Every skill ID, directory, and `SKILL.md` frontmatter name begins with `tu-`; the root product/orchestrator remains `t-understand`.
 - Humans interact through natural-language requests in the host agent.
@@ -307,10 +307,16 @@ A `1.0.3` release is complete only when Phase 1–15 backward regressions, Phase
 - Existing platform JSON configuration is merged, backed up, checksummed, and restored.
 
 
-## Locked v1.0.3 conversation invariants
+## Locked v1.1.0 conversation invariants
 
 - Greeting-only prompts expose outcome-oriented capabilities without heavyweight analysis.
 - Substantive tasks override greeting prefixes.
+- Explicit all-repository wording resolves sibling/child Git roots into one multi-repository application.
+- Multi-repository managed state lives once at the application workspace root, not once per child repository.
 - Explicit documentation generation always creates validated files; a chat-only dump is forbidden.
 - The stable user-facing documentation path is `.t-understand/output/documentation/latest/`.
+- The base documentation catalog contains 41 mandatory documents and expands for every repository and important flow.
+- Every documentation requirement must have exactly one successful generation record.
+- Requirement, model-record, required-section, repository, flow, inference-disclosure, and supported-section traceability coverage must all equal `1.0` before publication.
+- Repository boundaries, roles, enums, exceptions, and call graphs may produce candidates/inferences but may not be promoted to unsupported business facts.
 - Completion chat is summary-only and must not expose private reasoning, internal IDs, or unsupported execution-pass claims.

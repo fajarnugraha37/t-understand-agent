@@ -1,6 +1,6 @@
 contract:
   id: TU-CAPABILITY-CATALOG
-  version: 1.0.0
+  version: 1.1.0
   status: canonical
 interaction:
   greeting_only:
@@ -78,11 +78,17 @@ capabilities:
     examples:
       - Check whether the documentation matches the code.
   - id: generate-documentation
-    title: Generate comprehensive documentation as files
+    title: Generate complete business, domain, flow, repository, and operational documentation as files
     category: document
     requires: [repository]
     examples:
-      - Generate comprehensive repository documentation.
+      - Generate comprehensive application documentation for all repositories in this workspace.
+  - id: multi-repository-understanding
+    title: Understand multiple repositories as one application
+    category: understand
+    requires: [git_repository]
+    examples:
+      - Treat all repositories in this workspace as one application.
   - id: change-impact
     title: Analyze change impact and stale knowledge
     category: maintain

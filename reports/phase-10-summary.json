@@ -1,11 +1,11 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 10,
-  "phase_name": "System and Business Modeling",
+  "phase_name": "System, Business, Domain, and Flow Modeling",
   "status": "PASS",
   "inventory": {
-    "model_artifacts": 13,
+    "model_types": 31,
     "schemas": 7,
     "cli_commands": 7,
     "implemented_skills": [
@@ -19,13 +19,16 @@
   "validation": {
     "contract_checks": 23,
     "tests": 6,
-    "shared_cli_checks": 12
+    "shared_cli_checks": 13
   },
   "assurances": {
     "memory_bound": true,
     "snapshot_bound": true,
     "immutable_versions": true,
     "business_fact_promotion_denied": true,
+    "repository_is_not_automatically_a_bounded_context": true,
+    "role_is_not_automatically_a_persona": true,
+    "call_graph_is_not_automatically_a_complete_flow": true,
     "unknown_over_invention": true,
     "conflict_preservation": true,
     "traceability_required": true,
@@ -34,8 +37,8 @@
     "cheap_model_dependency": false
   },
   "explicit_limitations": [
-    "Business intent and organizational ownership require human confirmation.",
-    "Deployment and security models remain UNKNOWN when evidence is incomplete.",
-    "Modeling describes implemented surfaces and does not claim observed production runtime behavior."
+    "Business intent and organizational ownership require authoritative evidence or human confirmation.",
+    "Deployment, security, business, and domain conclusions remain UNKNOWN or INFERENCE when evidence is incomplete.",
+    "Modeling describes repository evidence and does not claim observed production runtime behavior."
   ]
 }

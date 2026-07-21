@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 2,
   "phase_name": "Core Runtime and Lifecycle Engine",
   "status": "PASS",
@@ -33,6 +33,6 @@
   "explicit_limitations": [
     "Domain artifact content implementations remain assigned to later phases.",
     "Vendor subagent API invocation remains assigned to platform adapter Phase 18.",
-    "Application and repository path resolution begins in Phase 3."
+    "Application resolution, immutable snapshots, discovery, and surface adapters are supplied by completed Phases 3\u20136; semantic analysis remains outside Phase 2."
   ]
 }

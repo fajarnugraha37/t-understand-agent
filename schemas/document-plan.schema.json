@@ -34,7 +34,12 @@
           "document_id",
           "path",
           "audience",
-          "source_models"
+          "source_models",
+          "requirement_id",
+          "category",
+          "required_sections",
+          "generation_mode",
+          "scope"
         ],
         "properties": {
           "document_id": {
@@ -55,6 +60,24 @@
             "items": {
               "type": "string"
             }
+          },
+          "requirement_id": {
+            "pattern": "^DOCREQ-[A-F0-9]{16}$"
+          },
+          "category": {
+            "type": "string"
+          },
+          "required_sections": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generation_mode": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "object"
           }
         }
       }

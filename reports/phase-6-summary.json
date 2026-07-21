@@ -1,6 +1,6 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 6,
   "phase_name": "Language and Contract Adapters",
   "status": "PASS",
@@ -25,7 +25,7 @@
   "validation": {
     "contract_checks": 49,
     "adapter_tests": 14,
-    "cli_checks": 10
+    "cli_checks": 11
   },
   "assurances": {
     "deterministic_selection": true,

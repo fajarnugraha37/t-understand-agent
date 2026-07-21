@@ -1,16 +1,52 @@
 {
+  "schema_id": "https://t-understand.dev/schemas/integration-report.schema.json",
+  "schema_version": "1.0.0",
   "status": "PASS",
-  "scenarios": 7,
-  "passed": 7,
-  "failed": 0,
-  "execution_mode": "two isolated groups (3 + 4 scenarios) to avoid cumulative harness timeout",
-  "scenario_names": [
-    "single-repo-complete-pipeline",
-    "monorepo-module-coverage",
-    "multi-repo-contract-graph",
-    "diff-review-matrix",
-    "freshness-invalidation-refresh",
-    "platform-package-install-uninstall",
-    "cheap-model-contract-qualification"
-  ]
+  "scenarios": [
+    {
+      "id": "single-repo-complete-pipeline",
+      "status": "PASS",
+      "assertions": 1,
+      "duration_ms": 9930
+    },
+    {
+      "id": "monorepo-module-coverage",
+      "status": "PASS",
+      "assertions": 1,
+      "duration_ms": 461
+    },
+    {
+      "id": "multi-repo-contract-graph",
+      "status": "PASS",
+      "assertions": 1,
+      "duration_ms": 1438
+    },
+    {
+      "id": "diff-review-matrix",
+      "status": "PASS",
+      "assertions": 1,
+      "duration_ms": 1889
+    },
+    {
+      "id": "freshness-invalidation-refresh",
+      "status": "PASS",
+      "assertions": 1,
+      "duration_ms": 1401
+    },
+    {
+      "id": "platform-package-install-uninstall",
+      "status": "PASS",
+      "assertions": 1,
+      "duration_ms": 1205
+    },
+    {
+      "id": "cheap-model-contract-qualification",
+      "status": "PASS",
+      "assertions": 1,
+      "duration_ms": 64
+    }
+  ],
+  "checks": 7,
+  "errors": [],
+  "generated_at": "2026-07-21T18:40:52Z"
 }

@@ -1,40 +1,64 @@
 contract:
   id: TU-MODELING-POLICY
-  version: 1.0.0
+  version: 1.1.0
   status: canonical
 rules:
   source_of_truth: canonical-memory
   immutable_model_versions: true
   sole_model_writer: tu-modeler
   required_classifications:
-    - FACT
-    - IMPLEMENTED_BEHAVIOR
-    - BUSINESS_INFERENCE
-    - HUMAN_CONFIRMED
-    - UNKNOWN
-    - CONFLICT
-    - LIMITATION
+  - FACT
+  - IMPLEMENTED_BEHAVIOR
+  - BUSINESS_INFERENCE
+  - HUMAN_CONFIRMED
+  - UNKNOWN
+  - CONFLICT
+  - LIMITATION
   evidence_required_for:
-    - FACT
-    - IMPLEMENTED_BEHAVIOR
-    - BUSINESS_INFERENCE
-    - HUMAN_CONFIRMED
+  - FACT
+  - IMPLEMENTED_BEHAVIOR
+  - BUSINESS_INFERENCE
+  - HUMAN_CONFIRMED
   business_fact_promotion: deny
   unknown_over_invention: required
   conflict_preservation: required
   section_traceability: required
   deterministic_verification: required
+  repository_boundary_as_bounded_context_fact: deny
+  role_as_business_persona_fact: deny
+  call_graph_as_complete_application_flow: deny
+  source_entity_and_relation_coverage: required
+  duplicate_model_record_id: deny
+  business_inference_limitation: required
 model_catalog:
-  - application-model
-  - architecture-model
-  - dependency-model
-  - data-model
-  - event-model
-  - deployment-model
-  - security-model
-  - business-capabilities
-  - business-rules
-  - actors
-  - state-model
-  - flows
-  - terminology
+- application-model
+- architecture-model
+- repository-model
+- dependency-model
+- data-model
+- event-model
+- deployment-model
+- security-model
+- observability-model
+- business-goals
+- business-capabilities
+- business-processes
+- actors
+- business-rules
+- policies-decisions
+- controls-compliance
+- domain-overview
+- bounded-contexts
+- aggregates-entities
+- value-objects
+- invariants
+- domain-services
+- commands
+- domain-events
+- state-model
+- decision-tables
+- ownership-boundaries
+- flows
+- flow-failures
+- consistency-model
+- terminology

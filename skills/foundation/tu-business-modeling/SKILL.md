@@ -1,6 +1,6 @@
 ---
 name: tu-business-modeling
-description: Execute the t-understand business modeling workflow with evidence-first, schema-bound, read-only behavior.
+description: Construct conservative business, domain, and application-flow models while preserving evidence boundaries, unknowns, and conflicts.
 compatibility: t-understand, opencode, codex, claude-code
 metadata:
   owner: t-understand
@@ -15,32 +15,27 @@ metadata:
 
 ## Objective
 
-Construct business capability, actor, rule, and state models without promoting inference to fact.
+Construct the complete evidence-backed semantic model required for business, domain, and application-flow documentation.
 
-## Required inputs
+## Model areas
 
-- Immutable application snapshot or an artifact already bound to one.
-- Canonical memory/model identifiers required by the current workflow state.
-- A delegation packet with one bounded objective and explicit expected outputs.
+- Goals and outcomes.
+- Hierarchical capabilities.
+- Business processes.
+- Human/system actors and stakeholders.
+- Rules, policies, decisions, controls, and compliance concerns.
+- Candidate bounded contexts and ownership boundaries.
+- Aggregates, entities, value objects, invariants, services, commands, domain events, state models, and decision tables.
+- Application, cross-repository, event, data, security, failure, and consistency flows.
 
-## Output contract
+## Conservative promotion rules
 
-- Produce only the artifact type assigned by the workflow and artifact registry.
-- Preserve application, snapshot, memory, model, and document identifiers.
-- Classify statements as fact, implemented behavior, business inference, human-confirmed, unknown, conflict, or limitation.
-- Bind every supported statement to canonical claims and evidence.
-
-## Safety rules
-
-- Never write to source repositories.
-- Never invent product intent, business ownership, requirements, runtime behavior, or human approval.
-- Prefer an explicit unknown or limitation over unsupported completion.
-- Do not delegate to another worker.
-- Return schema-valid structured output for deterministic verification.
+- Source structure may create a `BUSINESS_INFERENCE`, never an unsupported business fact.
+- Repository boundaries create bounded-context candidates, not confirmed bounded contexts.
+- Role or permission surfaces create actor candidates, not confirmed personas.
+- Events, commands, aggregates, and invariants remain candidates until semantics are evidenced.
+- Missing intent becomes an explicit `UNKNOWN` record.
 
 ## Completion criteria
 
-- All required records are present and deterministically ordered.
-- Evidence and claim references resolve.
-- Conflicts and stale inputs remain visible.
-- The relevant critique and verification gates can pass.
+Every produced record has stable identity, classification, source entities/relations, claims, evidence, attributes, and limitations where required. Duplicate records and unsupported facts are rejected.

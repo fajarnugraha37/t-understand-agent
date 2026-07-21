@@ -1,6 +1,6 @@
 contract:
   id: TU-DOCUMENTATION-GENERATION-POLICY
-  version: 1.0.0
+  version: 1.1.0
   status: canonical
 rules:
   canonical_format: markdown
@@ -8,44 +8,132 @@ rules:
   source_model_required: true
   source_memory_required: true
   snapshot_binding_required: true
+  application_workspace_required: true
+  multi_repository_snapshot_consistency_required: true
   section_level_traceability: true
   supported_section_claims_require_evidence: true
   business_inference_disclosure: required
   unknown_intent_must_remain_unknown: true
+  conflict_preservation: required
   stale_section_silent_use: deny
-  coverage_ledger_required: true
+  source_repository_write: deny
   deterministic_critique_required: true
   deterministic_verification_required: true
-  source_repository_write: deny
-catalog:
-  technical:
-    - application-overview
-    - system-context
-    - dependencies
-    - repositories
-    - interfaces
-    - data-model
-    - deployment-security
+planning:
+  strategy: requirements-driven-adaptive
+  base_catalog: mandatory
+  dynamic_dimensions:
+    - every repository
+    - every tier-1 flow
+    - every tier-2 flow
+  tier_3_flow_coverage: flow-catalog
+  required_ledgers:
+    - documentation-requirements
+    - document-plan
+    - generation-ledger
+    - coverage-ledger
+    - sections
+    - traceability
+  publish_only_when:
+    requirement_coverage: 1.0
+    model_record_coverage: 1.0
+    required_section_coverage: 1.0
+    repository_coverage: 1.0
+    flow_coverage: 1.0
+    inference_disclosure: 1.0
+    section_traceability: 1.0
+quality:
+  missing_planned_document: blocker
+  missing_required_section: blocker
+  uncovered_model_record: blocker
+  uncovered_repository: blocker
+  uncovered_flow: blocker
+  unsupported_fact_or_behavior: blocker
+  undisclosed_business_inference: blocker
+  stale_supported_section: blocker
+  duplicate_document_content: major
+  shallow_section: major
+  shallow_document: major
+  placeholder_content: blocker
+  executed_test_or_build_claim_without_evidence: blocker
+  runtime_observation_claim_without_execution_evidence: blocker
+truth_model:
+  classifications:
+    - TECHNICAL_FACT
+    - IMPLEMENTED_BEHAVIOR
+    - BUSINESS_INFERENCE
+    - HUMAN_CONFIRMED_RULE
+    - UNKNOWN_INTENT
+    - LIMITATION
+  source_code_business_intent_promotion: deny
+  repository_boundary_as_bounded_context_fact: deny
+  role_enum_as_business_persona_fact: deny
+  call_graph_as_complete_application_flow: deny
+  explicit_unknown_over_fabrication: required
+documentation_views:
+  application:
+    - overview
+    - architecture
+    - repository-landscape
+    - capability-map
+    - end-to-end-flows
   business:
-    - business-overview
-    - business-capabilities
-    - actors
-    - business-rules
-    - lifecycle-states
-  mixed:
-    - terminology
+    - goals-and-outcomes
+    - hierarchical-capabilities
+    - actors-and-stakeholders
+    - business-processes
+    - policies-and-decisions
+    - controls-and-compliance
+  domain:
+    - bounded-context-candidates
+    - ubiquitous-language
+    - aggregates-and-entities
+    - value-objects
+    - invariants
+    - domain-services
+    - commands
+    - domain-events
+    - state-machines
+    - decision-tables
+    - ownership-and-boundaries
+  flows:
+    perspectives:
+      - business-and-application-intent
+      - trigger-and-preconditions
+      - participants-and-repositories
+      - sequence-and-interactions
+      - state-and-data-impact
+      - transactions-and-consistency
+      - alternatives-failures-and-recovery
+      - security
+      - observability-and-operations
+      - evidence-and-traceability
+      - unknowns-and-limitations
+  repositories:
+    repeat_for_each_repository:
+      - overview
+      - architecture
+      - interfaces
+      - domain
+      - flows
+      - operations
+      - limitations
 agent_native_completion:
   intent_precedence: documentation_generation_over_explanation
   artifact_required: true
   chat_only_completion: deny
   stable_output_path: .t-understand/output/documentation/latest/
   minimum_documents_for_comprehensive_request: 5
+  dynamic_document_count_allowed: true
   required_user_view_artifacts:
     - _meta/manifest.yaml
+    - _meta/requirements.yaml
     - _meta/document-plan.yaml
+    - _meta/generation-ledger.jsonl
     - _meta/coverage-ledger.yaml
     - _meta/traceability.jsonl
     - _meta/validation.yaml
+    - _meta/critique.yaml
     - index.md
   full_documentation_body_in_chat: deny
   unexecuted_verification_pass_claim: deny

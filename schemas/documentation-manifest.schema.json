@@ -112,7 +112,13 @@
         "section_traceability",
         "unsupported_sections",
         "stale_sections",
-        "catalog_coverage"
+        "catalog_coverage",
+        "requirement_coverage",
+        "model_record_coverage",
+        "required_section_coverage",
+        "repository_coverage",
+        "flow_coverage",
+        "inference_disclosure"
       ],
       "properties": {
         "section_traceability": {
@@ -129,6 +135,36 @@
           "minimum": 0
         },
         "catalog_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "requirement_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "model_record_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "required_section_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "repository_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "flow_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "inference_disclosure": {
           "type": "number",
           "minimum": 0,
           "maximum": 1

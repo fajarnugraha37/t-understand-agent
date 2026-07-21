@@ -1,8 +1,8 @@
 {
   "product": "t-understand",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "phase": 17,
-  "phase_name": "Cheap-Model Qualification",
+  "phase_name": "Cheap-Model Contract Qualification",
   "status": "PASS",
   "validation": {
     "contract_checks": 11,
@@ -10,12 +10,11 @@
   },
   "assurances": [
     "economy_balanced_deep_profiles",
-    "six_contract_scenarios",
-    "provider_neutral",
+    "provider_neutral_contract_runner",
     "explicit_no_live_model_claim",
     "immutable_reports"
   ],
   "limitations": [
-    "The built-in runner is a provider-neutral contract simulator and does not invoke a live external AI model."
+    "The built-in qualification runner is provider-neutral and does not invoke a live external AI model."
   ]
 }
