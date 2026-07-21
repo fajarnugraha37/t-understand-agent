@@ -1,0 +1,21 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: dotnet
+version: 1.0.0
+priority: 880
+languages:
+- csharp
+- fsharp
+- visual-basic
+file_patterns:
+- '*.cs'
+- '*.fs'
+- '*.vb'
+capabilities:
+  detection: structured
+  declarations: surface
+  dependencies: surface
+  interfaces: surface
+  configuration: surface
+fallback: false
+implementation: tu_runtime.adapters.builtins:DotNetAdapter

@@ -1,0 +1,12 @@
+schema_id: https://t-understand.dev/schemas/workspace-map.schema.json
+schema_version: 1.0.0
+application_id: application-a
+machine_id: developer-machine
+repositories:
+  repo-a:
+    path: /workspace/application-a/repo-a
+    bound_at: '2026-07-21T00:00:00Z'
+  repo-b:
+    path: /workspace/application-a/repo-b
+    bound_at: '2026-07-21T00:00:00Z'
+updated_at: '2026-07-21T00:00:00Z'

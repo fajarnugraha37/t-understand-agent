@@ -1,0 +1,14 @@
+contract:
+  id: TU-QUALIFICATION-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-verifier
+rules:
+- id: QUA-001
+  requirement: Provider-neutral contract simulation is distinct from live-model qualification.
+- id: QUA-002
+  requirement: A live-model claim requires runner identity, model identity, version, raw result evidence, and reproducible scenarios.
+- id: QUA-003
+  requirement: Economy qualification covers bounded context, structured output, citations, critique, unknown handling, and deterministic verification.
+- id: QUA-004
+  requirement: Flagship models are never a correctness dependency.

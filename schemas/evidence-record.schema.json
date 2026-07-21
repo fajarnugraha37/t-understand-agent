@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/evidence-record.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "application_snapshot",
+    "repository",
+    "revision",
+    "path",
+    "content_sha256",
+    "locator",
+    "kind",
+    "captured_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/evidence-record.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "pattern": "^EVD-[A-Z0-9-]+$"
+    },
+    "application_snapshot": {
+      "type": "string",
+      "minLength": 3
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 7
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "pattern": "^(/|[A-Za-z]:\\\\)"
+      }
+    },
+    "content_sha256": {
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "locator": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "kind": {
+      "enum": [
+        "source",
+        "test",
+        "configuration",
+        "contract",
+        "migration",
+        "deployment",
+        "git-metadata",
+        "human-confirmation",
+        "secondary-documentation"
+      ]
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "excerpt": {
+      "type": "string"
+    },
+    "freshness": {
+      "enum": [
+        "current",
+        "stale",
+        "unknown"
+      ]
+    }
+  }
+}

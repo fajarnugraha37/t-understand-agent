@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/delegation-packet.schema.json",
+  "$comment": "Contract version 1.2.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "invocation_id",
+    "parent_agent",
+    "target_agent",
+    "delegation_depth",
+    "workflow",
+    "state",
+    "state_version",
+    "skill",
+    "objective",
+    "application_id",
+    "application_snapshot",
+    "permissions",
+    "inputs",
+    "outputs",
+    "stop_conditions",
+    "context_budget",
+    "issued_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/delegation-packet.schema.json"
+    },
+    "schema_version": {
+      "const": "1.2.0"
+    },
+    "invocation_id": {
+      "type": "string",
+      "pattern": "^INV-[A-F0-9]{32}$"
+    },
+    "parent_agent": {
+      "const": "t-understand"
+    },
+    "target_agent": {
+      "type": "string",
+      "pattern": "^tu-[a-z0-9-]+$"
+    },
+    "delegation_depth": {
+      "const": 1
+    },
+    "workflow": {
+      "enum": [
+        "foundation",
+        "refresh",
+        "documentation",
+        "qna",
+        "review"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]+$"
+    },
+    "state_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "skill": {
+      "type": "string",
+      "pattern": "^tu-[a-z0-9-]+$"
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 20
+    },
+    "application_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-z][a-z0-9-]{1,62}$"
+    },
+    "application_snapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_repository_read",
+        "source_repository_write",
+        "git_mutation",
+        "delegate",
+        "artifact_write_domains"
+      ],
+      "properties": {
+        "source_repository_read": {
+          "const": "allow"
+        },
+        "source_repository_write": {
+          "const": "deny"
+        },
+        "git_mutation": {
+          "const": "deny"
+        },
+        "delegate": {
+          "const": "deny"
+        },
+        "artifact_write_domains": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_type",
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "artifact_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*\\.\\.).+$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_type",
+          "path"
+        ],
+        "properties": {
+          "artifact_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^artifacts/[a-z0-9-]+/INV-[A-F0-9]{32}-[a-z0-9-]+\\.yaml$"
+          }
+        }
+      }
+    },
+    "stop_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "context_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "one_primary_objective",
+        "max_workers"
+      ],
+      "properties": {
+        "strategy": {
+          "enum": [
+            "evidence-slices",
+            "bounded-evidence-packets",
+            "expanded-evidence-packets"
+          ]
+        },
+        "one_primary_objective": {
+          "const": true
+        },
+        "max_workers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

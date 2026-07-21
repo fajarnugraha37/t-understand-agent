@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "checks": 10,
+  "cases": [
+    {
+      "args": [
+        "--context-root",
+        "/tmp/tmp3fgdjpyx/installer-state",
+        "qualification-matrix"
+      ],
+      "returncode": 0
+    },
+    {
+      "args": [
+        "--context-root",
+        "/tmp/tmp3fgdjpyx/installer-state",
+        "platforms"
+      ],
+      "returncode": 0
+    },
+    {
+      "args": [
+        "integration-matrix"
+      ],
+      "returncode": 0
+    },
+    {
+      "args": [
+        "agent-bootstrap"
+      ],
+      "returncode": 0
+    },
+    {
+      "args": [
+        "--context-root",
+        "/tmp/tmp3fgdjpyx/installer-state",
+        "platform-install",
+        "--platform",
+        "opencode",
+        "--target-root",
+        "/tmp/tmp3fgdjpyx/opencode"
+      ],
+      "returncode": 0
+    },
+    {
+      "args": [
+        "--context-root",
+        "/tmp/tmp3fgdjpyx/installer-state",
+        "platform-install",
+        "--platform",
+        "opencode",
+        "--target-root",
+        "/tmp/tmp3fgdjpyx/opencode"
+      ],
+      "returncode": 0
+    },
+    {
+      "args": [
+        "--context-root",
+        "/tmp/tmp3fgdjpyx/installer-state",
+        "platform-install",
+        "--platform",
+        "opencode",
+        "--target-root",
+        "/tmp/tmp3fgdjpyx/opencode"
+      ],
+      "returncode": 2
+    },
+    {
+      "args": [
+        "--context-root",
+        "/tmp/tmp3fgdjpyx/installer-state",
+        "platform-install",
+        "--platform",
+        "opencode",
+        "--target-root",
+        "/tmp/tmp3fgdjpyx/opencode",
+        "--force"
+      ],
+      "returncode": 0
+    },
+    {
+      "args": [
+        "--context-root",
+        "/tmp/tmp3fgdjpyx/installer-state",
+        "platform-doctor",
+        "--platform",
+        "opencode",
+        "--target-root",
+        "/tmp/tmp3fgdjpyx/opencode"
+      ],
+      "returncode": 0
+    },
+    {
+      "args": [
+        "--context-root",
+        "/tmp/tmp3fgdjpyx/installer-state",
+        "platform-uninstall",
+        "--platform",
+        "opencode",
+        "--target-root",
+        "/tmp/tmp3fgdjpyx/opencode"
+      ],
+      "returncode": 0
+    }
+  ]
+}

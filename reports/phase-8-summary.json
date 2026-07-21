@@ -1,0 +1,37 @@
+{
+  "product": "t-understand",
+  "version": "0.9.0",
+  "phase": 8,
+  "phase_name": "Multi-Repository Application Graph",
+  "status": "PASS",
+  "inventory": {
+    "schemas": 3,
+    "runtime_managers": 1,
+    "cli_commands": 4,
+    "automatic_relationship_types": [
+      "CALLS",
+      "PRODUCES_FOR",
+      "DEPENDS_ON",
+      "SHARES_DATA_WITH"
+    ]
+  },
+  "validation": {
+    "contract_checks": 13,
+    "tests": 5,
+    "cli_checks": 21
+  },
+  "assurances": {
+    "two_sided_evidence": true,
+    "exact_contract_key": true,
+    "ambiguous_match_not_promoted": true,
+    "one_sided_match_is_candidate": true,
+    "same_repository_not_cross_linked": true,
+    "deterministic_ids": true,
+    "cheap_model_dependency": false
+  },
+  "explicit_limitations": [
+    "Automatic promotion is deliberately conservative and only supports exact complementary contract keys.",
+    "Shared-data relationships are INFERENCE with medium confidence and do not imply database ownership.",
+    "Human-confirmed relationships are schema-supported but human confirmation collection UI is not part of Phase 8."
+  ]
+}

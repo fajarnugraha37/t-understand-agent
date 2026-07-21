@@ -1,0 +1,16 @@
+contract:
+  id: TU-QUALITY-PLANE-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-verifier
+rules:
+- id: QPL-001
+  requirement: Quality reports aggregate independent validation and critique without overriding domain validators.
+- id: QPL-002
+  requirement: Every target is immutable, explicitly identified, and checksum-validated.
+- id: QPL-003
+  requirement: Any failed target makes the consolidated verdict fail.
+- id: QPL-004
+  requirement: Publication is atomic and rolls back after post-publication failure.
+- id: QPL-005
+  requirement: A quality report may not convert UNKNOWN, CONFLICT, INFERENCE, or STALE into FACT.

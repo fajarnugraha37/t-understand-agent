@@ -1,0 +1,18 @@
+schema_id: https://t-understand.dev/schemas/file-inventory-record.schema.json
+schema_version: 1.0.0
+snapshot_id: SNAP_EXAMPLE
+repository_id: repo-a
+path: src/main/java/acme/App.java
+status: INCLUDED
+classification: source
+language: java
+size_bytes: 120
+sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+tracked: true
+binary: false
+generated: false
+vendored: false
+protected: false
+adapter_candidates:
+- java
+- generic

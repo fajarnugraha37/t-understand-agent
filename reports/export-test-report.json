@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "profiles": 1,
+    "profile_configuration": 1,
+    "canonical_semantics": 1,
+    "atomic_rollback": 1,
+    "tamper": 1
+  },
+  "profiles": 5
+}

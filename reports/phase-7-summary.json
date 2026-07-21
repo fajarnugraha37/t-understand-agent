@@ -1,0 +1,32 @@
+{
+  "product": "t-understand",
+  "version": "0.9.0",
+  "phase": 7,
+  "phase_name": "Structural and Behavioral Analysis",
+  "status": "PASS",
+  "inventory": {
+    "schemas": 6,
+    "runtime_managers": 1,
+    "cli_commands": 5,
+    "skill_packages": 4
+  },
+  "validation": {
+    "contract_checks": 19,
+    "tests": 5,
+    "cli_checks": 21
+  },
+  "assurances": {
+    "snapshot_bound": true,
+    "exact_evidence": true,
+    "source_repository_write": "DENY",
+    "source_execution": "DENY",
+    "incremental_full_equivalence": true,
+    "atomic_publication": true,
+    "cheap_model_dependency": false
+  },
+  "explicit_limitations": [
+    "Lexical calls are conservative medium-confidence observations unless a specialized exact contract pattern applies.",
+    "Reflection, generated runtime types, macros, source generators, and deployed runtime state are not executed.",
+    "Phase 7 describes implemented technical behavior and does not infer business intent."
+  ]
+}

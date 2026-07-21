@@ -1,0 +1,59 @@
+{
+  "status": "PASS",
+  "checks": 13,
+  "errors": [],
+  "commands": [
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context model-build --model-id MODEL_A --memory-id MEM_A",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context model-validate --model-id MODEL_A",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context model-critique --model-id MODEL_A",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context model-artifact --model-id MODEL_A --name business-rules",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context model-reconcile --reconciliation-id RECON_A --model-id MODEL_B --base-model-id MODEL_A --memory-id MEM_A",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context documentation-generate --docset-id DOCS_A --model-id MODEL_A",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context documentation-validate --docset-id DOCS_A",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context documentation-critique --docset-id DOCS_A",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context export-create --export-id EXPORT_A --docset-id DOCS_A --profile mintlify-mdx",
+      "returncode": 0
+    },
+    {
+      "command": "--context-root /tmp/tmpv7c6q7ru/context export-validate --export-id EXPORT_A",
+      "returncode": 0
+    },
+    {
+      "command": "export-profiles",
+      "returncode": 0
+    },
+    {
+      "command": "agent-bootstrap",
+      "returncode": 0
+    },
+    {
+      "command": "model-list",
+      "returncode": 0
+    }
+  ]
+}

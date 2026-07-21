@@ -1,0 +1,21 @@
+contract:
+  id: TU-SCHEMA-VERSIONING
+  version: 1.0.0
+  status: canonical
+schema_dialect: https://json-schema.org/draft/2020-12/schema
+current_contract_version: 2.0.0
+compatibility:
+  patch: No required field, enum, semantic, or authority change.
+  minor: Backward-compatible optional fields or capabilities.
+  major: Required field, enum removal/rename, lifecycle, authority, or semantic incompatibility.
+rules:
+- id: SCH-001
+  requirement: Every schema has a stable $id and semantic version.
+- id: SCH-002
+  requirement: Artifacts declare schema_id and schema_version.
+- id: SCH-003
+  requirement: Unknown major versions are rejected.
+- id: SCH-004
+  requirement: Migration is explicit; silent coercion is forbidden.
+- id: SCH-005
+  requirement: Schema validity never substitutes for semantic governance validation.

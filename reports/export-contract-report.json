@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": 10,
+  "errors": [],
+  "profiles": [
+    "plain-markdown",
+    "github-markdown",
+    "mintlify-mdx",
+    "docusaurus-mdx",
+    "mkdocs-markdown"
+  ]
+}

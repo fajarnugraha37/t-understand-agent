@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/relationship-candidate.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "application_snapshot",
+    "repository_id",
+    "relation_type",
+    "contract_key",
+    "entity_id",
+    "evidence",
+    "status",
+    "reason"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/relationship-candidate.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "pattern": "^CAND-[A-F0-9]{16}$"
+    },
+    "application_snapshot": {
+      "type": "string"
+    },
+    "repository_id": {
+      "type": "string"
+    },
+    "relation_type": {
+      "type": "string"
+    },
+    "contract_key": {
+      "type": "string"
+    },
+    "entity_id": {
+      "pattern": "^ENT-"
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "pattern": "^EVD-"
+      }
+    },
+    "status": {
+      "const": "UNRESOLVED"
+    },
+    "reason": {
+      "type": "string"
+    }
+  }
+}

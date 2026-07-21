@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "cross_repo_links": 2,
+    "ambiguity_and_negative_boundaries": 2,
+    "tamper": 1
+  }
+}

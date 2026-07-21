@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/freshness-assessment.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "memory_id",
+    "memory_snapshot_id",
+    "requested_snapshot_id",
+    "status",
+    "reason",
+    "assessed_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/freshness-assessment.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "memory_id": {
+      "type": "string"
+    },
+    "memory_snapshot_id": {
+      "type": "string"
+    },
+    "requested_snapshot_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "CURRENT",
+        "STALE",
+        "UNKNOWN"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "assessed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

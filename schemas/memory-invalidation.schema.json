@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/memory-invalidation.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "invalidation_id",
+    "memory_id",
+    "base_snapshot_id",
+    "candidate_snapshot_id",
+    "status",
+    "changed_paths",
+    "invalidated_evidence",
+    "affected_entities",
+    "affected_relations",
+    "affected_claims",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/memory-invalidation.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "invalidation_id": {
+      "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"
+    },
+    "memory_id": {
+      "type": "string"
+    },
+    "base_snapshot_id": {
+      "type": "string"
+    },
+    "candidate_snapshot_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "UNCHANGED",
+        "INVALIDATED"
+      ]
+    },
+    "changed_paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "repository_id",
+          "path",
+          "change"
+        ],
+        "properties": {
+          "repository_id": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "change": {
+            "enum": [
+              "added",
+              "modified",
+              "deleted"
+            ]
+          }
+        }
+      }
+    },
+    "invalidated_evidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^EVD-"
+      }
+    },
+    "affected_entities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^ENT-"
+      }
+    },
+    "affected_relations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^(REL|XREL)-"
+      }
+    },
+    "affected_claims": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^CLM-"
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

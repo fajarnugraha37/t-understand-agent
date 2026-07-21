@@ -1,0 +1,17 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: go
+version: 1.0.0
+priority: 880
+languages:
+- go
+file_patterns:
+- '*.go'
+capabilities:
+  detection: structured
+  declarations: surface
+  dependencies: surface
+  interfaces: surface
+  configuration: none
+fallback: false
+implementation: tu_runtime.adapters.builtins:GoAdapter

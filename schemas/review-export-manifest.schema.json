@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/review-export-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "export_id",
+    "review_run_id",
+    "profile",
+    "status",
+    "artifacts",
+    "source_manifest_sha256",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/review-export-manifest.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "export_id": {
+      "type": "string",
+      "pattern": "^RVX-"
+    },
+    "review_run_id": {
+      "type": "string",
+      "pattern": "^RVW-"
+    },
+    "profile": {
+      "enum": [
+        "canonical",
+        "github",
+        "gitlab",
+        "cli",
+        "json"
+      ]
+    },
+    "status": {
+      "const": "EXPORTED"
+    },
+    "artifacts": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "source_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

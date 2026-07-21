@@ -1,0 +1,25 @@
+contract:
+  id: TU-WORKSPACE-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+rules:
+- id: WSP-001
+  requirement: Durable repository references use repository ID, immutable revision, and relative path.
+- id: WSP-002
+  requirement: Absolute local paths are runtime-only and never durable evidence.
+- id: WSP-003
+  requirement: VCS ignore controls discovery, not authorization.
+- id: WSP-004
+  requirement: Ignored sensitive files require explicit human approval before read.
+- id: WSP-005
+  requirement: Outside-workspace access is denied; local working-directory tools are allowed without prompts, while durable t-understand writes remain restricted to approved context/runtime targets.
+- id: WSP-006
+  requirement: Context outputs live in a dedicated context repository or runtime directory.
+protected_patterns:
+- .git/**
+- .env*
+- '**/secrets/**'
+- '**/*credential*'
+- '**/*.pem'
+- '**/*.key'

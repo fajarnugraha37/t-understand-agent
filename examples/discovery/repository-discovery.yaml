@@ -1,0 +1,44 @@
+schema_id: https://t-understand.dev/schemas/repository-discovery.schema.json
+schema_version: 1.0.0
+discovery_id: DISC_EXAMPLE
+snapshot_id: SNAP_EXAMPLE
+repository_id: repo-a
+repository_snapshot_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+status: DISCOVERED
+languages:
+- id: java
+  files: 1
+build_systems:
+- path: pom.xml
+  kind: maven
+modules:
+- id: root
+  root: .
+  kind: build-module
+  markers:
+  - pom.xml
+entry_points:
+- path: src/main/java/acme/App.java
+  kind: conventional-entry
+contracts:
+- path: openapi.yaml
+  kind: openapi
+deployment_assets:
+- path: Dockerfile
+  kind: dockerfile
+ci_assets:
+- path: .github/workflows/ci.yml
+  kind: github-actions
+migrations:
+- path: db/migration/V1__init.sql
+  kind: flyway
+coverage:
+  files_total: 7
+  included: 7
+  excluded: 0
+  by_exclusion_reason: {}
+  bytes_total: 1024
+files_path: repositories/repo-a.files.jsonl
+files_sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+content_digest: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+generated_at: '2026-07-21T00:00:00Z'

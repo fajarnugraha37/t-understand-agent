@@ -1,0 +1,12 @@
+contract:
+  id: TU-INTEGRATION-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-verifier
+rules:
+- id: INT-001
+  requirement: Single-repo, monorepo, multi-repo, diff review, refresh, platform installation, and economy qualification scenarios are mandatory.
+- id: INT-002
+  requirement: Each scenario runs as an independently completed process and produces evidence before aggregation.
+- id: INT-003
+  requirement: Source-preservation and fail-closed behavior are cross-cutting assertions.

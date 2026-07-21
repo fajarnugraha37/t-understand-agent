@@ -1,0 +1,18 @@
+contract:
+  id: TU-CANONICAL-MEMORY-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-memory-curator
+rules:
+  - id: CMM-001
+    requirement: Memory versions are immutable and only tu-memory-curator publishes them.
+  - id: CMM-002
+    requirement: FACT claims require current evidence and explicit deterministic reasoning.
+  - id: CMM-003
+    requirement: Conflicts are preserved and never resolved by arbitrary precedence.
+  - id: CMM-004
+    requirement: SQLite and embeddings are rebuildable indexes, not canonical records.
+  - id: CMM-005
+    requirement: Invalidation propagates evidence to entities, relations, claims, models, and documents.
+  - id: CMM-006
+    requirement: A current pointer may change atomically but cannot mutate an immutable memory version.

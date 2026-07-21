@@ -1,0 +1,7 @@
+{
+  "id": "multi-repo-contract-graph",
+  "status": "PASS",
+  "assertions": 1,
+  "duration_ms": 1544,
+  "failures": []
+}

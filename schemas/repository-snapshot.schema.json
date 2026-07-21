@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/repository-snapshot.schema.json",
+  "$comment": "Contract version 1.0.0; portable immutable repository snapshot descriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "snapshot_id", "application_id", "repository_id", "repository_identity", "target", "resolved", "capture", "submodules", "content_digest", "captured_at"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/repository-snapshot.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "snapshot_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{2,127}$"},
+    "application_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+    "repository_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+    "repository_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "value"],
+      "properties": {
+        "type": {"enum": ["remote", "explicit"]},
+        "value": {"type": "string", "minLength": 1, "maxLength": 512}
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "ref"],
+      "properties": {
+        "type": {"enum": ["branch", "tag", "commit", "head", "index", "worktree"]},
+        "ref": {"type": ["string", "null"], "minLength": 1, "maxLength": 512}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"type": {"enum": ["branch", "tag", "commit"]}}},
+          "then": {"properties": {"ref": {"type": "string"}}}
+        },
+        {
+          "if": {"properties": {"type": {"enum": ["head", "index", "worktree"]}}},
+          "then": {"properties": {"ref": {"type": "null"}}}
+        }
+      ]
+    },
+    "resolved": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "tree", "resolved_ref", "object_format", "current_branch"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[a-f0-9]{40}([a-f0-9]{24})?$"},
+        "tree": {"type": "string", "pattern": "^[a-f0-9]{40}([a-f0-9]{24})?$"},
+        "resolved_ref": {"type": ["string", "null"], "maxLength": 1024},
+        "object_format": {"enum": ["sha1", "sha256"]},
+        "current_branch": {"type": ["string", "null"], "maxLength": 512}
+      }
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "included", "excluded", "artifacts", "untracked_files", "state_digest"],
+      "properties": {
+        "mode": {"enum": ["commit-tree", "index-overlay", "worktree-overlay"]},
+        "included": {"type": "array", "uniqueItems": true, "items": {"enum": ["commit-tree", "staged", "unstaged", "untracked-nonignored"]}},
+        "excluded": {"type": "array", "uniqueItems": true, "items": {"enum": ["ignored", "unstaged", "untracked", "protected", "submodule-worktree"]}},
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "path", "sha256", "bytes"],
+            "properties": {
+              "kind": {"enum": ["staged-patch", "unstaged-patch", "status-manifest", "untracked-manifest"]},
+              "path": {"type": "string", "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"},
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "bytes": {"type": "integer", "minimum": 0}
+            }
+          }
+        },
+        "untracked_files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_path", "artifact_path", "sha256", "bytes", "executable"],
+            "properties": {
+              "source_path": {"type": "string", "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"},
+              "artifact_path": {"type": "string", "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"},
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "bytes": {"type": "integer", "minimum": 0},
+              "executable": {"type": "boolean"}
+            }
+          }
+        },
+        "state_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "submodules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "index_commit", "worktree_commit", "status"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"},
+          "index_commit": {"type": "string", "pattern": "^[a-f0-9]{40}([a-f0-9]{24})?$"},
+          "worktree_commit": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}([a-f0-9]{24})?$"},
+          "status": {"enum": ["COMMIT_BOUND", "CLEAN", "UNINITIALIZED", "EXCLUDED_FROM_INDEX"]}
+        }
+      }
+    },
+    "content_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "captured_at": {"type": "string", "format": "date-time"}
+  }
+}

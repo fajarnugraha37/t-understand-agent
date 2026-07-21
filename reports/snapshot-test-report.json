@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "tests": 29,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "unit": 5,
+    "capture": 8,
+    "negative": 11,
+    "review_target": 5
+  }
+}

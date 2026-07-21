@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "checks": 4,
+  "mode": "in-process CLI parser and command smoke; launcher syntax is checked separately",
+  "results": [
+    {
+      "id": "list-workflows",
+      "pass": true
+    },
+    {
+      "id": "init",
+      "pass": true
+    },
+    {
+      "id": "invalid-work-id",
+      "pass": true
+    },
+    {
+      "id": "explicit-runtime-root",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "cases": 9,
+  "results": [
+    {
+      "example": "claim.yaml",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "example": "delegation-packet.yaml",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "example": "documentation-section.yaml",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "example": "evidence-record.yaml",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "example": "qna-answer.yaml",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "example": "result-envelope.yaml",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "example": "review-finding.yaml",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "example": "FACT without evidence is rejected",
+      "status": "PASS",
+      "errors": []
+    },
+    {
+      "example": "MAJOR finding without completed critic challenge is rejected",
+      "status": "PASS",
+      "errors": []
+    }
+  ]
+}

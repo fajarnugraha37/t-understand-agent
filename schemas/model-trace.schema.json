@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/model-trace.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "model_id",
+    "record_id",
+    "claim_ids",
+    "evidence_ids",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/model-trace.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "model_id": {
+      "type": "string"
+    },
+    "record_id": {
+      "pattern": "^MODREC-"
+    },
+    "claim_ids": {
+      "type": "array",
+      "items": {
+        "pattern": "^CLM-"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "pattern": "^EVD-"
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

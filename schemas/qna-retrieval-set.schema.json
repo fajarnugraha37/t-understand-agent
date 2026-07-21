@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/qna-retrieval-set.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "question",
+    "memory_id",
+    "snapshot_id",
+    "status",
+    "query_terms",
+    "items",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/qna-retrieval-set.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^RET-[A-Z0-9_-]+$"
+    },
+    "question": {
+      "type": "string",
+      "minLength": 3
+    },
+    "memory_id": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "MATCHED",
+        "NO_MATCH",
+        "CONFLICTED"
+      ]
+    },
+    "query_terms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claim_id",
+          "classification",
+          "score",
+          "evidence_ids"
+        ],
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "pattern": "^CLM-"
+          },
+          "classification": {
+            "enum": [
+              "FACT",
+              "INFERENCE",
+              "ASSUMPTION",
+              "HUMAN_CONFIRMED",
+              "UNKNOWN",
+              "CONFLICT",
+              "STALE"
+            ]
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^EVD-"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

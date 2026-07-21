@@ -1,0 +1,16 @@
+id: opencode
+status: implemented
+scope: global-config-root
+layout:
+  agents: agents/<agent-id>.md
+  skills: skills/<skill-id>/SKILL.md
+  instructions: AGENTS.md
+  permissions: agent frontmatter
+install_mode: copy
+source_repository_target: denied
+verification:
+  - skill-frontmatter
+  - agent-frontmatter
+  - ownership-manifest
+  - checksum
+  - permission-policy

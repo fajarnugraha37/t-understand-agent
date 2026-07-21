@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/loopback-record.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "schema_version", "loopback_id", "work_id", "workflow", "from_state",
+    "to_state", "reason", "source_id", "invalidated_artifacts", "recorded_at"
+  ],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/loopback-record.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "loopback_id": {"type": "string", "pattern": "^LBK-[A-F0-9]{32}$"},
+    "work_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"},
+    "workflow": {"enum": ["foundation", "refresh", "documentation", "qna", "review"]},
+    "from_state": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+    "to_state": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+    "reason": {"type": "string", "minLength": 5},
+    "source_id": {"type": "string", "minLength": 1},
+    "invalidated_artifacts": {"type": "array", "items": {"type": "string", "pattern": "^artifacts/"}},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  }
+}

@@ -1,0 +1,20 @@
+contract:
+  id: TU-MEMORY-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-memory-curator
+rules:
+- id: MEM-001
+  requirement: Only tu-memory-curator writes canonical memory.
+- id: MEM-002
+  requirement: Candidate observations are immutable inputs to curation.
+- id: MEM-003
+  requirement: Entities have stable application-scoped identities.
+- id: MEM-004
+  requirement: Every relation and claim retains provenance.
+- id: MEM-005
+  requirement: Embedding indexes are rebuildable accelerators, not canonical memory.
+- id: MEM-006
+  requirement: Canonical memory distinguishes current, stale, conflicted, and superseded records.
+- id: MEM-007
+  requirement: Cross-repository relationships require evidence or human confirmation.

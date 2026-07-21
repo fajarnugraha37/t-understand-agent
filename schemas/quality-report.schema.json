@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/quality-report.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "quality_id",
+    "profile",
+    "status",
+    "targets",
+    "checks",
+    "errors",
+    "generated_at",
+    "content_digest"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/quality-report.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "quality_id": {
+      "type": "string",
+      "pattern": "^QLTY-"
+    },
+    "profile": {
+      "enum": [
+        "comprehensive",
+        "release"
+      ]
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "artifact_id",
+          "status",
+          "validation_status",
+          "critique_status",
+          "checks",
+          "errors"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "memory",
+              "model",
+              "documentation",
+              "export",
+              "qna",
+              "review",
+              "review-export"
+            ]
+          },
+          "artifact_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL"
+            ]
+          },
+          "validation_status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "critique_status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "checks": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

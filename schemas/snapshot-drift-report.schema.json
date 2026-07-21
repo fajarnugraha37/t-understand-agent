@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/snapshot-drift-report.schema.json",
+  "$comment": "Contract version 1.0.0; compares immutable snapshot identity to current local bindings",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "snapshot_id", "application_id", "status", "repositories", "checked_at"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/snapshot-drift-report.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "snapshot_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{2,127}$"},
+    "application_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+    "status": {"enum": ["UNCHANGED", "DRIFTED", "UNAVAILABLE"]},
+    "repositories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["repository_id", "target_type", "status", "changes"],
+        "properties": {
+          "repository_id": {"type": "string"},
+          "target_type": {"enum": ["branch", "tag", "commit", "head", "index", "worktree"]},
+          "status": {"enum": ["UNCHANGED", "DRIFTED", "UNAVAILABLE"]},
+          "changes": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "checked_at": {"type": "string", "format": "date-time"}
+  }
+}

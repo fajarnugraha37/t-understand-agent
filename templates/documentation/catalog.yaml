@@ -1,0 +1,57 @@
+contract:
+  id: TU-DOCUMENTATION-CATALOG
+  version: 1.0.0
+  status: canonical
+documents:
+  - id: application-overview
+    path: index.md
+    audience: mixed
+    source_models: [application-model]
+  - id: system-context
+    path: architecture/system-context.md
+    audience: technical
+    source_models: [architecture-model]
+  - id: dependencies
+    path: architecture/dependencies.md
+    audience: technical
+    source_models: [dependency-model, flows]
+  - id: repositories
+    path: repositories/index.md
+    audience: technical
+    source_models: [application-model]
+  - id: interfaces
+    path: interfaces/http-and-events.md
+    audience: technical
+    source_models: [event-model, architecture-model]
+  - id: data-model
+    path: data/data-model.md
+    audience: technical
+    source_models: [data-model]
+  - id: deployment-security
+    path: operations/deployment-and-security.md
+    audience: technical
+    source_models: [deployment-model, security-model]
+  - id: business-overview
+    path: business/overview.md
+    audience: business
+    source_models: [business-capabilities]
+  - id: business-capabilities
+    path: business/capabilities.md
+    audience: business
+    source_models: [business-capabilities]
+  - id: actors
+    path: business/actors.md
+    audience: business
+    source_models: [actors]
+  - id: business-rules
+    path: business/business-rules.md
+    audience: business
+    source_models: [business-rules]
+  - id: lifecycle-states
+    path: business/lifecycle-and-states.md
+    audience: business
+    source_models: [state-model, flows]
+  - id: terminology
+    path: reference/terminology.md
+    audience: mixed
+    source_models: [terminology]

@@ -1,0 +1,35 @@
+contract:
+  id: TU-REVIEW-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-reviewer
+rules:
+- id: REV-001
+  requirement: Review targets resolve to immutable repository or application snapshots.
+- id: REV-002
+  requirement: Static audit and comparative diff review remain distinct modes.
+- id: REV-003
+  requirement: Every finding has exact location, evidence, failure scenario, impact, confidence, recommendation,
+    and verification.
+- id: REV-004
+  requirement: Major-or-higher findings require independent critic challenge.
+- id: REV-005
+  requirement: Full codebase review requires a coverage ledger.
+- id: REV-006
+  requirement: Cross-repository compatibility findings trace producer, contract, and consumer evidence.
+- id: REV-007
+  requirement: Suggested patches may be emitted but never applied.
+- id: REV-008
+  requirement: Duplicate findings are grouped by root cause and low-confidence noise is suppressed.
+severities:
+- BLOCKER
+- CRITICAL
+- MAJOR
+- MINOR
+- TRIVIAL
+- INFO
+profiles:
+- critical-only
+- balanced
+- assertive
+- audit

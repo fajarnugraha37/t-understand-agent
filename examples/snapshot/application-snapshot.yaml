@@ -1,0 +1,17 @@
+schema_id: https://t-understand.dev/schemas/application-snapshot.schema.json
+schema_version: 1.0.0
+snapshot_id: SNAP_EXAMPLE
+application_id: application-a
+purpose: review
+status: CAPTURED
+application_manifest_sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+workspace_resolution_sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+repositories:
+- repository_id: repo-a
+  target_type: branch
+  resolved_commit: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  descriptor_path: repositories/repo-a.yaml
+  descriptor_sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+  content_digest: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+content_digest: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+captured_at: '2026-07-21T00:00:00Z'

@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "consolidation_search": 1,
+    "freshness_invalidation": 2,
+    "conflicts": 1,
+    "tamper": 1
+  }
+}

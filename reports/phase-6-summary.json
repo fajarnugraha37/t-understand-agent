@@ -1,0 +1,44 @@
+{
+  "product": "t-understand",
+  "version": "0.6.0",
+  "phase": 6,
+  "phase_name": "Language and Contract Adapters",
+  "status": "PASS",
+  "inventory": {
+    "adapters": 11,
+    "adapter_schemas": 4,
+    "adapter_cli_commands": 5,
+    "languages_and_contract_families": [
+      "generic",
+      "java",
+      "javascript-typescript",
+      "python",
+      "go",
+      "rust",
+      "dotnet",
+      "sql",
+      "bpmn-dmn",
+      "openapi-asyncapi",
+      "infrastructure"
+    ]
+  },
+  "validation": {
+    "contract_checks": 49,
+    "adapter_tests": 14,
+    "cli_checks": 10
+  },
+  "assurances": {
+    "deterministic_selection": true,
+    "generic_fallback": true,
+    "snapshot_bound": true,
+    "source_repository_write": "DENY",
+    "exact_file_sha256": true,
+    "partial_parse_is_explicit": true,
+    "cheap_model_dependency": false
+  },
+  "explicit_limitations": [
+    "Adapters extract deterministic surface declarations, dependencies, interface candidates, configuration keys, and entry points; they do not claim semantic call graphs or business behavior.",
+    "Regex adapters do not execute macros, annotation processors, source generators, templates, dynamic registration, or runtime configuration.",
+    "BPMN/DMN XML locations are line 1 because the standard-library XML parser does not preserve source line numbers."
+  ]
+}

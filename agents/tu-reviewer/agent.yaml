@@ -1,0 +1,25 @@
+schema_id: https://t-understand.dev/schemas/agent-manifest.schema.json
+schema_version: 1.0.0
+id: tu-reviewer
+kind: worker
+title: Code Reviewer
+purpose: Perform static and comparative review, impact tracing, findings, and suggested fixes.
+human_interaction: false
+can_delegate: false
+max_delegation_depth: 0
+fresh_invocation: true
+authorities:
+  allow:
+  - source_repository_read
+  - write_assigned_artifacts
+  - review_finding_write
+  - review_report_write
+  - suggested_patch_write
+  deny:
+  - source_repository_write
+  - git_mutation
+  - external_system_write
+  - human_approval_fabrication
+  - workflow_state_transition
+  - worker_delegation
+  - apply_suggested_patch

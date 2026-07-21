@@ -1,0 +1,17 @@
+{
+  "phase": 13,
+  "status": "PASS",
+  "version": "0.15.0",
+  "contract_checks": 34,
+  "tests": 5,
+  "capabilities": [
+    "snapshot-aware retrieval",
+    "direct evidence verification",
+    "cited answer",
+    "unknown handling",
+    "critique",
+    "citation validation",
+    "tamper detection",
+    "atomic rollback"
+  ]
+}

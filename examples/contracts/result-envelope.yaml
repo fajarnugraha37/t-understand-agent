@@ -1,0 +1,21 @@
+schema_id: https://t-understand.dev/schemas/result-envelope.schema.json
+schema_version: 1.1.0
+invocation_id: INV-0123456789ABCDEF0123456789ABCDEF
+parent_agent: t-understand
+worker: tu-analyzer
+delegation_depth: 1
+workflow: foundation
+state: BEHAVIOR_ANALYSIS
+state_version: 7
+status: COMPLETED
+artifacts:
+- type: behavior-analysis
+  path: artifacts/behavior-analysis/INV-0123456789ABCDEF0123456789ABCDEF-behavior-analysis.yaml
+  sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+claims:
+- CLM-ORDER-001
+limitations: []
+boundary_status: PASS
+loopback_target: null
+blocker: null
+completed_at: '2026-07-21T03:01:00Z'

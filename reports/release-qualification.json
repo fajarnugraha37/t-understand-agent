@@ -1,0 +1,90 @@
+{
+  "schema_id": "https://t-understand.dev/schemas/release-qualification.schema.json",
+  "schema_version": "1.0.0",
+  "version": "1.0.2",
+  "status": "PASS",
+  "gates": [
+    {
+      "id": "version-1.0.2",
+      "status": "PASS",
+      "evidence": [
+        "VERSION=1.0.2"
+      ]
+    },
+    {
+      "id": "quality-test-report",
+      "status": "PASS",
+      "evidence": [
+        "reports/quality-test-report.json",
+        "status=PASS"
+      ]
+    },
+    {
+      "id": "qualification-test-report",
+      "status": "PASS",
+      "evidence": [
+        "reports/qualification-test-report.json",
+        "status=PASS"
+      ]
+    },
+    {
+      "id": "installation-test-report",
+      "status": "PASS",
+      "evidence": [
+        "reports/installation-test-report.json",
+        "status=PASS"
+      ]
+    },
+    {
+      "id": "integration-test-report",
+      "status": "PASS",
+      "evidence": [
+        "reports/integration-test-report.json",
+        "status=PASS"
+      ]
+    },
+    {
+      "id": "clean-source-tree",
+      "status": "PASS",
+      "evidence": [
+        "pycache=0",
+        "pyc=0"
+      ]
+    },
+    {
+      "id": "complete-platform-adapters",
+      "status": "PASS",
+      "evidence": [
+        "adapters=4"
+      ]
+    },
+    {
+      "id": "skill-tu-namespace",
+      "status": "PASS",
+      "evidence": [
+        "canonical_skills=67",
+        "aggregate=tu-understand"
+      ]
+    },
+    {
+      "id": "no-prompt-permission-policy",
+      "status": "PASS",
+      "evidence": [
+        "orchestrator/tool-permission-policy.yaml"
+      ]
+    }
+  ],
+  "inventory": {
+    "schemas": 85,
+    "skill_packages": 67,
+    "aggregate_skills": 1,
+    "platform_adapters": 4,
+    "files": 571
+  },
+  "limitations": [
+    "No live commercial or open-weight model was invoked by the provider-neutral qualification harness.",
+    "Hosted third-party documentation renderers and remote code-host review APIs were not invoked.",
+    "Platform permission profiles were structurally validated but the external OpenCode, Codex, Claude Code, and Cursor executables were not invoked by release qualification."
+  ],
+  "generated_at": "2026-07-21T17:07:09Z"
+}

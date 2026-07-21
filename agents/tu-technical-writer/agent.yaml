@@ -1,0 +1,23 @@
+schema_id: https://t-understand.dev/schemas/agent-manifest.schema.json
+schema_version: 1.0.0
+id: tu-technical-writer
+kind: worker
+title: Technical Writer
+purpose: Write comprehensive source-grounded technical documentation.
+human_interaction: false
+can_delegate: false
+max_delegation_depth: 0
+fresh_invocation: true
+authorities:
+  allow:
+  - source_repository_read
+  - write_assigned_artifacts
+  - technical_document_write
+  - documentation_trace_candidate_write
+  deny:
+  - source_repository_write
+  - git_mutation
+  - external_system_write
+  - human_approval_fabrication
+  - workflow_state_transition
+  - worker_delegation

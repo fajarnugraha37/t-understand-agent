@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/model-reconciliation.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "reconciliation_id",
+    "base_model_id",
+    "candidate_model_id",
+    "base_memory_id",
+    "candidate_memory_id",
+    "status",
+    "added",
+    "removed",
+    "changed",
+    "unchanged",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/model-reconciliation.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "reconciliation_id": {
+      "type": "string"
+    },
+    "base_model_id": {
+      "type": "string"
+    },
+    "candidate_model_id": {
+      "type": "string"
+    },
+    "base_memory_id": {
+      "type": "string"
+    },
+    "candidate_memory_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "CHANGED",
+        "UNCHANGED"
+      ]
+    },
+    "added": {
+      "type": "array",
+      "items": {
+        "pattern": "^MODREC-"
+      }
+    },
+    "removed": {
+      "type": "array",
+      "items": {
+        "pattern": "^MODREC-"
+      }
+    },
+    "changed": {
+      "type": "array",
+      "items": {
+        "pattern": "^MODREC-"
+      }
+    },
+    "unchanged": {
+      "type": "array",
+      "items": {
+        "pattern": "^MODREC-"
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "product": "t-understand",
+  "version": "1.0.0",
+  "phase": 18,
+  "phase_name": "Platform Adapters and Installation",
+  "status": "PASS",
+  "validation": {
+    "contract_checks": 77,
+    "tests": 5,
+    "platforms": 4
+  },
+  "assurances": [
+    "managed_ownership",
+    "source_context_target_denial",
+    "backup_restore",
+    "doctor",
+    "modified_file_refusal",
+    "safe_uninstall"
+  ],
+  "limitations": [
+    "Cursor project-local activation requires a human-reviewed manual copy when the target is a registered source repository."
+  ]
+}

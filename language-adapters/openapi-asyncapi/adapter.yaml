@@ -1,0 +1,23 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: openapi-asyncapi
+version: 1.0.0
+priority: 960
+languages:
+- openapi
+- asyncapi
+file_patterns:
+- '*openapi*.yaml'
+- '*openapi*.yml'
+- '*openapi*.json'
+- '*asyncapi*.yaml'
+- '*asyncapi*.yml'
+- '*asyncapi*.json'
+capabilities:
+  detection: structured
+  declarations: structured
+  dependencies: surface
+  interfaces: structured
+  configuration: surface
+fallback: false
+implementation: tu_runtime.adapters.builtins:OpenApiAsyncApiAdapter

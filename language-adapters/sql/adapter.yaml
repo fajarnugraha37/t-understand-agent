@@ -1,0 +1,17 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: sql
+version: 1.0.0
+priority: 850
+languages:
+- sql
+file_patterns:
+- '*.sql'
+capabilities:
+  detection: structured
+  declarations: surface
+  dependencies: none
+  interfaces: surface
+  configuration: none
+fallback: false
+implementation: tu_runtime.adapters.builtins:SqlAdapter

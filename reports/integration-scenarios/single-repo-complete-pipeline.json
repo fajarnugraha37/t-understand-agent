@@ -1,0 +1,7 @@
+{
+  "id": "single-repo-complete-pipeline",
+  "status": "PASS",
+  "assertions": 1,
+  "duration_ms": 8971,
+  "failures": []
+}

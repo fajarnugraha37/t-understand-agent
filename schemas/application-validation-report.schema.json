@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/application-validation-report.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "status", "application_id", "checks", "errors", "warnings"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/application-validation-report.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "application_id": {"type": ["string", "null"]},
+    "checks": {"type": "integer", "minimum": 0},
+    "errors": {"type": "array", "items": {"type": "object", "required": ["code", "message"], "properties": {"code": {"type": "string"}, "message": {"type": "string"}}}},
+    "warnings": {"type": "array", "items": {"type": "object", "required": ["code", "message"], "properties": {"code": {"type": "string"}, "message": {"type": "string"}}}}
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": "platform-package-install-uninstall",
+  "status": "PASS",
+  "assertions": 1,
+  "duration_ms": 1029,
+  "failures": []
+}

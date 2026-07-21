@@ -1,0 +1,37 @@
+contract:
+  id: TU-APPLICATION-MANAGEMENT-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+portable_manifest:
+  file: application.yaml
+  absolute_paths: deny
+  source_access: READ_ONLY
+  repository_identity:
+    remote: normalized-host-and-path
+    explicit: human-supplied-stable-key
+local_workspace_map:
+  file: workspace.local.yaml
+  durable: false
+  gitignored: required
+  absolute_paths: allowed
+resolution:
+  all_registered_repositories_bound: required
+  mapped_path_must_be_git_root: required
+  duplicate_git_roots: deny
+  nested_git_roots: deny
+  remote_identity_mismatch: deny
+  context_inside_source_repository: deny
+  source_repository_inside_context: deny
+  output: runtime/workspace-resolution.yaml
+workspace_models:
+  single-repo:
+    required_repository_count: 1
+  monorepo:
+    required_repository_count: 1
+  multi-repo:
+    minimum_repository_count: 2
+security:
+  credential_bearing_remote_urls: deny
+  source_repository_mutation: deny
+  git_commands: read-only

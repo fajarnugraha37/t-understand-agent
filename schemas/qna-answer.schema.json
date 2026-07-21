@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/qna-answer.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "question",
+    "application_snapshot",
+    "direct_answer",
+    "claims",
+    "citations",
+    "freshness_status",
+    "limitations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/qna-answer.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "pattern": "^QNA-"
+    },
+    "question": {
+      "type": "string",
+      "minLength": 3
+    },
+    "application_snapshot": {
+      "type": "string"
+    },
+    "direct_answer": {
+      "type": "string",
+      "minLength": 3
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^CLM-"
+      }
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^EVD-"
+      }
+    },
+    "freshness_status": {
+      "enum": [
+        "current",
+        "stale",
+        "mixed",
+        "unknown"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "answer_status": {
+      "enum": [
+        "answered",
+        "partially-answered",
+        "unknown"
+      ]
+    }
+  }
+}

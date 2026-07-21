@@ -1,0 +1,20 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: bpmn-dmn
+version: 1.0.0
+priority: 940
+languages:
+- bpmn
+- dmn
+file_patterns:
+- '*.bpmn'
+- '*.bpmn20.xml'
+- '*.dmn'
+capabilities:
+  detection: structured
+  declarations: structured
+  dependencies: surface
+  interfaces: structured
+  configuration: surface
+fallback: false
+implementation: tu_runtime.adapters.builtins:BpmnDmnAdapter

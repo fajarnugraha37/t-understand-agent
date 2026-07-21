@@ -1,0 +1,18 @@
+contract:
+  id: TU-QNA-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-answerer
+rules:
+- id: QNA-001
+  requirement: Every answer declares application snapshot and answer scope.
+- id: QNA-002
+  requirement: Load-bearing claims are verified against direct source evidence.
+- id: QNA-003
+  requirement: Answers distinguish fact, inference, assumption, unknown, conflict, and stale.
+- id: QNA-004
+  requirement: Existing generated documentation cannot be the sole evidence for implementation claims.
+- id: QNA-005
+  requirement: Insufficient evidence produces an explicit limitation, not a plausible guess.
+- id: QNA-006
+  requirement: Material answers require critique and citation validation.

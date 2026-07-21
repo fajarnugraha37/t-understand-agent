@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/result-envelope.schema.json",
+  "$comment": "Contract version 1.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "invocation_id",
+    "parent_agent",
+    "worker",
+    "delegation_depth",
+    "workflow",
+    "state",
+    "state_version",
+    "status",
+    "artifacts",
+    "claims",
+    "limitations",
+    "boundary_status",
+    "completed_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/result-envelope.schema.json"
+    },
+    "schema_version": {
+      "const": "1.1.0"
+    },
+    "invocation_id": {
+      "type": "string",
+      "pattern": "^INV-[A-F0-9]{32}$"
+    },
+    "parent_agent": {
+      "const": "t-understand"
+    },
+    "worker": {
+      "type": "string",
+      "pattern": "^tu-[a-z0-9-]+$"
+    },
+    "delegation_depth": {
+      "const": 1
+    },
+    "workflow": {
+      "enum": [
+        "foundation",
+        "refresh",
+        "documentation",
+        "qna",
+        "review"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]+$"
+    },
+    "state_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "enum": [
+        "COMPLETED",
+        "BLOCKED",
+        "FAILED",
+        "NEEDS_LOOPBACK"
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*\\.\\.).+$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "boundary_status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "loopback_target": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[A-Z][A-Z0-9_]+$"
+    },
+    "blocker": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "COMPLETED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "boundary_status": {
+            "const": "PASS"
+          },
+          "artifacts": {
+            "type": "array",
+            "minItems": 1
+          },
+          "loopback_target": {
+            "const": null
+          },
+          "blocker": {
+            "const": null
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "BLOCKED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "blocker"
+        ],
+        "properties": {
+          "blocker": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifacts": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "loopback_target": {
+            "const": null
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "FAILED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "blocker"
+        ],
+        "properties": {
+          "blocker": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifacts": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "loopback_target": {
+            "const": null
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "NEEDS_LOOPBACK"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "loopback_target"
+        ],
+        "properties": {
+          "loopback_target": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]+$"
+          },
+          "artifacts": {
+            "type": "array",
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

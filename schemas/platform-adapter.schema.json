@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/platform-adapter.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "status",
+    "scope",
+    "layout",
+    "install_mode",
+    "source_repository_target",
+    "verification"
+  ],
+  "properties": {
+    "id": {
+      "enum": [
+        "opencode",
+        "codex",
+        "claude-code",
+        "cursor"
+      ]
+    },
+    "status": {
+      "const": "implemented"
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "layout": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "install_mode": {
+      "const": "copy"
+    },
+    "source_repository_target": {
+      "const": "denied"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "verification": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

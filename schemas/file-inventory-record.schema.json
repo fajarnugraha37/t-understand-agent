@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/file-inventory-record.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "snapshot_id",
+    "repository_id",
+    "path",
+    "status",
+    "classification",
+    "language",
+    "size_bytes",
+    "sha256",
+    "tracked",
+    "binary",
+    "generated",
+    "vendored",
+    "protected",
+    "adapter_candidates"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/file-inventory-record.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,62}$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "status": {
+      "enum": [
+        "INCLUDED",
+        "EXCLUDED"
+      ]
+    },
+    "exclusion_reason": {
+      "enum": [
+        "protected",
+        "generated",
+        "vendored",
+        "binary",
+        "oversized",
+        "symlink",
+        "submodule"
+      ]
+    },
+    "classification": {
+      "enum": [
+        "source",
+        "test",
+        "configuration",
+        "build",
+        "contract",
+        "migration",
+        "deployment",
+        "ci",
+        "documentation",
+        "generated",
+        "vendored",
+        "asset",
+        "unknown"
+      ]
+    },
+    "language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tracked": {
+      "type": "boolean"
+    },
+    "binary": {
+      "type": "boolean"
+    },
+    "generated": {
+      "type": "boolean"
+    },
+    "vendored": {
+      "type": "boolean"
+    },
+    "protected": {
+      "type": "boolean"
+    },
+    "adapter_candidates": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "EXCLUDED"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "exclusion_reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "INCLUDED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  ]
+}

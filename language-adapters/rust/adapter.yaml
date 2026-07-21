@@ -1,0 +1,17 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: rust
+version: 1.0.0
+priority: 870
+languages:
+- rust
+file_patterns:
+- '*.rs'
+capabilities:
+  detection: structured
+  declarations: surface
+  dependencies: surface
+  interfaces: surface
+  configuration: none
+fallback: false
+implementation: tu_runtime.adapters.builtins:RustAdapter

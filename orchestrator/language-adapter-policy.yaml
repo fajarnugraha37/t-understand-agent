@@ -1,0 +1,38 @@
+contract:
+  id: TU-LANGUAGE-ADAPTER-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+principles:
+  deterministic_selection: true
+  source_write: deny
+  snapshot_bound: true
+  graceful_fallback: generic
+  parse_failure_status: PARTIAL
+  unsupported_status: UNSUPPORTED
+selection:
+  highest_detection_score: true
+  stable_tie_break: adapter-priority-then-id
+  minimum_specialized_score: 50
+output:
+  canonical: adapter-extraction
+  exact_locations: required
+  confidence: deterministic-rule
+  limitations: required_when_partial
+capability_levels:
+- none
+- detect
+- surface
+- structured
+adapters:
+- generic
+- java
+- javascript-typescript
+- python
+- go
+- rust
+- dotnet
+- sql
+- bpmn-dmn
+- openapi-asyncapi
+- infrastructure

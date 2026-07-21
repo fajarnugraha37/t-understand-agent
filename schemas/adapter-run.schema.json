@@ -1,0 +1,25 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://t-understand.dev/schemas/adapter-run.schema.json",
+  "$comment":"Contract version 1.0.0",
+  "type":"object","additionalProperties":false,
+  "required":["schema_id","schema_version","extraction_id","discovery_id","snapshot_id","status","files_total","extracted","partial","unsupported","skipped","records_path","records_sha256","adapter_usage","content_digest","generated_at"],
+  "properties":{
+    "schema_id":{"const":"https://t-understand.dev/schemas/adapter-run.schema.json"},
+    "schema_version":{"const":"1.0.0"},
+    "extraction_id":{"type":"string","pattern":"^[A-Z][A-Z0-9_-]{2,63}$"},
+    "discovery_id":{"type":"string"},
+    "snapshot_id":{"type":"string"},
+    "status":{"const":"EXTRACTED"},
+    "files_total":{"type":"integer","minimum":0},
+    "extracted":{"type":"integer","minimum":0},
+    "partial":{"type":"integer","minimum":0},
+    "unsupported":{"type":"integer","minimum":0},
+    "skipped":{"type":"integer","minimum":0},
+    "records_path":{"type":"string"},
+    "records_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "adapter_usage":{"type":"object","additionalProperties":{"type":"integer","minimum":0}},
+    "content_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "generated_at":{"type":"string","format":"date-time"}
+  }
+}

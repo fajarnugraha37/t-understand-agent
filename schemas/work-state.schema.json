@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/work-state.schema.json",
+  "$comment": "Contract version 1.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "work_id",
+    "workflow",
+    "application_id",
+    "current_state",
+    "status",
+    "profile",
+    "application_snapshot",
+    "state_version",
+    "active_invocation",
+    "blocker",
+    "artifacts",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/work-state.schema.json"
+    },
+    "schema_version": {
+      "const": "1.1.0"
+    },
+    "work_id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"
+    },
+    "workflow": {
+      "enum": [
+        "foundation",
+        "refresh",
+        "documentation",
+        "qna",
+        "review"
+      ]
+    },
+    "application_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-z][a-z0-9-]{1,62}$"
+    },
+    "current_state": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]+$"
+    },
+    "status": {
+      "enum": [
+        "ACTIVE",
+        "WAITING_RESULT",
+        "BLOCKED",
+        "COMPLETED"
+      ]
+    },
+    "profile": {
+      "enum": [
+        "economy",
+        "balanced",
+        "deep-analysis"
+      ]
+    },
+    "application_snapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "active_invocation": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^INV-[A-F0-9]{32}$"
+    },
+    "blocker": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "path",
+          "sha256",
+          "produced_state",
+          "producer",
+          "status"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^artifacts/"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "produced_state": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]+$"
+          },
+          "producer": {
+            "type": "string",
+            "pattern": "^(t-understand|tu-[a-z0-9-]+)$"
+          },
+          "status": {
+            "enum": [
+              "CURRENT",
+              "STALE"
+            ]
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "WAITING_RESULT"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "active_invocation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "BLOCKED"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "blocker": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

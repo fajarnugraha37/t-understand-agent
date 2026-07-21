@@ -1,0 +1,13 @@
+schema_id: https://t-understand.dev/schemas/qna-answer.schema.json
+schema_version: 1.0.0
+id: QNA-ORDER-001
+question: When is the order-created event published?
+application_snapshot: APP-SNAP-001
+direct_answer: It is published after the order persistence call in the analyzed implementation.
+claims:
+- CLM-ORDER-001
+citations:
+- EVD-ORDER-001
+freshness_status: current
+limitations: []
+answer_status: answered

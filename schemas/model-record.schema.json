@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/model-record.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "model_id",
+    "model_type",
+    "classification",
+    "title",
+    "description",
+    "claim_ids",
+    "evidence_ids",
+    "source_entities",
+    "source_relations",
+    "attributes",
+    "freshness"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/model-record.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "pattern": "^MODREC-[A-F0-9]{16}$"
+    },
+    "model_id": {
+      "type": "string"
+    },
+    "model_type": {
+      "type": "string"
+    },
+    "classification": {
+      "enum": [
+        "FACT",
+        "IMPLEMENTED_BEHAVIOR",
+        "BUSINESS_INFERENCE",
+        "HUMAN_CONFIRMED",
+        "UNKNOWN",
+        "CONFLICT",
+        "LIMITATION"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 5
+    },
+    "claim_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^CLM-"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^EVD-"
+      }
+    },
+    "source_entities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^ENT-"
+      }
+    },
+    "source_relations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "attributes": {
+      "type": "object"
+    },
+    "freshness": {
+      "enum": [
+        "current",
+        "stale",
+        "unknown",
+        "conflicted"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

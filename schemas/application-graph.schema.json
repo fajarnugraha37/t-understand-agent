@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/application-graph.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "graph_id",
+    "application_id",
+    "snapshot_id",
+    "analysis_id",
+    "status",
+    "artifacts",
+    "coverage",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/application-graph.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "graph_id": {
+      "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"
+    },
+    "application_id": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "analysis_id": {
+      "type": "string"
+    },
+    "status": {
+      "const": "LINKED"
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256",
+          "records"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "records": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "repositories",
+        "entities",
+        "intra_relations",
+        "cross_relations",
+        "unresolved_candidates"
+      ],
+      "properties": {
+        "repositories": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "entities": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "intra_relations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cross_relations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unresolved_candidates": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "content_digest": {
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

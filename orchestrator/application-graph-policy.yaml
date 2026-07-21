@@ -1,0 +1,16 @@
+contract:
+  id: TU-APPLICATION-GRAPH-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-modeler
+rules:
+  - id: GRF-001
+    requirement: Cross-repository edges require evidence from both endpoints or a human confirmation record.
+  - id: GRF-002
+    requirement: Exact contract keys are required for automatic relationship promotion.
+  - id: GRF-003
+    requirement: Ambiguous or one-sided matches remain unresolved candidates.
+  - id: GRF-004
+    requirement: Graph generation does not mutate source repositories or canonical memory.
+  - id: GRF-005
+    requirement: Cross-repository edge ordering and identifiers are deterministic.

@@ -1,0 +1,50 @@
+contract:
+  id: TU-RUNTIME-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+storage:
+  default_root: null
+  work_directory: <runtime-root>/<work-id>
+  source_repository_write: deny
+  mutation_strategy: atomic-replace
+  event_log: append-only-jsonl
+  lock_strategy: single-local-mutation-lock
+  explicit_runtime_root_required: true
+work_statuses:
+- ACTIVE
+- WAITING_RESULT
+- BLOCKED
+- COMPLETED
+delegation:
+  parent_agent: t-understand
+  depth: 1
+  worker_delegate: deny
+  result_replay: deny
+  active_invocations_per_work: 1
+transitions:
+  authority: t-understand
+  registry_only: true
+  validate_before_commit: true
+  terminal_auto_completion: true
+loopback:
+  same_workflow_only: true
+  terminal_target: deny
+  forward_target: deny
+  invalidate_target_and_later_artifacts: true
+approvals:
+  recorded_by: HUMAN
+  fabrication: deny
+  publication_state_requires_approve: true
+validation:
+  delegation_schema: required
+  result_schema: required
+  identity_binding: required
+  artifact_path_containment: required
+  artifact_sha256: required
+  current_state_version: required
+limitations:
+- Phase 2 validates runtime envelopes, ownership, paths, and digests; domain artifact
+  content schemas are implemented in their owning later phases.
+- Application/workspace resolution and immutable Git snapshots are implemented by Phases 3 and 4; repository discovery remains assigned to Phase 5.
+- Phase 2 does not invoke vendor subagent APIs; platform adapters are implemented in Phase 18.

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/review-target.schema.json",
+  "$comment": "Contract version 1.0.0; immutable binding to validated application snapshots",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "review_id", "application_id", "mode", "baseline", "candidate", "immutable", "content_digest", "created_at"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/review-target.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "review_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{2,127}$"},
+    "application_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+    "mode": {"enum": ["STATIC_AUDIT", "DIFF"]},
+    "baseline": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/snapshot_ref"}
+      ]
+    },
+    "candidate": {"$ref": "#/$defs/snapshot_ref"},
+    "immutable": {"const": true},
+    "content_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"mode": {"const": "STATIC_AUDIT"}}},
+      "then": {"properties": {"baseline": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"mode": {"const": "DIFF"}}},
+      "then": {"properties": {"baseline": {"$ref": "#/$defs/snapshot_ref"}}}
+    }
+  ],
+  "$defs": {
+    "snapshot_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshot_id", "snapshot_path", "snapshot_sha256", "content_digest"],
+      "properties": {
+        "snapshot_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{2,127}$"},
+        "snapshot_path": {"type": "string", "pattern": "^snapshots/[A-Z][A-Z0-9_-]{2,127}/application-snapshot\\.yaml$"},
+        "snapshot_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "content_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  }
+}

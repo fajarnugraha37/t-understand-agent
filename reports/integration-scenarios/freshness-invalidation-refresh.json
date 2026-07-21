@@ -1,0 +1,7 @@
+{
+  "id": "freshness-invalidation-refresh",
+  "status": "PASS",
+  "assertions": 1,
+  "duration_ms": 1415,
+  "failures": []
+}

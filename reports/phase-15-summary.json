@@ -1,0 +1,15 @@
+{
+  "phase": 15,
+  "status": "PASS",
+  "version": "0.15.0",
+  "contract_checks": 16,
+  "tests": 2,
+  "profiles": [
+    "canonical",
+    "github",
+    "gitlab",
+    "cli",
+    "json"
+  ],
+  "note": "Focused CLI smoke checks passed; runtime and exporter behavior are covered by end-to-end tests."
+}

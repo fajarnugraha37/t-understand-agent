@@ -1,0 +1,17 @@
+schema_id: https://t-understand.dev/schemas/adapter-run.schema.json
+schema_version: 1.0.0
+extraction_id: EXTRACT_EXAMPLE
+discovery_id: DISC_EXAMPLE
+snapshot_id: SNAP_EXAMPLE
+status: EXTRACTED
+files_total: 1
+extracted: 1
+partial: 0
+unsupported: 0
+skipped: 0
+records_path: adapter-extractions.jsonl
+records_sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+adapter_usage:
+  java: 1
+content_digest: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+generated_at: '2026-07-21T00:00:00Z'

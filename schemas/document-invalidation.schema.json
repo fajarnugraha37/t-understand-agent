@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/document-invalidation.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "invalidation_id",
+    "docset_id",
+    "memory_invalidation_id",
+    "status",
+    "affected_documents",
+    "affected_sections",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/document-invalidation.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "invalidation_id": {
+      "type": "string"
+    },
+    "docset_id": {
+      "type": "string"
+    },
+    "memory_invalidation_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "UNCHANGED",
+        "INVALIDATED"
+      ]
+    },
+    "affected_documents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "affected_sections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

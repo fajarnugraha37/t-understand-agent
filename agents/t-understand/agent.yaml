@@ -1,0 +1,27 @@
+schema_id: https://t-understand.dev/schemas/agent-manifest.schema.json
+schema_version: 1.0.0
+id: t-understand
+kind: orchestrator
+title: Root Orchestrator
+purpose: Human interaction, workflow routing, state transitions, approvals, and delegation.
+human_interaction: true
+can_delegate: true
+max_delegation_depth: 1
+fresh_invocation: false
+authorities:
+  allow:
+  - human_interaction
+  - workflow_state_transition
+  - record_human_decision
+  - delegate_registered_worker
+  - write_runtime_control_artifacts
+  deny:
+  - source_repository_write
+  - git_mutation
+  - external_system_write
+  - canonical_memory_write
+  - technical_document_write
+  - business_document_write
+  - qna_answer_write
+  - review_finding_write
+  - verification_verdict_fabrication

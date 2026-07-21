@@ -1,0 +1,16 @@
+profiles:
+  plain-markdown:
+    configuration: SUMMARY.md
+    extension: .md
+  github-markdown:
+    configuration: README.md
+    extension: .md
+  mintlify-mdx:
+    configuration: docs.json
+    extension: .mdx
+  docusaurus-mdx:
+    configuration: sidebars.js
+    extension: .mdx
+  mkdocs-markdown:
+    configuration: mkdocs.yml
+    extension: .md

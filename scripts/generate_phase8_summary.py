@@ -1,0 +1,7 @@
+import json,sys,os
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+def load(n): return json.loads((ROOT/'reports'/n).read_text())
+c=load('graph-contract-report.json'); t=load('graph-test-report.json'); cli=load('knowledge-cli-report.json')
+report={'product':'t-understand','version':(ROOT/'VERSION').read_text().strip(),'phase':8,'phase_name':'Multi-Repository Application Graph','status':'PASS' if all(x['status']=='PASS' for x in (c,t,cli)) else 'FAIL','inventory':{'schemas':3,'runtime_managers':1,'cli_commands':4,'automatic_relationship_types':['CALLS','PRODUCES_FOR','DEPENDS_ON','SHARES_DATA_WITH']},'validation':{'contract_checks':c['checks'],'tests':t['tests'],'cli_checks':cli['checks']},'assurances':{'two_sided_evidence':True,'exact_contract_key':True,'ambiguous_match_not_promoted':True,'one_sided_match_is_candidate':True,'same_repository_not_cross_linked':True,'deterministic_ids':True,'cheap_model_dependency':False},'explicit_limitations':['Automatic promotion is deliberately conservative and only supports exact complementary contract keys.','Shared-data relationships are INFERENCE with medium confidence and do not imply database ownership.','Human-confirmed relationships are schema-supported but human confirmation collection UI is not part of Phase 8.']}
+(ROOT/'reports/phase-8-summary.json').write_text(json.dumps(report,indent=2)+'\n'); print(json.dumps(report,indent=2)); sys.stdout.flush(); os._exit(0 if report['status']=='PASS' else 1)

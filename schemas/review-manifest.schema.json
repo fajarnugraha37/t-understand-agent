@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/review-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "review_run_id",
+    "review_target_id",
+    "application_id",
+    "candidate_snapshot",
+    "baseline_snapshot",
+    "mode",
+    "profile",
+    "status",
+    "artifacts",
+    "counts",
+    "merge_gate",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/review-manifest.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "review_run_id": {
+      "type": "string",
+      "pattern": "^RVW-"
+    },
+    "review_target_id": {
+      "type": "string"
+    },
+    "application_id": {
+      "type": "string"
+    },
+    "candidate_snapshot": {
+      "type": "string"
+    },
+    "baseline_snapshot": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "STATIC_AUDIT",
+        "DIFF"
+      ]
+    },
+    "profile": {
+      "enum": [
+        "critical-only",
+        "balanced",
+        "assertive",
+        "audit"
+      ]
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FINDINGS",
+        "BLOCKED"
+      ]
+    },
+    "artifacts": {
+      "type": "object",
+      "minProperties": 10,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "changed_files",
+        "findings",
+        "blocker",
+        "critical",
+        "major",
+        "minor",
+        "trivial",
+        "info"
+      ],
+      "properties": {
+        "changed_files": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "findings": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocker": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "critical": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "major": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "trivial": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "info": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "merge_gate": {
+      "enum": [
+        "PASS",
+        "WARN",
+        "BLOCK"
+      ]
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

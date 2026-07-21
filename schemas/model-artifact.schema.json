@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/model-artifact.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "model_id",
+    "model_type",
+    "application_id",
+    "snapshot_id",
+    "memory_id",
+    "status",
+    "records",
+    "limitations",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/model-artifact.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "model_id": {
+      "type": "string"
+    },
+    "model_type": {
+      "type": "string"
+    },
+    "application_id": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "memory_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "CURRENT",
+        "CONFLICTED",
+        "STALE",
+        "PARTIAL"
+      ]
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "content_digest": {
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

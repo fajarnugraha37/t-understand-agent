@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/approval-record.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "approval_id",
+    "work_id",
+    "workflow",
+    "state",
+    "decision",
+    "recorded_by",
+    "rationale",
+    "subject_sha256",
+    "loopback_target",
+    "recorded_at",
+    "publication_artifact"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/approval-record.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "approval_id": {
+      "type": "string",
+      "pattern": "^APP-[A-F0-9]{32}$"
+    },
+    "work_id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"
+    },
+    "workflow": {
+      "enum": [
+        "foundation",
+        "refresh",
+        "documentation",
+        "qna",
+        "review"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]+$"
+    },
+    "decision": {
+      "enum": [
+        "APPROVE",
+        "REJECT"
+      ]
+    },
+    "recorded_by": {
+      "const": "HUMAN"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 5
+    },
+    "subject_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "loopback_target": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[A-Z][A-Z0-9_]+$"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "publication_artifact": {
+      "type": "string",
+      "pattern": "^artifacts/human-publication-approval/APP-[A-F0-9]{32}\\.yaml$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "REJECT"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "loopback_target": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "APPROVE"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "loopback_target": {
+            "const": null
+          }
+        }
+      }
+    }
+  ]
+}

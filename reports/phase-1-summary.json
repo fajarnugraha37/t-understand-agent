@@ -1,0 +1,29 @@
+{
+  "product": "t-understand",
+  "version": "0.1.0",
+  "phase": 1,
+  "phase_name": "Governance and Contracts",
+  "status": "PASS",
+  "inventory": {
+    "orchestrators": 1,
+    "terminal_workers": 10,
+    "planned_skills": 51,
+    "artifact_types": 55,
+    "workflow_families": 5,
+    "workflow_states": 55,
+    "json_schemas": 13
+  },
+  "validation": {
+    "governance_checks": 227,
+    "negative_governance_cases": 25,
+    "contract_cases": 9,
+    "economy_checks": 10
+  },
+  "assurances": {
+    "source_repository_write": "DENY",
+    "canonical_memory_writer": "tu-memory-curator",
+    "maximum_delegation_depth": 1,
+    "flagship_model_required": false,
+    "full_later_phase_runtime_implemented": false
+  }
+}

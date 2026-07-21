@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "tests": 13,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "inventory": 10,
+    "snapshot_modes": 3
+  }
+}

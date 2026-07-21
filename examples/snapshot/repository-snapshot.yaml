@@ -1,0 +1,33 @@
+schema_id: https://t-understand.dev/schemas/repository-snapshot.schema.json
+schema_version: 1.0.0
+snapshot_id: SNAP_EXAMPLE
+application_id: application-a
+repository_id: repo-a
+repository_identity:
+  type: remote
+  value: github.com/company/repo-a
+target:
+  type: branch
+  ref: main
+resolved:
+  commit: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  tree: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  resolved_ref: refs/heads/main
+  object_format: sha1
+  current_branch: main
+capture:
+  mode: commit-tree
+  included:
+  - commit-tree
+  excluded:
+  - ignored
+  - unstaged
+  - untracked
+  - protected
+  - submodule-worktree
+  artifacts: []
+  untracked_files: []
+  state_digest: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+submodules: []
+content_digest: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+captured_at: '2026-07-21T00:00:00Z'

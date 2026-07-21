@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/memory-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "memory_id",
+    "application_id",
+    "snapshot_id",
+    "graph_id",
+    "status",
+    "artifacts",
+    "counts",
+    "quality",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/memory-manifest.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "memory_id": {
+      "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"
+    },
+    "application_id": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "graph_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "CURRENT",
+        "STALE",
+        "CONFLICTED"
+      ]
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256",
+          "records"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "records": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "evidence",
+        "entities",
+        "relations",
+        "claims",
+        "conflicts"
+      ],
+      "properties": {
+        "evidence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "entities": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "relations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "claims": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "conflicts": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": [
+        "evidence_coverage",
+        "unsupported_fact_claims",
+        "duplicate_ids"
+      ],
+      "properties": {
+        "evidence_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "unsupported_fact_claims": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "duplicate_ids": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "content_digest": {
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

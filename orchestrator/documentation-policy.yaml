@@ -1,0 +1,26 @@
+contract:
+  id: TU-DOCUMENTATION-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-technical-writer
+rules:
+- id: DOC-001
+  requirement: Canonical documentation is portable Markdown with traceability sidecars.
+- id: DOC-002
+  requirement: Mintlify MDX and other formats are generated projections, not canonical truth.
+- id: DOC-003
+  requirement: Every section declares classification, snapshot, evidence, freshness, and coverage.
+- id: DOC-004
+  requirement: Business intent not proven by implementation is UNKNOWN_INTENT or BUSINESS_INFERENCE.
+- id: DOC-005
+  requirement: Comprehensive claims require a coverage ledger with explicit exclusions.
+- id: DOC-006
+  requirement: Terminology follows human-confirmed glossary when available.
+- id: DOC-007
+  requirement: Material documents require independent critique and fact verification.
+canonical_format: markdown
+export_profiles:
+- github-markdown
+- mintlify-mdx
+- docusaurus-mdx
+- mkdocs-markdown

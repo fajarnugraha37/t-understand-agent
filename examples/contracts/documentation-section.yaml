@@ -1,0 +1,15 @@
+schema_id: https://t-understand.dev/schemas/documentation-section.schema.json
+schema_version: 1.0.0
+document_id: DOC-ORDER
+section_id: order-creation
+title: Order creation
+classification: IMPLEMENTED_BEHAVIOR
+application_snapshot: APP-SNAP-001
+content: The service persists a new order and then publishes an order-created event.
+claims:
+- CLM-ORDER-001
+evidence:
+- EVD-ORDER-001
+freshness: current
+coverage: complete-for-declared-scope
+limitations: []

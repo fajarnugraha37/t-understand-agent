@@ -1,0 +1,11 @@
+schema_id: https://t-understand.dev/schemas/claim.schema.json
+schema_version: 1.0.0
+id: CLM-ORDER-001
+application_snapshot: APP-SNAP-001
+classification: FACT
+statement: OrderService publishes an order-created event after persistence.
+evidence:
+- EVD-ORDER-001
+confidence: high
+freshness: current
+reasoning: The implementation persists the order before invoking the publisher.

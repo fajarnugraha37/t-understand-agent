@@ -1,0 +1,24 @@
+schema_id: https://t-understand.dev/schemas/agent-manifest.schema.json
+schema_version: 1.0.0
+id: tu-discoverer
+kind: worker
+title: Repository Discoverer
+purpose: Resolve repositories, snapshots, languages, modules, contracts, and candidate relationships.
+human_interaction: false
+can_delegate: false
+max_delegation_depth: 0
+fresh_invocation: true
+authorities:
+  allow:
+  - source_repository_read
+  - write_assigned_artifacts
+  - candidate_evidence_write
+  - snapshot_manifest_write
+  - inventory_write
+  deny:
+  - source_repository_write
+  - git_mutation
+  - external_system_write
+  - human_approval_fabrication
+  - workflow_state_transition
+  - worker_delegation

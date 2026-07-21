@@ -1,0 +1,17 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: python
+version: 1.0.0
+priority: 900
+languages:
+- python
+file_patterns:
+- '*.py'
+capabilities:
+  detection: structured
+  declarations: structured
+  dependencies: structured
+  interfaces: surface
+  configuration: surface
+fallback: false
+implementation: tu_runtime.adapters.builtins:PythonAdapter

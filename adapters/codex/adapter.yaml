@@ -1,0 +1,16 @@
+id: codex
+status: implemented
+scope: global-agents-root
+layout:
+  skills: skills/<skill-id>/SKILL.md
+  orchestrator_skill: skills/tu-understand/SKILL.md
+  profile: tu-understand.config.toml
+  command_rules: rules/tu-understand.rules
+install_mode: copy
+source_repository_target: denied
+verification:
+  - skill-frontmatter
+  - exact-SKILL.md-casing
+  - ownership-manifest
+  - checksum
+  - permission-policy

@@ -1,0 +1,46 @@
+{
+  "product": "t-understand",
+  "version": "0.9.0",
+  "phase": 9,
+  "phase_name": "Canonical Memory and Freshness",
+  "status": "PASS",
+  "inventory": {
+    "schemas": 6,
+    "runtime_managers": 1,
+    "cli_commands": 9,
+    "canonical_record_families": [
+      "evidence",
+      "entities",
+      "relations",
+      "claims",
+      "conflicts",
+      "invalidations"
+    ],
+    "runtime_indexes": [
+      "SQLite",
+      "FTS5-or-LIKE-fallback"
+    ]
+  },
+  "validation": {
+    "contract_checks": 30,
+    "tests": 5,
+    "cli_checks": 21
+  },
+  "assurances": {
+    "sole_canonical_writer": "tu-memory-curator",
+    "immutable_versions": true,
+    "atomic_current_pointer": true,
+    "fact_requires_evidence": true,
+    "conflict_preservation": true,
+    "snapshot_freshness": true,
+    "digest_invalidation": true,
+    "impact_propagation": true,
+    "index_rebuildable": true,
+    "cheap_model_dependency": false
+  },
+  "explicit_limitations": [
+    "Embeddings are not implemented and are not required for canonical correctness.",
+    "Freshness across different snapshots is stale until a digest comparison and refresh are completed.",
+    "Downstream model and document invalidation hooks are reserved for Phases 10 and 11 because those artifacts do not yet exist."
+  ]
+}

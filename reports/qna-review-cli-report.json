@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "checks": 5,
+  "errors": [],
+  "commands": [
+    {
+      "command": "--help",
+      "returncode": 0
+    },
+    {
+      "command": "review-export-profiles",
+      "returncode": 0
+    },
+    {
+      "command": "qna-list",
+      "returncode": 0
+    },
+    {
+      "command": "review-list",
+      "returncode": 0
+    },
+    {
+      "command": "review-export-list",
+      "returncode": 0
+    }
+  ]
+}

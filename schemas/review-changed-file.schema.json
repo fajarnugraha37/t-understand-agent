@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/review-changed-file.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "repository",
+    "path",
+    "status",
+    "additions",
+    "deletions",
+    "binary",
+    "candidate_revision"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/review-changed-file.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^CHG-"
+    },
+    "repository": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ADDED",
+        "MODIFIED",
+        "REMOVED",
+        "AUDITED"
+      ]
+    },
+    "additions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "deletions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "binary": {
+      "type": "boolean"
+    },
+    "candidate_revision": {
+      "type": "string"
+    },
+    "baseline_revision": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "classification": {
+      "type": "string"
+    }
+  }
+}

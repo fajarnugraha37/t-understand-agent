@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "checks": 460,
+  "workflow_families": 5,
+  "workflow_states": 55,
+  "model_profiles": 3,
+  "errors": []
+}

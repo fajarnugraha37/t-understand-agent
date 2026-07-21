@@ -1,0 +1,7 @@
+{
+  "id": "monorepo-module-coverage",
+  "status": "PASS",
+  "assertions": 1,
+  "duration_ms": 494,
+  "failures": []
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/install-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "install_id",
+    "package_id",
+    "platform",
+    "target_root",
+    "status",
+    "files",
+    "backups",
+    "installed_at",
+    "content_digest"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/install-manifest.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "install_id": {
+      "type": "string",
+      "pattern": "^INST-"
+    },
+    "package_id": {
+      "type": "string",
+      "pattern": "^INST-"
+    },
+    "platform": {
+      "enum": [
+        "opencode",
+        "codex",
+        "claude-code",
+        "cursor"
+      ]
+    },
+    "target_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "const": "INSTALLED"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "backups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "installed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

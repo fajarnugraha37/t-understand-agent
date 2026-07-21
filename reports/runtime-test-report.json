@@ -1,0 +1,86 @@
+{
+  "status": "PASS",
+  "tests": 18,
+  "categories": {
+    "unit": 7,
+    "negative": 9,
+    "end_to_end": 2
+  },
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "results": [
+    {
+      "test": "tests.runtime.test_e2e.EndToEndWorkflowTests.test_every_registered_workflow_reaches_terminal_state",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_e2e.EndToEndWorkflowTests.test_loopback_marks_dependent_artifacts_stale_and_restarts_target",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_engine.EngineTests.test_all_workflows_initialize_at_registered_initial_state",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_engine.EngineTests.test_blocked_result_can_be_resumed_without_transition",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_engine.EngineTests.test_delegation_is_depth_one_and_source_read_only",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_engine.EngineTests.test_invalid_profile_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_engine.EngineTests.test_root_state_routes_to_human_action",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_engine.EngineTests.test_runtime_work_validation_detects_artifact_tampering",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_engine.EngineTests.test_worker_route_is_idempotent_while_waiting",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_documentation_publication_requires_human_approval",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_forward_loopback_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_nested_delegation_packet_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_result_digest_mismatch_is_rejected_without_committing_result",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_result_from_wrong_worker_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_result_path_traversal_is_rejected_by_schema",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_result_replay_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_root_cannot_skip_to_unregistered_state",
+      "status": "PASS"
+    },
+    {
+      "test": "tests.runtime.test_negative.NegativeRuntimeTests.test_stale_result_identity_is_rejected",
+      "status": "PASS"
+    }
+  ]
+}

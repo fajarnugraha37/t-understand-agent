@@ -1,0 +1,55 @@
+contract:
+  id: TU-MODEL-PROFILES
+  version: 1.0.0
+  status: canonical
+profiles:
+  economy:
+    model: inherit
+    flagship_required: false
+    parallelism: false
+    max_workers: 1
+    maximum_delegation_depth: 1
+    context_strategy: evidence-slices
+    one_primary_objective: true
+    structured_output_required: true
+    critic_required_for:
+    - system-model
+    - technical-document
+    - business-document
+    - qna-answer
+    - major-review-finding
+    deterministic_verification_required: true
+    silent_assumption: deny
+  balanced:
+    model: inherit
+    flagship_required: false
+    parallelism: read-only-independent-only
+    max_workers: 3
+    maximum_delegation_depth: 1
+    context_strategy: bounded-evidence-packets
+    one_primary_objective: true
+    structured_output_required: true
+    deterministic_verification_required: true
+    silent_assumption: deny
+  deep-analysis:
+    model: explicit-escalation
+    flagship_required: false
+    parallelism: read-only-independent-only
+    max_workers: 5
+    maximum_delegation_depth: 1
+    context_strategy: expanded-evidence-packets
+    one_primary_objective: true
+    structured_output_required: true
+    deterministic_verification_required: true
+    silent_assumption: deny
+escalation_triggers:
+- unresolved_conflict
+- insufficient_context_window
+- repeated_schema_failure
+- high-impact_ambiguity
+- cross-language_semantic_gap
+escalation_never_grants:
+- source_repository_write
+- human_authority
+- worker_delegation
+- validator_bypass

@@ -1,0 +1,38 @@
+{
+  "product": "t-understand",
+  "version": "0.12.0",
+  "phase": 12,
+  "phase_name": "Documentation Exporters",
+  "status": "PASS",
+  "inventory": {
+    "profiles": [
+      "plain-markdown",
+      "github-markdown",
+      "mintlify-mdx",
+      "docusaurus-mdx",
+      "mkdocs-markdown"
+    ],
+    "schemas": 2,
+    "cli_commands": 5,
+    "profile_count": 5
+  },
+  "validation": {
+    "contract_checks": 10,
+    "tests": 5,
+    "shared_cli_checks": 12
+  },
+  "assurances": {
+    "canonical_document_unchanged": true,
+    "presentation_only_transformation": true,
+    "immutable_exports": true,
+    "source_digest": true,
+    "file_checksums": true,
+    "link_validation": true,
+    "markdown_fence_validation": true,
+    "profile_configuration_validation": true
+  },
+  "explicit_limitations": [
+    "Mintlify, Docusaurus, and MkDocs outputs receive deterministic structural validation; this does not claim execution of external hosted build services.",
+    "Exporter profiles do not change canonical classifications, claims, evidence, or traceability."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "tests": 15,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "unit": 4,
+    "resolution": 4,
+    "negative": 7
+  }
+}

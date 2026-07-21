@@ -1,0 +1,14 @@
+contract:
+  id: TU-RELEASE-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-verifier
+rules:
+- id: REL-001
+  requirement: Version 1.0.0 requires all Phase 1-20 gates and backward regression.
+- id: REL-002
+  requirement: Source tree must exclude pycache and compiled Python artifacts.
+- id: REL-003
+  requirement: Final bundle includes checksums, SBOM, release qualification, assurance documents, and deterministic packaging evidence.
+- id: REL-004
+  requirement: Extracted-package verification is mandatory and must not rely only on the working tree.

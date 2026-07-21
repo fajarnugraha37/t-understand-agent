@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "evidence_and_behavior": 2,
+    "scoped_and_incremental": 2,
+    "tamper": 1
+  }
+}

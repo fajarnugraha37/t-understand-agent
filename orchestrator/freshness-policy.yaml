@@ -1,0 +1,16 @@
+contract:
+  id: TU-FRESHNESS-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-memory-curator
+rules:
+- id: FRS-001
+  requirement: Every derived artifact declares its application snapshot.
+- id: FRS-002
+  requirement: Changed source digests invalidate dependent evidence, claims, models, and document sections.
+- id: FRS-003
+  requirement: Stale records cannot support a current FACT without revalidation.
+- id: FRS-004
+  requirement: Incremental refresh must preserve semantic equivalence with full rebuild for affected scope.
+- id: FRS-005
+  requirement: Unknown freshness blocks publication and major review verdicts.

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/qna-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "answer_id",
+    "memory_id",
+    "snapshot_id",
+    "status",
+    "artifacts",
+    "quality",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/qna-manifest.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "answer_id": {
+      "type": "string",
+      "pattern": "^QNA-"
+    },
+    "memory_id": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ANSWERED",
+        "PARTIAL",
+        "UNKNOWN"
+      ]
+    },
+    "artifacts": {
+      "type": "object",
+      "minProperties": 6,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retrieval_count",
+        "verified_claims",
+        "citation_coverage",
+        "unsupported_claims"
+      ],
+      "properties": {
+        "retrieval_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verified_claims": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "citation_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "unsupported_claims": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

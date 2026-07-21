@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/documentation-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "docset_id",
+    "application_id",
+    "snapshot_id",
+    "memory_id",
+    "model_id",
+    "status",
+    "artifacts",
+    "documents",
+    "quality",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/documentation-manifest.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "docset_id": {
+      "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"
+    },
+    "application_id": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "memory_id": {
+      "type": "string"
+    },
+    "model_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "CURRENT",
+        "STALE",
+        "CONFLICTED",
+        "PARTIAL"
+      ]
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "records": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "document_id",
+          "path",
+          "audience",
+          "sha256",
+          "sections"
+        ],
+        "properties": {
+          "document_id": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "audience": {
+            "enum": [
+              "technical",
+              "business",
+              "mixed"
+            ]
+          },
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "sections": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": [
+        "section_traceability",
+        "unsupported_sections",
+        "stale_sections",
+        "catalog_coverage"
+      ],
+      "properties": {
+        "section_traceability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "unsupported_sections": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stale_sections": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "catalog_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "content_digest": {
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

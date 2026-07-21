@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/claim.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "application_snapshot",
+    "classification",
+    "statement",
+    "evidence",
+    "confidence",
+    "freshness"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/claim.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "pattern": "^CLM-[A-Z0-9-]+$"
+    },
+    "application_snapshot": {
+      "type": "string"
+    },
+    "classification": {
+      "enum": [
+        "FACT",
+        "INFERENCE",
+        "ASSUMPTION",
+        "HUMAN_CONFIRMED",
+        "UNKNOWN",
+        "CONFLICT",
+        "STALE"
+      ]
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 5
+    },
+    "evidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^EVD-"
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "not-applicable"
+      ]
+    },
+    "freshness": {
+      "enum": [
+        "current",
+        "stale",
+        "unknown",
+        "conflicted"
+      ]
+    },
+    "reasoning": {
+      "type": "string"
+    },
+    "human_confirmation_id": {
+      "type": "string"
+    },
+    "unknown_reason": {
+      "type": "string"
+    },
+    "conflicting_claims": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "enum": [
+              "FACT",
+              "INFERENCE"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "minItems": 1
+          }
+        },
+        "required": [
+          "reasoning"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "HUMAN_CONFIRMED"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "human_confirmation_id"
+        ],
+        "properties": {
+          "evidence": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "UNKNOWN"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "unknown_reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "CONFLICT"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "conflicting_claims"
+        ],
+        "properties": {
+          "conflicting_claims": {
+            "minItems": 2
+          },
+          "freshness": {
+            "const": "conflicted"
+          }
+        }
+      }
+    }
+  ]
+}

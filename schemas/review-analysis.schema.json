@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/review-analysis.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "review_run_id",
+    "review_target_id",
+    "mode",
+    "profile",
+    "status",
+    "changed_files",
+    "finding_count",
+    "summary",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/review-analysis.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "review_run_id": {
+      "type": "string",
+      "pattern": "^RVW-"
+    },
+    "review_target_id": {
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "STATIC_AUDIT",
+        "DIFF"
+      ]
+    },
+    "profile": {
+      "enum": [
+        "critical-only",
+        "balanced",
+        "assertive",
+        "audit"
+      ]
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FINDINGS",
+        "BLOCKED"
+      ]
+    },
+    "changed_files": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "finding_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "summary": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

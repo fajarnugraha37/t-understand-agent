@@ -1,0 +1,487 @@
+contract:
+  id: TU-LIFECYCLE-REGISTRY
+  version: 1.0.0
+  status: canonical
+states:
+- workflow: foundation
+  id: APPLICATION_ALIGNMENT
+  owner: t-understand
+  terminal: false
+  outputs:
+  - application-alignment
+  skill: tu-application-alignment
+  next_states:
+  - WORKSPACE_RESOLUTION
+- workflow: foundation
+  id: WORKSPACE_RESOLUTION
+  owner: tu-discoverer
+  terminal: false
+  outputs:
+  - workspace-resolution
+  skill: tu-workspace-resolution
+  next_states:
+  - REPOSITORY_DISCOVERY
+- workflow: foundation
+  id: REPOSITORY_DISCOVERY
+  owner: tu-discoverer
+  terminal: false
+  outputs:
+  - repository-discovery
+  skill: tu-repository-discovery
+  next_states:
+  - SNAPSHOT_CAPTURE
+- workflow: foundation
+  id: SNAPSHOT_CAPTURE
+  owner: tu-discoverer
+  terminal: false
+  outputs:
+  - application-snapshot
+  skill: tu-snapshot-capture
+  next_states:
+  - SOURCE_INVENTORY
+- workflow: foundation
+  id: SOURCE_INVENTORY
+  owner: tu-discoverer
+  terminal: false
+  outputs:
+  - source-inventory
+  skill: tu-source-inventory
+  next_states:
+  - STRUCTURAL_ANALYSIS
+- workflow: foundation
+  id: STRUCTURAL_ANALYSIS
+  owner: tu-analyzer
+  terminal: false
+  outputs:
+  - structural-analysis
+  skill: tu-structural-analysis
+  next_states:
+  - BEHAVIOR_ANALYSIS
+- workflow: foundation
+  id: BEHAVIOR_ANALYSIS
+  owner: tu-analyzer
+  terminal: false
+  outputs:
+  - behavior-analysis
+  skill: tu-behavior-analysis
+  next_states:
+  - CROSS_REPOSITORY_LINKING
+- workflow: foundation
+  id: CROSS_REPOSITORY_LINKING
+  owner: tu-modeler
+  terminal: false
+  outputs:
+  - cross-repository-links
+  skill: tu-cross-repository-linking
+  next_states:
+  - SYSTEM_MODELING
+- workflow: foundation
+  id: SYSTEM_MODELING
+  owner: tu-modeler
+  terminal: false
+  outputs:
+  - system-model
+  skill: tu-system-modeling
+  next_states:
+  - MEMORY_CONSOLIDATION
+- workflow: foundation
+  id: MEMORY_CONSOLIDATION
+  owner: tu-memory-curator
+  terminal: false
+  outputs:
+  - canonical-memory-delta
+  skill: tu-memory-consolidation
+  next_states:
+  - MEMORY_CRITIQUE
+- workflow: foundation
+  id: MEMORY_CRITIQUE
+  owner: tu-critic
+  terminal: false
+  outputs:
+  - memory-critique
+  skill: tu-memory-critique
+  next_states:
+  - MEMORY_VERIFICATION
+- workflow: foundation
+  id: MEMORY_VERIFICATION
+  owner: tu-verifier
+  terminal: false
+  outputs:
+  - memory-verification
+  skill: tu-memory-verification
+  next_states:
+  - READY
+- workflow: foundation
+  id: READY
+  owner: t-understand
+  terminal: true
+  outputs: []
+  next_states: []
+- workflow: refresh
+  id: CHANGE_DETECTION
+  owner: tu-discoverer
+  terminal: false
+  outputs:
+  - change-detection
+  skill: tu-change-detection
+  next_states:
+  - IMPACT_IDENTIFICATION
+- workflow: refresh
+  id: IMPACT_IDENTIFICATION
+  owner: tu-analyzer
+  terminal: false
+  outputs:
+  - impact-identification
+  skill: tu-impact-identification
+  next_states:
+  - MEMORY_INVALIDATION
+- workflow: refresh
+  id: MEMORY_INVALIDATION
+  owner: tu-memory-curator
+  terminal: false
+  outputs:
+  - memory-invalidation
+  skill: tu-memory-invalidation
+  next_states:
+  - SELECTIVE_REANALYSIS
+- workflow: refresh
+  id: SELECTIVE_REANALYSIS
+  owner: tu-analyzer
+  terminal: false
+  outputs:
+  - selective-reanalysis
+  skill: tu-selective-reanalysis
+  next_states:
+  - MODEL_RECONCILIATION
+- workflow: refresh
+  id: MODEL_RECONCILIATION
+  owner: tu-modeler
+  terminal: false
+  outputs:
+  - model-reconciliation
+  skill: tu-model-reconciliation
+  next_states:
+  - DOCUMENT_INVALIDATION
+- workflow: refresh
+  id: DOCUMENT_INVALIDATION
+  owner: tu-memory-curator
+  terminal: false
+  outputs:
+  - document-invalidation
+  skill: tu-document-invalidation
+  next_states:
+  - REFRESH_VERIFICATION
+- workflow: refresh
+  id: REFRESH_VERIFICATION
+  owner: tu-verifier
+  terminal: false
+  outputs:
+  - refresh-verification
+  skill: tu-refresh-verification
+  next_states:
+  - READY
+- workflow: refresh
+  id: READY
+  owner: t-understand
+  terminal: true
+  outputs: []
+  next_states: []
+- workflow: documentation
+  id: DOCUMENTATION_SCOPE
+  owner: t-understand
+  terminal: false
+  outputs:
+  - documentation-scope
+  skill: tu-documentation-scope
+  next_states:
+  - EVIDENCE_COVERAGE
+- workflow: documentation
+  id: EVIDENCE_COVERAGE
+  owner: tu-analyzer
+  terminal: false
+  outputs:
+  - evidence-coverage
+  skill: tu-evidence-coverage
+  next_states:
+  - INFORMATION_ARCHITECTURE
+- workflow: documentation
+  id: INFORMATION_ARCHITECTURE
+  owner: tu-technical-writer
+  terminal: false
+  outputs:
+  - information-architecture
+  skill: tu-information-architecture
+  next_states:
+  - DOCUMENT_PLAN
+- workflow: documentation
+  id: DOCUMENT_PLAN
+  owner: tu-technical-writer
+  terminal: false
+  outputs:
+  - document-plan
+  skill: tu-document-plan
+  next_states:
+  - TECHNICAL_DRAFT
+- workflow: documentation
+  id: TECHNICAL_DRAFT
+  owner: tu-technical-writer
+  terminal: false
+  outputs:
+  - technical-document
+  skill: tu-technical-documentation
+  next_states:
+  - BUSINESS_DRAFT
+- workflow: documentation
+  id: BUSINESS_DRAFT
+  owner: tu-business-writer
+  terminal: false
+  outputs:
+  - business-document
+  skill: tu-business-documentation
+  next_states:
+  - TRACEABILITY_BINDING
+- workflow: documentation
+  id: TRACEABILITY_BINDING
+  owner: tu-technical-writer
+  terminal: false
+  outputs:
+  - documentation-trace
+  skill: tu-documentation-traceability
+  next_states:
+  - DOCUMENT_CRITIQUE
+- workflow: documentation
+  id: DOCUMENT_CRITIQUE
+  owner: tu-critic
+  terminal: false
+  outputs:
+  - documentation-critique
+  skill: tu-documentation-critique
+  next_states:
+  - FACT_VERIFICATION
+- workflow: documentation
+  id: FACT_VERIFICATION
+  owner: tu-verifier
+  terminal: false
+  outputs:
+  - documentation-fact-verification
+  skill: tu-fact-verification
+  next_states:
+  - LINK_AND_RENDER_VALIDATION
+- workflow: documentation
+  id: LINK_AND_RENDER_VALIDATION
+  owner: tu-verifier
+  terminal: false
+  outputs:
+  - render-validation
+  skill: tu-render-validation
+  next_states:
+  - HUMAN_APPROVAL
+- workflow: documentation
+  id: HUMAN_APPROVAL
+  owner: t-understand
+  terminal: false
+  outputs:
+  - human-publication-approval
+  skill: tu-human-publication-approval
+  next_states:
+  - PUBLISHED
+- workflow: documentation
+  id: PUBLISHED
+  owner: t-understand
+  terminal: true
+  outputs: []
+  next_states: []
+- workflow: qna
+  id: QUESTION_ALIGNMENT
+  owner: t-understand
+  terminal: false
+  outputs:
+  - question-alignment
+  skill: tu-question-alignment
+  next_states:
+  - SNAPSHOT_SELECTION
+- workflow: qna
+  id: SNAPSHOT_SELECTION
+  owner: t-understand
+  terminal: false
+  outputs:
+  - qna-snapshot-selection
+  skill: tu-snapshot-selection
+  next_states:
+  - RETRIEVAL
+- workflow: qna
+  id: RETRIEVAL
+  owner: tu-answerer
+  terminal: false
+  outputs:
+  - retrieval-set
+  skill: tu-evidence-retrieval
+  next_states:
+  - FRESHNESS_CHECK
+- workflow: qna
+  id: FRESHNESS_CHECK
+  owner: tu-memory-curator
+  terminal: false
+  outputs:
+  - freshness-assessment
+  skill: tu-freshness-check
+  next_states:
+  - DIRECT_SOURCE_VERIFICATION
+- workflow: qna
+  id: DIRECT_SOURCE_VERIFICATION
+  owner: tu-answerer
+  terminal: false
+  outputs:
+  - direct-source-verification
+  skill: tu-direct-source-verification
+  next_states:
+  - ANSWER_SYNTHESIS
+- workflow: qna
+  id: ANSWER_SYNTHESIS
+  owner: tu-answerer
+  terminal: false
+  outputs:
+  - qna-answer
+  skill: tu-answer-synthesis
+  next_states:
+  - ANSWER_CRITIQUE
+- workflow: qna
+  id: ANSWER_CRITIQUE
+  owner: tu-critic
+  terminal: false
+  outputs:
+  - answer-critique
+  skill: tu-answer-critique
+  next_states:
+  - CITATION_VALIDATION
+- workflow: qna
+  id: CITATION_VALIDATION
+  owner: tu-verifier
+  terminal: false
+  outputs:
+  - citation-validation
+  skill: tu-citation-validation
+  next_states:
+  - ANSWERED
+- workflow: qna
+  id: ANSWERED
+  owner: t-understand
+  terminal: true
+  outputs: []
+  next_states: []
+- workflow: review
+  id: REVIEW_SCOPE
+  owner: t-understand
+  terminal: false
+  outputs:
+  - review-scope
+  skill: tu-review-scope
+  next_states:
+  - TARGET_RESOLUTION
+- workflow: review
+  id: TARGET_RESOLUTION
+  owner: tu-discoverer
+  terminal: false
+  outputs:
+  - review-target
+  skill: tu-target-resolution
+  next_states:
+  - REVIEW_SNAPSHOT_CAPTURE
+- workflow: review
+  id: REVIEW_SNAPSHOT_CAPTURE
+  owner: tu-discoverer
+  terminal: false
+  outputs:
+  - review-snapshot
+  skill: tu-review-snapshot-capture
+  next_states:
+  - DIFF_OR_AUDIT_ANALYSIS
+- workflow: review
+  id: DIFF_OR_AUDIT_ANALYSIS
+  owner: tu-reviewer
+  terminal: false
+  outputs:
+  - diff-analysis
+  - static-audit-analysis
+  skill: tu-diff-analysis
+  next_states:
+  - CHANGE_WALKTHROUGH
+- workflow: review
+  id: CHANGE_WALKTHROUGH
+  owner: tu-reviewer
+  terminal: false
+  outputs:
+  - change-walkthrough
+  skill: tu-change-walkthrough
+  next_states:
+  - IMPACT_TRACING
+- workflow: review
+  id: IMPACT_TRACING
+  owner: tu-reviewer
+  terminal: false
+  outputs:
+  - impact-analysis
+  skill: tu-impact-tracing
+  next_states:
+  - SPECIALIZED_REVIEWS
+- workflow: review
+  id: SPECIALIZED_REVIEWS
+  owner: tu-reviewer
+  terminal: false
+  outputs:
+  - specialized-review
+  skill: tu-specialized-review
+  next_states:
+  - FINDING_DEDUPLICATION
+- workflow: review
+  id: FINDING_DEDUPLICATION
+  owner: tu-reviewer
+  terminal: false
+  outputs:
+  - deduplicated-findings
+  skill: tu-finding-deduplication
+  next_states:
+  - FINDING_CRITIQUE
+- workflow: review
+  id: FINDING_CRITIQUE
+  owner: tu-critic
+  terminal: false
+  outputs:
+  - finding-critique
+  skill: tu-finding-critique
+  next_states:
+  - SEVERITY_CALIBRATION
+- workflow: review
+  id: SEVERITY_CALIBRATION
+  owner: tu-reviewer
+  terminal: false
+  outputs:
+  - severity-calibration
+  skill: tu-severity-calibration
+  next_states:
+  - REVIEW_VERIFICATION
+- workflow: review
+  id: REVIEW_VERIFICATION
+  owner: tu-verifier
+  terminal: false
+  outputs:
+  - review-verification
+  skill: tu-review-verification
+  next_states:
+  - REPORT_EXPORT
+- workflow: review
+  id: REPORT_EXPORT
+  owner: tu-reviewer
+  terminal: false
+  outputs:
+  - review-export
+  skill: tu-review-export
+  next_states:
+  - COMPLETED
+- workflow: review
+  id: COMPLETED
+  owner: t-understand
+  terminal: true
+  outputs: []
+  next_states: []
+loopback_policy: route_to_earliest_owner_of_invalid_claim_or_artifact

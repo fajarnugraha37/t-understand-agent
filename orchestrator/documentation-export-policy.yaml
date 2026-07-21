@@ -1,0 +1,22 @@
+contract:
+  id: TU-DOCUMENTATION-EXPORT-POLICY
+  version: 1.0.0
+  status: canonical
+rules:
+  canonical_document_mutation: deny
+  semantic_transformation: deny
+  presentation_only_transformation: required
+  immutable_exports: true
+  source_docset_digest_required: true
+  file_checksums_required: true
+  link_validation_required: true
+  fenced_code_validation_required: true
+  profile_configuration_required: true
+profiles:
+  - plain-markdown
+  - github-markdown
+  - mintlify-mdx
+  - docusaurus-mdx
+  - mkdocs-markdown
+limitations:
+  - Structural output validation does not claim execution of third-party hosted renderers.

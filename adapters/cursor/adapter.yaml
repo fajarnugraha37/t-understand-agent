@@ -1,0 +1,17 @@
+id: cursor
+status: implemented
+scope: explicit-rules-root
+layout:
+  rule: rules/t-understand.mdc
+  references: t-understand/<artifact-family>
+  permissions: cli-config.json
+install_mode: copy
+source_repository_target: denied
+limitations:
+  - Cursor adapter uses project-rule format but installation into a registered source repository is intentionally refused by t-understand.
+  - Generate a package and copy it manually only after human review when project-local activation is required.
+verification:
+  - mdc-frontmatter
+  - ownership-manifest
+  - checksum
+  - permission-policy

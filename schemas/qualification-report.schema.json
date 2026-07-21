@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/qualification-report.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "qualification_id",
+    "runner",
+    "status",
+    "claim_boundary",
+    "matrix",
+    "generated_at",
+    "content_digest"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/qualification-report.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "qualification_id": {
+      "type": "string",
+      "pattern": "^QUAL-"
+    },
+    "runner": {
+      "const": "contract-simulator"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "claim_boundary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "matrix": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile",
+          "runner",
+          "qualification",
+          "live_model_tested",
+          "scenarios"
+        ],
+        "properties": {
+          "profile": {
+            "enum": [
+              "economy",
+              "balanced",
+              "deep-analysis"
+            ]
+          },
+          "runner": {
+            "const": "contract-simulator"
+          },
+          "qualification": {
+            "enum": [
+              "CONTRACT_QUALIFIED",
+              "FAIL"
+            ]
+          },
+          "live_model_tested": {
+            "type": "boolean"
+          },
+          "scenarios": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "scenario",
+                "status",
+                "input_tokens",
+                "attempts",
+                "schema_valid",
+                "deterministic_verification"
+              ],
+              "properties": {
+                "scenario": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL"
+                  ]
+                },
+                "input_tokens": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "attempts": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "schema_valid": {
+                  "type": "boolean"
+                },
+                "deterministic_verification": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

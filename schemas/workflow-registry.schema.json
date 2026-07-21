@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/workflow-registry.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "required": [
+    "contract",
+    "workflows"
+  ],
+  "properties": {
+    "contract": {
+      "type": "object"
+    },
+    "workflows": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "initial_state",
+          "terminal_states",
+          "states"
+        ]
+      }
+    }
+  }
+}

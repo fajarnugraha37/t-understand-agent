@@ -1,0 +1,18 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: generic
+version: 1.0.0
+priority: 0
+languages:
+- text
+- unknown
+file_patterns:
+- '*'
+capabilities:
+  detection: detect
+  declarations: none
+  dependencies: none
+  interfaces: none
+  configuration: none
+fallback: true
+implementation: tu_runtime.adapters.builtins:GenericAdapter

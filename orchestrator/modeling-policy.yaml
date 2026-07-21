@@ -1,0 +1,40 @@
+contract:
+  id: TU-MODELING-POLICY
+  version: 1.0.0
+  status: canonical
+rules:
+  source_of_truth: canonical-memory
+  immutable_model_versions: true
+  sole_model_writer: tu-modeler
+  required_classifications:
+    - FACT
+    - IMPLEMENTED_BEHAVIOR
+    - BUSINESS_INFERENCE
+    - HUMAN_CONFIRMED
+    - UNKNOWN
+    - CONFLICT
+    - LIMITATION
+  evidence_required_for:
+    - FACT
+    - IMPLEMENTED_BEHAVIOR
+    - BUSINESS_INFERENCE
+    - HUMAN_CONFIRMED
+  business_fact_promotion: deny
+  unknown_over_invention: required
+  conflict_preservation: required
+  section_traceability: required
+  deterministic_verification: required
+model_catalog:
+  - application-model
+  - architecture-model
+  - dependency-model
+  - data-model
+  - event-model
+  - deployment-model
+  - security-model
+  - business-capabilities
+  - business-rules
+  - actors
+  - state-model
+  - flows
+  - terminology

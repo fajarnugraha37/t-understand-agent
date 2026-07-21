@@ -1,0 +1,36 @@
+contract:
+  id: TU-DOCUMENTATION-GENERATION-POLICY
+  version: 1.0.0
+  status: canonical
+rules:
+  canonical_format: markdown
+  immutable_docsets: true
+  source_model_required: true
+  source_memory_required: true
+  snapshot_binding_required: true
+  section_level_traceability: true
+  supported_section_claims_require_evidence: true
+  business_inference_disclosure: required
+  unknown_intent_must_remain_unknown: true
+  stale_section_silent_use: deny
+  coverage_ledger_required: true
+  deterministic_critique_required: true
+  deterministic_verification_required: true
+  source_repository_write: deny
+catalog:
+  technical:
+    - application-overview
+    - system-context
+    - dependencies
+    - repositories
+    - interfaces
+    - data-model
+    - deployment-security
+  business:
+    - business-overview
+    - business-capabilities
+    - actors
+    - business-rules
+    - lifecycle-states
+  mixed:
+    - terminology

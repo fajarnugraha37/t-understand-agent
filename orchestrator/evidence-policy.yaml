@@ -1,0 +1,28 @@
+contract:
+  id: TU-EVIDENCE-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-memory-curator
+rules:
+- id: EVD-001
+  requirement: Implementation claims require source evidence.
+- id: EVD-002
+  requirement: Evidence records include repository, revision, relative path, content digest, and locator.
+- id: EVD-003
+  requirement: README and existing documentation are secondary evidence unless the question is about those documents.
+- id: EVD-004
+  requirement: FACT and HUMAN_CONFIRMED claims require evidence or confirmation records.
+- id: EVD-005
+  requirement: INFERENCE requires supporting evidence and explicit reasoning.
+- id: EVD-006
+  requirement: Unresolved contradiction becomes CONFLICT, never an arbitrary chosen fact.
+- id: EVD-007
+  requirement: Evidence tied to a changed digest becomes stale.
+classifications:
+- FACT
+- INFERENCE
+- ASSUMPTION
+- HUMAN_CONFIRMED
+- UNKNOWN
+- CONFLICT
+- STALE

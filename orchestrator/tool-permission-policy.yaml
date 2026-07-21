@@ -1,0 +1,70 @@
+contract:
+  id: TU-TOOL-PERMISSION-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+principle: Local work should proceed without approval prompts; unsafe scope is denied rather than escalated to ask.
+rules:
+- id: TPP-001
+  requirement: Tools operating inside the active working directory are allowed without per-action approval prompts.
+- id: TPP-002
+  requirement: File reads or writes outside the active working directory are denied by default.
+- id: TPP-003
+  requirement: GitHub CLI commands are denied without exception.
+- id: TPP-004
+  requirement: Direct Git use is limited to read-only inspection commands; repository-mutating Git commands are denied.
+- id: TPP-005
+  requirement: A denied operation fails closed and must not be converted into an interactive permission request.
+- id: TPP-006
+  requirement: Platform permission grants do not expand agent authority; t-understand still writes durable outputs only to approved context or runtime targets.
+- id: TPP-007
+  requirement: Terminal workers remain unable to delegate even when their local tools are broadly allowed.
+allowed_local_capabilities:
+- read
+- search
+- create
+- edit
+- delete
+- move
+- execute
+- build
+- test
+- validate
+- package
+- local-process-management
+read_only_git_commands:
+- status
+- diff
+- log
+- show
+- rev-parse
+- symbolic-ref
+- branch --show-current
+- branch --list
+- tag --list
+- ls-files
+- ls-tree
+- cat-file
+- grep
+- remote -v
+- remote get-url
+- config --get
+- config --get-all
+- config --list
+- describe
+- name-rev
+- merge-base
+- for-each-ref
+- blame
+- shortlog
+- count-objects
+- submodule status
+- worktree list
+- reflog show
+- fsck
+deny:
+- outside-working-directory
+- gh
+- git-mutation
+- nested-delegation
+prompt_fallback: denied

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/cross-repository-relation.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "application_snapshot",
+    "type",
+    "source_repository",
+    "source_entity",
+    "target_repository",
+    "target_entity",
+    "contract_key",
+    "evidence",
+    "classification",
+    "confidence",
+    "reasoning",
+    "freshness"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/cross-repository-relation.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "pattern": "^XREL-[A-F0-9]{16}$"
+    },
+    "application_snapshot": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "CALLS",
+        "PRODUCES_FOR",
+        "DEPENDS_ON",
+        "SHARES_DATA_WITH"
+      ]
+    },
+    "source_repository": {
+      "type": "string"
+    },
+    "source_entity": {
+      "pattern": "^ENT-"
+    },
+    "target_repository": {
+      "type": "string"
+    },
+    "target_entity": {
+      "pattern": "^ENT-"
+    },
+    "contract_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^EVD-"
+      }
+    },
+    "classification": {
+      "enum": [
+        "FACT",
+        "INFERENCE",
+        "HUMAN_CONFIRMED"
+      ]
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "reasoning": {
+      "type": "string",
+      "minLength": 5
+    },
+    "freshness": {
+      "enum": [
+        "current",
+        "stale",
+        "unknown"
+      ]
+    }
+  }
+}

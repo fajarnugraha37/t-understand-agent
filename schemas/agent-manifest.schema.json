@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/agent-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "kind",
+    "title",
+    "purpose",
+    "human_interaction",
+    "can_delegate",
+    "max_delegation_depth",
+    "fresh_invocation",
+    "authorities"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/agent-manifest.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "pattern": "^(t-understand|tu-[a-z0-9-]+)$"
+    },
+    "kind": {
+      "enum": [
+        "orchestrator",
+        "worker"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 20
+    },
+    "human_interaction": {
+      "type": "boolean"
+    },
+    "can_delegate": {
+      "type": "boolean"
+    },
+    "max_delegation_depth": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "fresh_invocation": {
+      "type": "boolean"
+    },
+    "authorities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allow",
+        "deny"
+      ],
+      "properties": {
+        "allow": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "deny": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

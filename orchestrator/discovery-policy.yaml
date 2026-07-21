@@ -1,0 +1,50 @@
+contract:
+  id: TU-DISCOVERY-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+inputs:
+  application_snapshot: required
+  workspace_resolution: required
+source_access:
+  mode: READ_ONLY
+  protected_content: deny
+  ignored_content: deny
+  symlink_content: deny
+inventory:
+  all_snapshot_files: required
+  deterministic_order: path-ascending
+  content_hash: sha256
+  classifications:
+  - source
+  - test
+  - configuration
+  - build
+  - contract
+  - migration
+  - deployment
+  - ci
+  - documentation
+  - generated
+  - vendored
+  - asset
+  - unknown
+exclusions:
+  retain_metadata: true
+  reasons:
+  - protected
+  - generated
+  - vendored
+  - binary
+  - oversized
+  - symlink
+  - submodule
+coverage:
+  repository_ledger: required
+  application_ledger: required
+  unsupported_constructs: explicit
+outputs:
+  root: discovery/<discovery-id>
+  application: application-discovery.yaml
+  repository: repositories/<repository-id>.yaml
+  files: repositories/<repository-id>.files.jsonl

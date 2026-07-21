@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/export-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "export_id",
+    "docset_id",
+    "profile",
+    "status",
+    "files",
+    "source_digest",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/export-manifest.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "export_id": {
+      "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"
+    },
+    "docset_id": {
+      "type": "string"
+    },
+    "profile": {
+      "enum": [
+        "plain-markdown",
+        "github-markdown",
+        "mintlify-mdx",
+        "docusaurus-mdx",
+        "mkdocs-markdown"
+      ]
+    },
+    "status": {
+      "enum": [
+        "VALID",
+        "INVALID"
+      ]
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "source_digest": {
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "content_digest": {
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/authority-matrix.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "required": [
+    "contract",
+    "default",
+    "roles",
+    "global_invariants"
+  ],
+  "properties": {
+    "contract": {
+      "type": "object"
+    },
+    "default": {
+      "const": "deny"
+    },
+    "roles": {
+      "type": "object",
+      "minProperties": 11
+    },
+    "global_invariants": {
+      "type": "object"
+    }
+  }
+}

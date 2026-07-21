@@ -1,0 +1,33 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://t-understand.dev/schemas/repository-discovery.schema.json",
+  "$comment":"Contract version 1.0.0",
+  "type":"object","additionalProperties":false,
+  "required":["schema_id","schema_version","discovery_id","snapshot_id","repository_id","repository_snapshot_digest","status","languages","build_systems","modules","entry_points","contracts","deployment_assets","ci_assets","migrations","coverage","files_path","files_sha256","content_digest","generated_at"],
+  "properties":{
+    "schema_id":{"const":"https://t-understand.dev/schemas/repository-discovery.schema.json"},
+    "schema_version":{"const":"1.0.0"},
+    "discovery_id":{"type":"string","pattern":"^[A-Z][A-Z0-9_-]{2,63}$"},
+    "snapshot_id":{"type":"string","minLength":1},
+    "repository_id":{"type":"string","pattern":"^[a-z][a-z0-9-]{1,62}$"},
+    "repository_snapshot_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "status":{"const":"DISCOVERED"},
+    "languages":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["id","files"],"properties":{"id":{"type":"string"},"files":{"type":"integer","minimum":1}}}},
+    "build_systems":{"type":"array","items":{"$ref":"#/$defs/pathKind"}},
+    "modules":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["id","root","kind","markers"],"properties":{"id":{"type":"string"},"root":{"type":"string"},"kind":{"type":"string"},"markers":{"type":"array","items":{"type":"string"}}}}},
+    "entry_points":{"type":"array","items":{"$ref":"#/$defs/pathKind"}},
+    "contracts":{"type":"array","items":{"$ref":"#/$defs/pathKind"}},
+    "deployment_assets":{"type":"array","items":{"$ref":"#/$defs/pathKind"}},
+    "ci_assets":{"type":"array","items":{"$ref":"#/$defs/pathKind"}},
+    "migrations":{"type":"array","items":{"$ref":"#/$defs/pathKind"}},
+    "coverage":{"$ref":"#/$defs/coverage"},
+    "files_path":{"type":"string"},
+    "files_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "content_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "generated_at":{"type":"string","format":"date-time"}
+  },
+  "$defs":{
+    "pathKind":{"type":"object","additionalProperties":false,"required":["path","kind"],"properties":{"path":{"type":"string"},"kind":{"type":"string"}}},
+    "coverage":{"type":"object","additionalProperties":false,"required":["files_total","included","excluded","by_exclusion_reason","bytes_total"],"properties":{"files_total":{"type":"integer","minimum":0},"included":{"type":"integer","minimum":0},"excluded":{"type":"integer","minimum":0},"bytes_total":{"type":"integer","minimum":0},"by_exclusion_reason":{"type":"object","additionalProperties":{"type":"integer","minimum":0}}}}
+  }
+}

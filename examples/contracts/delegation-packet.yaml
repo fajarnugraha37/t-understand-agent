@@ -1,0 +1,36 @@
+schema_id: https://t-understand.dev/schemas/delegation-packet.schema.json
+schema_version: 1.2.0
+invocation_id: INV-0123456789ABCDEF0123456789ABCDEF
+parent_agent: t-understand
+target_agent: tu-analyzer
+delegation_depth: 1
+workflow: foundation
+state: BEHAVIOR_ANALYSIS
+state_version: 7
+skill: tu-behavior-analysis
+objective: Trace order creation persistence and publication behavior using only supplied
+  evidence.
+application_id: application-a
+application_snapshot: APP-SNAP-001
+permissions:
+  source_repository_read: allow
+  source_repository_write: deny
+  git_mutation: deny
+  delegate: deny
+  artifact_write_domains:
+  - evidence
+inputs:
+- artifact_type: source-inventory
+  path: artifacts/source-inventory/ART-0123456789ABCDEF0123456789ABCDEF.yaml
+  sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+outputs:
+- artifact_type: behavior-analysis
+  path: artifacts/behavior-analysis/INV-0123456789ABCDEF0123456789ABCDEF-behavior-analysis.yaml
+stop_conditions:
+- Required source file is unavailable.
+- Snapshot digest changes unexpectedly.
+context_budget:
+  strategy: evidence-slices
+  one_primary_objective: true
+  max_workers: 1
+issued_at: '2026-07-21T03:00:00Z'

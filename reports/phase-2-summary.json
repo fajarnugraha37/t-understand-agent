@@ -1,0 +1,38 @@
+{
+  "product": "t-understand",
+  "version": "0.2.0",
+  "phase": 2,
+  "phase_name": "Core Runtime and Lifecycle Engine",
+  "status": "PASS",
+  "inventory": {
+    "workflow_families": 5,
+    "workflow_states": 55,
+    "runtime_schemas": 6,
+    "runtime_cli_commands": 11,
+    "model_profiles": 3
+  },
+  "validation": {
+    "runtime_contract_checks": 460,
+    "runtime_tests": 18,
+    "runtime_negative_tests": 9,
+    "runtime_end_to_end_tests": 2,
+    "runtime_cli_checks": 4
+  },
+  "assurances": {
+    "registry_only_transitions": true,
+    "maximum_active_invocations_per_work": 1,
+    "maximum_delegation_depth": 1,
+    "nested_delegation": "DENY",
+    "source_repository_write": "DENY",
+    "result_replay": "DENY",
+    "validate_before_commit": true,
+    "artifact_digest_verification": "SHA-256",
+    "human_publication_approval_required": true,
+    "all_registered_workflows_reach_terminal_in_e2e": true
+  },
+  "explicit_limitations": [
+    "Domain artifact content implementations remain assigned to later phases.",
+    "Vendor subagent API invocation remains assigned to platform adapter Phase 18.",
+    "Application and repository path resolution begins in Phase 3."
+  ]
+}

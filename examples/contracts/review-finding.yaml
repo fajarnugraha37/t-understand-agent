@@ -1,0 +1,30 @@
+schema_id: https://t-understand.dev/schemas/review-finding.schema.json
+schema_version: 1.0.0
+id: FND-ORDER-001
+review_snapshot: REVIEW-SNAP-001
+type: RELIABILITY
+severity: MAJOR
+confidence: high
+location:
+  repository: order-service
+  revision: b1c2d3e4
+  path: src/order/OrderService.ts
+  start_line: 55
+  end_line: 61
+title: Publication can escape transaction failure
+observation: The event is published before the transaction commit is known to have succeeded.
+evidence:
+- EVD-ORDER-001
+failure_scenario:
+- Event publication succeeds.
+- Database transaction commit fails.
+- Consumers observe an order that is not committed.
+technical_impact:
+- Persisted state and downstream state can diverge.
+business_impact:
+- Downstream fulfillment may act on a nonexistent order.
+recommendation: Publish through the transactional outbox mechanism.
+required_verification:
+- Test commit failure after outbox insert.
+- Test duplicate delivery handling.
+critic_status: survived

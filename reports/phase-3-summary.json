@@ -1,0 +1,39 @@
+{
+  "product": "t-understand",
+  "version": "0.3.0",
+  "phase": 3,
+  "phase_name": "Application and Workspace Management",
+  "status": "PASS",
+  "inventory": {
+    "application_schemas": 4,
+    "application_cli_commands": 8,
+    "workspace_models": 3,
+    "application_examples": 3
+  },
+  "validation": {
+    "application_contract_checks": 33,
+    "application_tests": 15,
+    "application_negative_tests": 7,
+    "application_resolution_tests": 4,
+    "application_cli_checks": 7
+  },
+  "assurances": {
+    "portable_manifest_absolute_paths": "DENY",
+    "local_workspace_map_gitignored": true,
+    "source_repository_access": "READ_ONLY",
+    "credential_bearing_https_remote": "DENY",
+    "mapped_path_must_equal_git_root": true,
+    "duplicate_repository_roots": "DENY",
+    "nested_repository_roots": "DENY",
+    "remote_identity_mismatch": "DENY",
+    "context_inside_source_repository": "DENY",
+    "single_repo_supported": true,
+    "monorepo_supported": true,
+    "multi_repo_supported": true
+  },
+  "explicit_limitations": [
+    "Phase 3 resolves repository identity and local boundaries but does not capture immutable Git snapshots; snapshot capture begins in Phase 4.",
+    "Phase 3 does not discover modules, services, or cross-repository runtime relationships; discovery begins in Phase 5.",
+    "Local workspace paths are intentionally machine-specific and excluded from portable context history."
+  ]
+}

@@ -1,0 +1,162 @@
+contract:
+  id: TU-AUTHORITY-MATRIX
+  version: 1.0.0
+  status: canonical
+default: deny
+roles:
+  t-understand:
+    allow:
+    - human_interaction
+    - workflow_state_transition
+    - record_human_decision
+    - delegate_registered_worker
+    - write_runtime_control_artifacts
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - canonical_memory_write
+    - technical_document_write
+    - business_document_write
+    - qna_answer_write
+    - review_finding_write
+    - verification_verdict_fabrication
+  tu-discoverer:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - candidate_evidence_write
+    - snapshot_manifest_write
+    - inventory_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+  tu-analyzer:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - candidate_evidence_write
+    - analysis_artifact_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+  tu-modeler:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - model_artifact_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+  tu-memory-curator:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - canonical_memory_write
+    - freshness_state_write
+    - invalidation_write
+    - terminology_memory_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+  tu-technical-writer:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - technical_document_write
+    - documentation_trace_candidate_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+  tu-business-writer:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - business_document_write
+    - documentation_trace_candidate_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+  tu-answerer:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - qna_answer_write
+    - evidence_slice_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+  tu-reviewer:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - review_finding_write
+    - review_report_write
+    - suggested_patch_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+    - apply_suggested_patch
+  tu-critic:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - critique_artifact_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+  tu-verifier:
+    allow:
+    - source_repository_read
+    - write_assigned_artifacts
+    - verification_report_write
+    - generated_export_validation_write
+    deny:
+    - source_repository_write
+    - git_mutation
+    - external_system_write
+    - human_approval_fabrication
+    - workflow_state_transition
+    - worker_delegation
+global_invariants:
+  source_repository_write: deny
+  maximum_delegation_depth: 1
+  canonical_memory_writer: tu-memory-curator
+  human_authority_holder: t-understand
+  suggested_patch_application: deny

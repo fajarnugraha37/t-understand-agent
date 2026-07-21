@@ -1,0 +1,7 @@
+import json,sys,os
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+def load(n): return json.loads((ROOT/'reports'/n).read_text())
+c=load('model-contract-report.json'); t=load('model-test-report.json'); cli=load('documentation-cli-report.json')
+report={'product':'t-understand','version':(ROOT/'VERSION').read_text().strip(),'phase':10,'phase_name':'System and Business Modeling','status':'PASS' if all(x['status']=='PASS' for x in (c,t,cli)) else 'FAIL','inventory':{'model_artifacts':13,'schemas':7,'cli_commands':7,'implemented_skills':['tu-system-modeling','tu-business-modeling','tu-model-critique','tu-model-verification','tu-model-reconciliation']},'validation':{'contract_checks':c['checks'],'tests':t['tests'],'shared_cli_checks':cli['checks']},'assurances':{'memory_bound':True,'snapshot_bound':True,'immutable_versions':True,'business_fact_promotion_denied':True,'unknown_over_invention':True,'conflict_preservation':True,'traceability_required':True,'deterministic_critique':True,'deterministic_verification':True,'cheap_model_dependency':False},'explicit_limitations':['Business intent and organizational ownership require human confirmation.','Deployment and security models remain UNKNOWN when evidence is incomplete.','Modeling describes implemented surfaces and does not claim observed production runtime behavior.']}
+(ROOT/'reports/phase-10-summary.json').write_text(json.dumps(report,indent=2)+'\n'); print(json.dumps(report,indent=2)); sys.stdout.flush(); os._exit(0 if report['status']=='PASS' else 1)

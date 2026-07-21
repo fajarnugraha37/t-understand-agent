@@ -1,0 +1,11 @@
+schema_id: https://t-understand.dev/schemas/snapshot-drift-report.schema.json
+schema_version: 1.0.0
+snapshot_id: SNAP_EXAMPLE
+application_id: application-a
+status: UNCHANGED
+repositories:
+- repository_id: repo-a
+  target_type: branch
+  status: UNCHANGED
+  changes: []
+checked_at: '2026-07-21T00:02:00Z'

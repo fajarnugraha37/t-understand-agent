@@ -1,0 +1,93 @@
+contract:
+  id: TU-AGENT-REGISTRY
+  version: 1.0.0
+  status: canonical
+agents:
+- id: t-understand
+  kind: orchestrator
+  title: Root Orchestrator
+  purpose: Human interaction, workflow routing, state transitions, approvals, and delegation.
+  human_interaction: true
+  can_delegate: true
+  max_delegation_depth: 1
+  fresh_invocation: false
+- id: tu-discoverer
+  kind: worker
+  title: Repository Discoverer
+  purpose: Resolve repositories, snapshots, languages, modules, contracts, and candidate relationships.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-analyzer
+  kind: worker
+  title: Source Analyzer
+  purpose: Produce revision-bound structural and behavioral evidence from implementation.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-modeler
+  kind: worker
+  title: System Modeler
+  purpose: Build application, architecture, flow, data, event, deployment, security, and business models.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-memory-curator
+  kind: worker
+  title: Memory Curator
+  purpose: Own canonical memory consolidation, identity, conflicts, freshness, and invalidation.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-technical-writer
+  kind: worker
+  title: Technical Writer
+  purpose: Write comprehensive source-grounded technical documentation.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-business-writer
+  kind: worker
+  title: Business Writer
+  purpose: Document implemented business behavior while separating intent, inference, and unknowns.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-answerer
+  kind: worker
+  title: Evidence Answerer
+  purpose: Answer application questions with snapshot-aware citations and epistemic labels.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-reviewer
+  kind: worker
+  title: Code Reviewer
+  purpose: Perform static and comparative review, impact tracing, findings, and suggested fixes.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-critic
+  kind: worker
+  title: Independent Critic
+  purpose: Attempt to falsify material models, documentation, answers, and findings.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true
+- id: tu-verifier
+  kind: worker
+  title: Contract Verifier
+  purpose: Validate schemas, evidence, citations, freshness, coverage, links, diagrams, and exports.
+  human_interaction: false
+  can_delegate: false
+  max_delegation_depth: 0
+  fresh_invocation: true

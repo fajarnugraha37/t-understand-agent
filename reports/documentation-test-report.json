@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "catalog_traceability": 1,
+    "business_disclosure": 1,
+    "invalidation": 1,
+    "atomic_rollback": 1,
+    "tamper": 1
+  }
+}

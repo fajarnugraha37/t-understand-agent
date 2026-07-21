@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/application-manifest.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "application", "workspace_model", "repositories", "created_at", "updated_at"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/application-manifest.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+        "name": {"type": "string", "minLength": 1, "maxLength": 160},
+        "description": {"type": "string", "maxLength": 4000}
+      }
+    },
+    "workspace_model": {"enum": ["single-repo", "monorepo", "multi-repo"]},
+    "repositories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "role", "vcs", "identity", "source_access"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+          "name": {"type": "string", "minLength": 1, "maxLength": 160},
+          "role": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+          "vcs": {"const": "git"},
+          "identity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "value"],
+            "properties": {
+              "type": {"enum": ["remote", "explicit"]},
+              "value": {"type": "string", "pattern": "^[^\\s]+$", "maxLength": 512}
+            }
+          },
+          "remote_hint": {"type": "string", "pattern": "^(https|ssh)://[^\\s]+$", "maxLength": 1024},
+          "default_ref": {"type": "string", "minLength": 1, "maxLength": 255},
+          "tags": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,62}$"}},
+          "source_access": {"const": "READ_ONLY"}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"identity": {"properties": {"type": {"const": "remote"}}}}},
+            "then": {"required": ["remote_hint"]}
+          }
+        ]
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

@@ -1,0 +1,16 @@
+schema_id: https://t-understand.dev/schemas/evidence-record.schema.json
+schema_version: 1.0.0
+id: EVD-ORDER-001
+application_snapshot: APP-SNAP-001
+repository: order-service
+revision: a1b2c3d4
+path: src/order/OrderService.ts
+content_sha256: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+locator:
+  symbol: OrderService.createOrder
+  start_line: 42
+  end_line: 77
+kind: source
+captured_at: '2026-07-21T03:00:00Z'
+excerpt: publish(orderCreated)
+freshness: current

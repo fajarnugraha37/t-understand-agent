@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PYTHONPATH="$ROOT/runtime:$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+case "${1:-}" in
+  verify-phase-1)
+    cd "$ROOT"
+    exec make verify-phase-1
+    ;;
+  verify-phase-2)
+    cd "$ROOT"
+    exec make verify-phase-2
+    ;;
+  verify-phase-3)
+    cd "$ROOT"
+    exec make verify-phase-3
+    ;;
+  verify-phase-4)
+    cd "$ROOT"
+    exec make verify-phase-4
+    ;;
+  verify-phase-5)
+    cd "$ROOT"
+    exec make verify-phase-5
+    ;;
+  verify-phase-6)
+    cd "$ROOT"
+    exec make verify-phase-6
+    ;;
+  verify-phase-7)
+    cd "$ROOT"
+    exec make verify-phase-7
+    ;;
+  verify-phase-8)
+    cd "$ROOT"
+    exec make verify-phase-8
+    ;;
+  verify-phase-9)
+    cd "$ROOT"
+    exec make verify-phase-9
+    ;;
+  verify-phase-10)
+    cd "$ROOT"
+    exec make verify-phase-10
+    ;;
+  verify-phase-11)
+    cd "$ROOT"
+    exec make verify-phase-11
+    ;;
+  verify-phase-12)
+    cd "$ROOT"
+    exec make verify-phase-12
+    ;;
+  verify-phase-13)
+    cd "$ROOT"
+    exec make verify-phase-13
+    ;;
+  verify-phase-14)
+    cd "$ROOT"
+    exec make verify-phase-14
+    ;;
+  verify-phase-15)
+    cd "$ROOT"
+    exec make verify-phase-15
+    ;;
+  verify)
+    cd "$ROOT"
+    exec make verify
+    ;;
+  validate-governance)
+    exec python3 "$ROOT/scripts/validate_governance.py"
+    ;;
+  *)
+    exec python3 -m tu_runtime.cli "$@"
+    ;;
+esac

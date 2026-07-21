@@ -1,0 +1,18 @@
+{
+  "phase": 14,
+  "status": "PASS",
+  "version": "0.15.0",
+  "contract_checks": 45,
+  "tests": 4,
+  "capabilities": [
+    "static audit",
+    "diff review",
+    "coverage ledger",
+    "specialized findings",
+    "impact tracing",
+    "deduplication",
+    "critic challenge",
+    "severity calibration",
+    "merge gate"
+  ]
+}

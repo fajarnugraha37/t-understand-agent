@@ -1,0 +1,32 @@
+{
+  "product": "t-understand",
+  "version": "0.6.0",
+  "phase": 5,
+  "phase_name": "Repository Discovery Engine",
+  "status": "PASS",
+  "inventory": {
+    "discovery_schemas": 3,
+    "discovery_cli_commands": 4,
+    "classification_types": 13,
+    "supported_snapshot_modes": 6
+  },
+  "validation": {
+    "contract_checks": 49,
+    "tests": 13,
+    "cli_checks": 10
+  },
+  "assurances": {
+    "source_repository_access": "READ_ONLY",
+    "snapshot_bound": true,
+    "portable_outputs": true,
+    "protected_content_read": "DENY",
+    "ignored_content_read": "DENY",
+    "coverage_ledgers": true,
+    "deterministic_ordering": true,
+    "single_monorepo_multi_repo": true
+  },
+  "explicit_limitations": [
+    "Phase 5 inventories repository shape and candidate assets but does not construct semantic call graphs or runtime behavior models.",
+    "Generated, vendored, protected, binary, symlink, submodule, and oversized contents are excluded with explicit ledger entries."
+  ]
+}

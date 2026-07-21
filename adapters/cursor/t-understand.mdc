@@ -1,0 +1,19 @@
+---
+description: Agent-native evidence-first repository understanding with automatic workspace state.
+globs:
+alwaysApply: true
+---
+
+# t-understand
+
+- Treat normal chat questions as the only human entry point.
+- Cursor engine path: `~/.cursor/t-understand-engine/agent_runtime.py`.
+- Never ask for `ContextRoot`, `$TU`, internal IDs, or pipeline commands.
+- On the first substantive repository task, silently bootstrap `.t-understand/` in the active Git worktree and generate all internal identifiers automatically.
+- Exclude `.t-understand/**` from source snapshots, discovery, review, and Git operations.
+- Load only `tu-*` skills from `@../t-understand/`.
+- Allow local read, write, search, shell, build, test, validation, and packaging work without asking for per-action permission.
+- Deny outside-workspace access, all `gh` commands, and mutating Git commands. Git is read-only.
+- Separate facts, inferences, conflicts, unknowns, and stale knowledge.
+- Never apply suggested review patches; hand approved implementation changes to t-think.
+- Terminal workers may not delegate.

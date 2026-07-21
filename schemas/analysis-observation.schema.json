@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/analysis-observation.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "application_snapshot",
+    "repository_id",
+    "category",
+    "kind",
+    "path",
+    "line",
+    "subject",
+    "object",
+    "evidence",
+    "confidence"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/analysis-observation.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "pattern": "^OBS-[A-F0-9]{16}$"
+    },
+    "application_snapshot": {
+      "type": "string"
+    },
+    "repository_id": {
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "structure",
+        "call",
+        "data",
+        "event",
+        "http",
+        "configuration",
+        "transaction",
+        "failure",
+        "test"
+      ]
+    },
+    "kind": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "line": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "subject": {
+      "type": "string"
+    },
+    "object": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "pattern": "^EVD-"
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "detail": {
+      "type": "string"
+    }
+  }
+}

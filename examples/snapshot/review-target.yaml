@@ -1,0 +1,14 @@
+schema_id: https://t-understand.dev/schemas/review-target.schema.json
+schema_version: 1.0.0
+review_id: REVIEW_EXAMPLE
+application_id: application-a
+mode: STATIC_AUDIT
+baseline: null
+candidate:
+  snapshot_id: SNAP_EXAMPLE
+  snapshot_path: snapshots/SNAP_EXAMPLE/application-snapshot.yaml
+  snapshot_sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  content_digest: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+immutable: true
+content_digest: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+created_at: '2026-07-21T00:03:00Z'

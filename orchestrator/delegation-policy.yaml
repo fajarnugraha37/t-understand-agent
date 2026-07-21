@@ -1,0 +1,21 @@
+contract:
+  id: TU-DELEGATION-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+rules:
+- id: DEL-001
+  requirement: Only t-understand creates delegation packets.
+- id: DEL-002
+  requirement: Target must be a registered terminal worker.
+- id: DEL-003
+  requirement: Maximum delegation depth is one.
+- id: DEL-004
+  requirement: One primary objective per invocation.
+- id: DEL-005
+  requirement: Every packet declares snapshot, inputs, output schema, permissions, stop conditions, and context
+    budget.
+- id: DEL-006
+  requirement: Source repository writes are always denied.
+- id: DEL-007
+  requirement: Worker prose without a valid result envelope cannot advance state.

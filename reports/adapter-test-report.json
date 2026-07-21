@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "tests": 14,
+  "failures": 0,
+  "errors": 0,
+  "categories": {
+    "builtins": 10,
+    "integration": 4
+  },
+  "adapters": 11
+}

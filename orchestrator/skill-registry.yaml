@@ -1,0 +1,411 @@
+contract:
+  id: TU-SKILL-REGISTRY
+  version: 1.0.0
+  status: canonical
+skills:
+- id: tu-application-alignment
+  owner: t-understand
+  implementation_phase: 2
+  workflow: foundation
+  status: implemented
+  description: Align application identity and human objective.
+- id: tu-workspace-resolution
+  owner: tu-discoverer
+  implementation_phase: 3
+  workflow: foundation
+  status: implemented
+  description: Resolve portable repository identities to local paths.
+- id: tu-repository-discovery
+  owner: tu-discoverer
+  implementation_phase: 5
+  workflow: foundation
+  status: implemented
+  description: Discover repository shape and candidate interfaces.
+- id: tu-snapshot-capture
+  owner: tu-discoverer
+  implementation_phase: 4
+  workflow: foundation
+  status: implemented
+  description: Capture immutable repository and application snapshots.
+- id: tu-source-inventory
+  owner: tu-discoverer
+  implementation_phase: 5
+  workflow: foundation
+  status: implemented
+  description: Inventory source, generated, vendored, config, contract, and deployment
+    files.
+- id: tu-structural-analysis
+  owner: tu-analyzer
+  implementation_phase: 7
+  workflow: foundation
+  status: implemented
+  description: Analyze symbols, modules, imports, and contracts.
+- id: tu-behavior-analysis
+  owner: tu-analyzer
+  implementation_phase: 7
+  workflow: foundation
+  status: implemented
+  description: Trace runtime behavior, state, data, events, transactions, and failures.
+- id: tu-cross-repository-linking
+  owner: tu-modeler
+  implementation_phase: 8
+  workflow: foundation
+  status: implemented
+  description: Resolve evidenced cross-repository relationships.
+- id: tu-system-modeling
+  owner: tu-modeler
+  implementation_phase: 10
+  workflow: foundation
+  status: implemented
+  description: Construct application and system models.
+- id: tu-memory-consolidation
+  owner: tu-memory-curator
+  implementation_phase: 9
+  workflow: foundation
+  status: implemented
+  description: Consolidate validated candidate knowledge into canonical memory.
+- id: tu-memory-critique
+  owner: tu-critic
+  implementation_phase: 9
+  workflow: foundation
+  status: implemented
+  description: Challenge memory completeness, conflicts, and unsupported claims.
+- id: tu-memory-verification
+  owner: tu-verifier
+  implementation_phase: 9
+  workflow: foundation
+  status: implemented
+  description: Validate memory schemas, provenance, freshness, and coverage.
+- id: tu-change-detection
+  owner: tu-discoverer
+  implementation_phase: 9
+  workflow: refresh
+  status: implemented
+  description: Detect snapshot changes.
+- id: tu-impact-identification
+  owner: tu-analyzer
+  implementation_phase: 9
+  workflow: refresh
+  status: implemented
+  description: Identify affected evidence and entities.
+- id: tu-memory-invalidation
+  owner: tu-memory-curator
+  implementation_phase: 9
+  workflow: refresh
+  status: implemented
+  description: Invalidate stale knowledge.
+- id: tu-selective-reanalysis
+  owner: tu-analyzer
+  implementation_phase: 9
+  workflow: refresh
+  status: implemented
+  description: Reanalyze affected slices.
+- id: tu-model-reconciliation
+  owner: tu-modeler
+  implementation_phase: 10
+  workflow: refresh
+  status: implemented
+  description: Reconcile affected models.
+- id: tu-document-invalidation
+  owner: tu-memory-curator
+  implementation_phase: 11
+  workflow: refresh
+  status: implemented
+  description: Mark dependent document sections stale.
+- id: tu-refresh-verification
+  owner: tu-verifier
+  implementation_phase: 16
+  workflow: refresh
+  status: implemented
+  description: Verify refreshed memory consistency.
+- id: tu-documentation-scope
+  owner: t-understand
+  implementation_phase: 2
+  workflow: documentation
+  status: implemented
+  description: Align documentation audience and scope.
+- id: tu-evidence-coverage
+  owner: tu-analyzer
+  implementation_phase: 11
+  workflow: documentation
+  status: implemented
+  description: Measure evidence coverage.
+- id: tu-information-architecture
+  owner: tu-technical-writer
+  implementation_phase: 11
+  workflow: documentation
+  status: implemented
+  description: Plan comprehensive information architecture.
+- id: tu-document-plan
+  owner: tu-technical-writer
+  implementation_phase: 11
+  workflow: documentation
+  status: implemented
+  description: Create deterministic document plan.
+- id: tu-technical-documentation
+  owner: tu-technical-writer
+  implementation_phase: 11
+  workflow: documentation
+  status: implemented
+  description: Write technical documentation.
+- id: tu-business-documentation
+  owner: tu-business-writer
+  implementation_phase: 11
+  workflow: documentation
+  status: implemented
+  description: Write implementation-grounded business documentation.
+- id: tu-documentation-traceability
+  owner: tu-technical-writer
+  implementation_phase: 11
+  workflow: documentation
+  status: implemented
+  description: Bind sections to claims and evidence.
+- id: tu-documentation-critique
+  owner: tu-critic
+  implementation_phase: 11
+  workflow: documentation
+  status: implemented
+  description: Challenge documentation completeness and truthfulness.
+- id: tu-fact-verification
+  owner: tu-verifier
+  implementation_phase: 16
+  workflow: documentation
+  status: implemented
+  description: Verify claims and citations.
+- id: tu-render-validation
+  owner: tu-verifier
+  implementation_phase: 12
+  workflow: documentation
+  status: implemented
+  description: Validate Markdown, MDX, links, diagrams, and renderer output.
+- id: tu-human-publication-approval
+  owner: t-understand
+  implementation_phase: 2
+  workflow: documentation
+  status: implemented
+  description: Record publication approval.
+- id: tu-question-alignment
+  owner: t-understand
+  implementation_phase: 2
+  workflow: qna
+  status: implemented
+  description: Clarify question and expected answer boundary.
+- id: tu-snapshot-selection
+  owner: t-understand
+  implementation_phase: 4
+  workflow: qna
+  status: implemented
+  description: Select an immutable application snapshot.
+- id: tu-evidence-retrieval
+  owner: tu-answerer
+  implementation_phase: 13
+  workflow: qna
+  status: implemented
+  description: Retrieve claims and direct evidence.
+- id: tu-freshness-check
+  owner: tu-memory-curator
+  implementation_phase: 9
+  workflow: qna
+  status: implemented
+  description: Confirm retrieved knowledge is current.
+- id: tu-direct-source-verification
+  owner: tu-answerer
+  implementation_phase: 13
+  workflow: qna
+  status: implemented
+  description: Verify load-bearing claims against source.
+- id: tu-answer-synthesis
+  owner: tu-answerer
+  implementation_phase: 13
+  workflow: qna
+  status: implemented
+  description: Produce cited structured answer.
+- id: tu-answer-critique
+  owner: tu-critic
+  implementation_phase: 13
+  workflow: qna
+  status: implemented
+  description: Challenge answer support and scope.
+- id: tu-citation-validation
+  owner: tu-verifier
+  implementation_phase: 16
+  workflow: qna
+  status: implemented
+  description: Validate answer citations and snapshot consistency.
+- id: tu-review-scope
+  owner: t-understand
+  implementation_phase: 2
+  workflow: review
+  status: implemented
+  description: Align review mode and objectives.
+- id: tu-target-resolution
+  owner: tu-discoverer
+  implementation_phase: 4
+  workflow: review
+  status: implemented
+  description: Resolve branches, commits, tags, HEAD, index, or worktree.
+- id: tu-review-snapshot-capture
+  owner: tu-discoverer
+  implementation_phase: 4
+  workflow: review
+  status: implemented
+  description: Capture immutable review snapshots.
+- id: tu-diff-analysis
+  owner: tu-reviewer
+  implementation_phase: 14
+  workflow: review
+  status: implemented
+  description: Analyze comparative changes.
+- id: tu-static-codebase-audit
+  owner: tu-reviewer
+  implementation_phase: 14
+  workflow: review
+  status: implemented
+  description: Audit one complete snapshot with coverage ledger.
+- id: tu-change-walkthrough
+  owner: tu-reviewer
+  implementation_phase: 15
+  workflow: review
+  status: implemented
+  description: Produce CodeRabbit-style walkthrough.
+- id: tu-impact-tracing
+  owner: tu-reviewer
+  implementation_phase: 14
+  workflow: review
+  status: implemented
+  description: Trace affected callers, contracts, data, events, and repositories.
+- id: tu-specialized-review
+  owner: tu-reviewer
+  implementation_phase: 14
+  workflow: review
+  status: implemented
+  description: Perform correctness, security, concurrency, data, performance, and
+    compatibility review.
+- id: tu-finding-deduplication
+  owner: tu-reviewer
+  implementation_phase: 14
+  workflow: review
+  status: implemented
+  description: Group findings by root cause and suppress noise.
+- id: tu-finding-critique
+  owner: tu-critic
+  implementation_phase: 14
+  workflow: review
+  status: implemented
+  description: Attempt to falsify findings.
+- id: tu-severity-calibration
+  owner: tu-reviewer
+  implementation_phase: 14
+  workflow: review
+  status: implemented
+  description: Calibrate surviving findings.
+- id: tu-review-verification
+  owner: tu-verifier
+  implementation_phase: 16
+  workflow: review
+  status: implemented
+  description: Validate finding locations, evidence, severity, and coverage.
+- id: tu-review-export
+  owner: tu-reviewer
+  implementation_phase: 15
+  workflow: review
+  status: implemented
+  description: Export canonical review artifacts and platform comments.
+- id: tu-business-modeling
+  owner: tu-modeler
+  implementation_phase: 10
+  workflow: foundation
+  status: implemented
+  description: Build implementation-grounded business models.
+- id: tu-model-critique
+  owner: tu-critic
+  implementation_phase: 10
+  workflow: foundation
+  status: implemented
+  description: Challenge system and business model support.
+- id: tu-model-verification
+  owner: tu-verifier
+  implementation_phase: 10
+  workflow: foundation
+  status: implemented
+  description: Validate model traceability and integrity.
+- id: tu-language-adapter-extraction
+  owner: tu-analyzer
+  implementation_phase: 6
+  workflow: foundation
+  status: implemented
+  description: Extract deterministic language and contract surfaces.
+- id: tu-markdown-export
+  owner: tu-technical-writer
+  implementation_phase: 12
+  workflow: documentation
+  status: implemented
+  description: Export canonical plain and GitHub Markdown.
+- id: tu-mintlify-export
+  owner: tu-technical-writer
+  implementation_phase: 12
+  workflow: documentation
+  status: implemented
+  description: Export Mintlify-ready MDX and navigation.
+- id: tu-docusaurus-export
+  owner: tu-technical-writer
+  implementation_phase: 12
+  workflow: documentation
+  status: implemented
+  description: Export Docusaurus-ready MDX and sidebars.
+- id: tu-mkdocs-export
+  owner: tu-technical-writer
+  implementation_phase: 12
+  workflow: documentation
+  status: implemented
+  description: Export MkDocs-ready Markdown and configuration.
+- id: tu-consolidated-quality
+  owner: tu-verifier
+  implementation_phase: 16
+  workflow: foundation
+  status: implemented
+  description: Consolidate validation, critique, traceability, freshness, and integrity
+    verdicts.
+- id: tu-cheap-model-qualification
+  owner: tu-verifier
+  implementation_phase: 17
+  workflow: foundation
+  status: implemented
+  description: Qualify provider-neutral economy-model workflow contracts without unsupported
+    live-model claims.
+- id: tu-platform-packaging
+  owner: t-understand
+  implementation_phase: 18
+  workflow: foundation
+  status: implemented
+  description: Generate platform-specific agent, skill, and rule packages.
+- id: tu-platform-installation
+  owner: t-understand
+  implementation_phase: 18
+  workflow: foundation
+  status: implemented
+  description: Install managed platform packages into explicit non-source targets.
+- id: tu-installation-doctor
+  owner: tu-verifier
+  implementation_phase: 18
+  workflow: foundation
+  status: implemented
+  description: Verify managed platform installation ownership and checksums.
+- id: tu-integration-scenarios
+  owner: tu-verifier
+  implementation_phase: 19
+  workflow: foundation
+  status: implemented
+  description: Execute and aggregate complete end-to-end integration scenarios.
+- id: tu-release-qualification
+  owner: tu-verifier
+  implementation_phase: 20
+  workflow: foundation
+  status: implemented
+  description: Evaluate final release gates and assurance evidence.
+- id: tu-sbom-generation
+  owner: t-understand
+  implementation_phase: 20
+  workflow: foundation
+  status: implemented
+  description: Generate deterministic file and dependency inventory.

@@ -1,0 +1,16 @@
+id: claude-code
+status: implemented
+scope: global-claude-root
+layout:
+  agents: agents/<agent-id>.md
+  skills: skills/<skill-id>/SKILL.md
+  instructions: CLAUDE.md
+  permissions: settings.json
+install_mode: copy
+source_repository_target: denied
+verification:
+  - subagent-frontmatter
+  - skill-frontmatter
+  - ownership-manifest
+  - checksum
+  - permission-policy

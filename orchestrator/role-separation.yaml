@@ -1,0 +1,35 @@
+contract:
+  id: TU-ROLE-SEPARATION
+  version: 1.0.0
+  status: canonical
+rules:
+- id: RS-001
+  statement: Only t-understand may interact with humans or record human decisions.
+- id: RS-002
+  statement: Workers are terminal and may not delegate.
+- id: RS-003
+  statement: Only tu-memory-curator may write canonical memory.
+- id: RS-004
+  statement: Technical and business documentation have separate canonical writers.
+- id: RS-005
+  statement: The producer of a material artifact may not perform its required critique.
+- id: RS-006
+  statement: tu-reviewer may propose but never apply a source patch.
+- id: RS-007
+  statement: tu-verifier validates but does not reinterpret business intent.
+- id: RS-008
+  statement: Source repositories remain read-only for every role.
+fresh_invocation_required_for:
+- tu-critic
+- tu-verifier
+producer_critic_pairs:
+- producer: tu-modeler
+  critic: tu-critic
+- producer: tu-technical-writer
+  critic: tu-critic
+- producer: tu-business-writer
+  critic: tu-critic
+- producer: tu-answerer
+  critic: tu-critic
+- producer: tu-reviewer
+  critic: tu-critic

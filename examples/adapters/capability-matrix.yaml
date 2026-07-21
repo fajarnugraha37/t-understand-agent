@@ -1,0 +1,144 @@
+schema_id: https://t-understand.dev/schemas/adapter-capability-matrix.schema.json
+schema_version: 1.0.0
+adapters:
+- id: bpmn-dmn
+  version: 1.0.0
+  priority: 940
+  languages:
+  - bpmn
+  - dmn
+  capabilities:
+    detection: structured
+    declarations: structured
+    dependencies: surface
+    interfaces: structured
+    configuration: surface
+  fallback: false
+- id: dotnet
+  version: 1.0.0
+  priority: 880
+  languages:
+  - csharp
+  - fsharp
+  - visual-basic
+  capabilities:
+    detection: structured
+    declarations: surface
+    dependencies: surface
+    interfaces: surface
+    configuration: surface
+  fallback: false
+- id: generic
+  version: 1.0.0
+  priority: 0
+  languages:
+  - text
+  - unknown
+  capabilities:
+    detection: detect
+    declarations: none
+    dependencies: none
+    interfaces: none
+    configuration: none
+  fallback: true
+- id: go
+  version: 1.0.0
+  priority: 880
+  languages:
+  - go
+  capabilities:
+    detection: structured
+    declarations: surface
+    dependencies: surface
+    interfaces: surface
+    configuration: none
+  fallback: false
+- id: infrastructure
+  version: 1.0.0
+  priority: 930
+  languages:
+  - dockerfile
+  - kubernetes
+  - terraform
+  capabilities:
+    detection: structured
+    declarations: surface
+    dependencies: surface
+    interfaces: surface
+    configuration: surface
+  fallback: false
+- id: java
+  version: 1.0.0
+  priority: 900
+  languages:
+  - java
+  capabilities:
+    detection: structured
+    declarations: surface
+    dependencies: surface
+    interfaces: surface
+    configuration: surface
+  fallback: false
+- id: javascript-typescript
+  version: 1.0.0
+  priority: 880
+  languages:
+  - javascript
+  - typescript
+  capabilities:
+    detection: structured
+    declarations: surface
+    dependencies: surface
+    interfaces: surface
+    configuration: surface
+  fallback: false
+- id: openapi-asyncapi
+  version: 1.0.0
+  priority: 960
+  languages:
+  - openapi
+  - asyncapi
+  capabilities:
+    detection: structured
+    declarations: structured
+    dependencies: surface
+    interfaces: structured
+    configuration: surface
+  fallback: false
+- id: python
+  version: 1.0.0
+  priority: 900
+  languages:
+  - python
+  capabilities:
+    detection: structured
+    declarations: structured
+    dependencies: structured
+    interfaces: surface
+    configuration: surface
+  fallback: false
+- id: rust
+  version: 1.0.0
+  priority: 870
+  languages:
+  - rust
+  capabilities:
+    detection: structured
+    declarations: surface
+    dependencies: surface
+    interfaces: surface
+    configuration: none
+  fallback: false
+- id: sql
+  version: 1.0.0
+  priority: 850
+  languages:
+  - sql
+  capabilities:
+    detection: structured
+    declarations: surface
+    dependencies: none
+    interfaces: surface
+    configuration: none
+  fallback: false
+generated_at: '2026-07-21T00:00:00Z'

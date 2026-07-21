@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/artifact-registry.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "required": [
+    "contract",
+    "artifacts"
+  ],
+  "properties": {
+    "contract": {
+      "type": "object"
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 20,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "canonical_writer",
+          "domain",
+          "source_repository_write_required",
+          "schema_required",
+          "revision_bound"
+        ]
+      }
+    }
+  }
+}

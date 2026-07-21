@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/analysis-run.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "analysis_id",
+    "application_id",
+    "snapshot_id",
+    "extraction_id",
+    "status",
+    "mode",
+    "artifacts",
+    "coverage",
+    "content_digest",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/analysis-run.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "analysis_id": {
+      "pattern": "^[A-Z][A-Z0-9_-]{2,63}$"
+    },
+    "application_id": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "extraction_id": {
+      "type": "string"
+    },
+    "status": {
+      "const": "ANALYZED"
+    },
+    "mode": {
+      "enum": [
+        "full",
+        "scoped",
+        "incremental"
+      ]
+    },
+    "base_analysis_id": {
+      "type": "string"
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256",
+          "records"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "records": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "repositories",
+        "files_available",
+        "files_analyzed",
+        "files_reused",
+        "files_skipped",
+        "observations"
+      ],
+      "properties": {
+        "repositories": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "files_available": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "files_analyzed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "files_reused": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "files_skipped": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observations": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "content_digest": {
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

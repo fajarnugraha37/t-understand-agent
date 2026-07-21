@@ -1,0 +1,20 @@
+contract:
+  id: TU-QUALITY-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-verifier
+rules:
+- id: QLT-001
+  requirement: Output structure is schema- and template-governed.
+- id: QLT-002
+  requirement: Stable identifiers and deterministic ordering are mandatory.
+- id: QLT-003
+  requirement: Coverage, limitations, exclusions, and unknowns are explicit.
+- id: QLT-004
+  requirement: Critique attempts falsification rather than stylistic approval.
+- id: QLT-005
+  requirement: Verification checks schema, provenance, snapshot consistency, freshness, and cross-artifact references.
+- id: QLT-006
+  requirement: A failed validator blocks lifecycle advancement.
+- id: QLT-007
+  requirement: No report may claim live-platform or language support not actually tested.

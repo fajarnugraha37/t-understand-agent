@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/workspace-map.schema.json",
+  "$comment": "Contract version 1.0.0; local-only and intentionally permits absolute paths",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "application_id", "machine_id", "repositories", "updated_at"],
+  "properties": {
+    "schema_id": {"const": "https://t-understand.dev/schemas/workspace-map.schema.json"},
+    "schema_version": {"const": "1.0.0"},
+    "application_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+    "machine_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{1,126}$"},
+    "repositories": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9-]{1,62}$"},
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "bound_at"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1, "maxLength": 4096},
+          "bound_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

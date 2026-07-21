@@ -1,0 +1,23 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: infrastructure
+version: 1.0.0
+priority: 930
+languages:
+- dockerfile
+- kubernetes
+- terraform
+file_patterns:
+- Dockerfile
+- Dockerfile.*
+- '*.tf'
+- '*.yaml'
+- '*.yml'
+capabilities:
+  detection: structured
+  declarations: surface
+  dependencies: surface
+  interfaces: surface
+  configuration: surface
+fallback: false
+implementation: tu_runtime.adapters.builtins:InfrastructureAdapter

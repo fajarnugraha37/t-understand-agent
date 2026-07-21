@@ -1,0 +1,46 @@
+{
+  "product": "t-understand",
+  "version": "0.6.0",
+  "phase": 4,
+  "phase_name": "Snapshot and Git Target Engine",
+  "status": "PASS",
+  "inventory": {
+    "snapshot_schemas": 5,
+    "snapshot_cli_commands": 8,
+    "git_target_types": 6,
+    "review_target_modes": 2,
+    "snapshot_examples": 5
+  },
+  "validation": {
+    "snapshot_contract_checks": 56,
+    "snapshot_tests": 29,
+    "snapshot_negative_tests": 11,
+    "snapshot_capture_tests": 8,
+    "snapshot_review_target_tests": 5,
+    "snapshot_cli_checks": 13
+  },
+  "assurances": {
+    "source_repository_access": "READ_ONLY",
+    "git_mutation": "DENY",
+    "branch_tag_commit_head_supported": true,
+    "index_supported": true,
+    "worktree_supported": true,
+    "staged_unstaged_untracked_digests": true,
+    "ignored_files": "EXCLUDED",
+    "protected_changed_paths": "DENY",
+    "untracked_symlinks": "DENY",
+    "dirty_submodule_worktree": "DENY",
+    "race_detection": true,
+    "snapshot_id_reuse": "DENY",
+    "integrity_validation": true,
+    "drift_detection": true,
+    "immutable_review_target": true,
+    "multi_repository_application_snapshot": true
+  },
+  "explicit_limitations": [
+    "Phase 4 captures Git identity and uncommitted overlays but does not itself inventory modules or source files; completed Phase 5 consumes these snapshots for discovery.",
+    "Ignored and protected changed files are intentionally not captured. Approval-based protected-file access is not implemented in Phase 4 and therefore fails closed.",
+    "Worktree snapshots reject dirty submodule internals. Submodules requiring independent analysis should be registered as application repositories.",
+    "Phase 4 creates immutable review targets but does not analyze diffs or emit code-review findings; analysis begins in Phase 14."
+  ]
+}

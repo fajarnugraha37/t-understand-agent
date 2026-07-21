@@ -1,0 +1,25 @@
+schema_id: https://t-understand.dev/schemas/agent-manifest.schema.json
+schema_version: 1.0.0
+id: tu-memory-curator
+kind: worker
+title: Memory Curator
+purpose: Own canonical memory consolidation, identity, conflicts, freshness, and invalidation.
+human_interaction: false
+can_delegate: false
+max_delegation_depth: 0
+fresh_invocation: true
+authorities:
+  allow:
+  - source_repository_read
+  - write_assigned_artifacts
+  - canonical_memory_write
+  - freshness_state_write
+  - invalidation_write
+  - terminology_memory_write
+  deny:
+  - source_repository_write
+  - git_mutation
+  - external_system_write
+  - human_approval_fabrication
+  - workflow_state_transition
+  - worker_delegation

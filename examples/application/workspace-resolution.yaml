@@ -1,0 +1,25 @@
+schema_id: https://t-understand.dev/schemas/workspace-resolution.schema.json
+schema_version: 1.0.0
+application_id: application-a
+workspace_model: multi-repo
+machine_id: developer-machine
+manifest_sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+status: RESOLVED
+repositories:
+- repository_id: repo-a
+  local_path: /workspace/application-a/repo-a
+  git_root: /workspace/application-a/repo-a
+  identity_type: remote
+  expected_identity: github.com/example/repo-a
+  actual_identity: github.com/example/repo-a
+  identity_status: MATCH
+  source_access: READ_ONLY
+- repository_id: repo-b
+  local_path: /workspace/application-a/repo-b
+  git_root: /workspace/application-a/repo-b
+  identity_type: explicit
+  expected_identity: example/internal-repo-b
+  actual_identity: null
+  identity_status: EXPLICIT
+  source_access: READ_ONLY
+resolved_at: '2026-07-21T00:00:00Z'

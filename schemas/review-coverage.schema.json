@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-understand.dev/schemas/review-coverage.schema.json",
+  "$comment": "Contract version 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "review_run_id",
+    "mode",
+    "repositories",
+    "files_considered",
+    "files_reviewed",
+    "files_excluded",
+    "coverage",
+    "exclusions"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "https://t-understand.dev/schemas/review-coverage.schema.json"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "review_run_id": {
+      "type": "string",
+      "pattern": "^RVW-"
+    },
+    "mode": {
+      "enum": [
+        "STATIC_AUDIT",
+        "DIFF"
+      ]
+    },
+    "repositories": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "files_considered": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "files_reviewed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "files_excluded": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "repository",
+          "path",
+          "reason"
+        ],
+        "properties": {
+          "repository": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

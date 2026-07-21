@@ -1,0 +1,8 @@
+schema_id: https://t-understand.dev/schemas/snapshot-validation-report.schema.json
+schema_version: 1.0.0
+snapshot_id: SNAP_EXAMPLE
+status: PASS
+checks: 7
+errors: []
+warnings: []
+checked_at: '2026-07-21T00:01:00Z'

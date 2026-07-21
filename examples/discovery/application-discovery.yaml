@@ -1,0 +1,20 @@
+schema_id: https://t-understand.dev/schemas/application-discovery.schema.json
+schema_version: 1.0.0
+discovery_id: DISC_EXAMPLE
+application_id: application-a
+snapshot_id: SNAP_EXAMPLE
+snapshot_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+status: DISCOVERED
+repositories:
+- repository_id: repo-a
+  descriptor_path: repositories/repo-a.yaml
+  descriptor_sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  content_digest: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+coverage:
+  repositories_total: 1
+  repositories_discovered: 1
+  files_total: 7
+  included: 7
+  excluded: 0
+content_digest: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+generated_at: '2026-07-21T00:00:00Z'

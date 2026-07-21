@@ -1,0 +1,19 @@
+contract:
+  id: TU-ANALYSIS-POLICY
+  version: 1.0.0
+  status: canonical
+owner: tu-analyzer
+source_access:
+  mode: READ_ONLY
+  execution: DENY
+rules:
+  - id: ANL-001
+    requirement: Analysis consumes validated immutable snapshot, discovery, and adapter artifacts.
+  - id: ANL-002
+    requirement: Observed behavior requires an exact source locator and file digest.
+  - id: ANL-003
+    requirement: Regex or syntax heuristics are classified explicitly and never upgraded to business intent.
+  - id: ANL-004
+    requirement: Incremental analysis must be semantically equivalent to full analysis for the same snapshot.
+  - id: ANL-005
+    requirement: Analysis output publication is atomic and deterministic.

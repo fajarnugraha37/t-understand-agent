@@ -1,0 +1,23 @@
+schema_id: https://t-understand.dev/schemas/adapter-manifest.schema.json
+schema_version: 1.0.0
+id: javascript-typescript
+version: 1.0.0
+priority: 880
+languages:
+- javascript
+- typescript
+file_patterns:
+- '*.js'
+- '*.jsx'
+- '*.mjs'
+- '*.cjs'
+- '*.ts'
+- '*.tsx'
+capabilities:
+  detection: structured
+  declarations: surface
+  dependencies: surface
+  interfaces: surface
+  configuration: surface
+fallback: false
+implementation: tu_runtime.adapters.builtins:JavaScriptTypeScriptAdapter

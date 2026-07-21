@@ -1,0 +1,14 @@
+contract:
+  id: TU-ESCALATION-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+rules:
+- id: ESC-001
+  requirement: Escalation records a concrete reason and failed contract.
+- id: ESC-002
+  requirement: Escalation may change model or decompose scope but cannot expand authority.
+- id: ESC-003
+  requirement: Repeated ambiguity loops back to human alignment rather than silent assumption.
+- id: ESC-004
+  requirement: A stronger model output remains subject to identical schemas and validators.

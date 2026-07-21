@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "checks": {
+    "model_inherited": true,
+    "no_flagship_dependency": true,
+    "sequential": true,
+    "depth_one": true,
+    "evidence_slices": true,
+    "single_objective": true,
+    "structured_output": true,
+    "deterministic_verification": true,
+    "silent_assumption_denied": true,
+    "material_critique": true
+  }
+}

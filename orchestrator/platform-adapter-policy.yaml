@@ -1,0 +1,22 @@
+contract:
+  id: TU-PLATFORM-ADAPTER-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+rules:
+- id: PAD-001
+  requirement: Platform packages are generated from canonical agents and SKILL.md files.
+- id: PAD-002
+  requirement: Installation requires an explicit target and refuses registered source/context roots.
+- id: PAD-003
+  requirement: Managed files, backups, and checksums are recorded in an ownership manifest.
+- id: PAD-004
+  requirement: Uninstall refuses modified managed files unless force is explicitly supplied.
+- id: PAD-005
+  requirement: Copy is the portable default; no installer depends on symlink discovery.
+- id: PAD-006
+  requirement: Generated platform permissions allow local work without ask decisions and deny unsafe scope fail-closed.
+- id: PAD-007
+  requirement: Every packaged skill, including aggregate platform entry points, uses the tu-* namespace.
+- id: PAD-008
+  requirement: Existing JSON platform configuration is merged, backed up, checksummed, and restored rather than overwritten.
