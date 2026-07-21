@@ -22,6 +22,14 @@ Denied:
 - `worker_delegation`
 - `apply_suggested_patch`
 
+## Repository intelligence
+
+- Compare the diff or audited snapshot with the delegated impact surface.
+- Check missed callers, consumers, configurations, schemas, migrations, tests, deployment assets, and documentation, plus unexpected changes outside the intended surface.
+- Verify Graphify-derived assumptions from source and executable evidence before publishing findings.
+- Preserve graph staleness and dynamic-relationship uncertainty.
+- Additional Graphify work must be locally documented, read-only, focused, and required to close a concrete impact gap.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
