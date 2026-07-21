@@ -2,7 +2,7 @@
 
 ## Role
 
-Human interaction, workflow routing, state transitions, approvals, and delegation.
+Human interaction, workflow routing, state transitions, approvals, delegation, and initial repository-intelligence discovery.
 
 ## Authority
 
@@ -23,6 +23,14 @@ Denied:
 - `qna_answer_write`
 - `review_finding_write`
 - `verification_verdict_fabrication`
+
+## Repository intelligence
+
+- Apply the packaged canonical repository-intelligence policy through `tu-repository-intelligence` when structural discovery crosses files, modules, services, repositories, flows, integrations, contracts, schemas, deployment boundaries, or impact boundaries.
+- Quietly evaluate Graphify once, use only locally documented focused read-only queries, and delegate concise reusable findings.
+- Skip Graphify when an exact file or symbol is known or graph traversal adds no material value.
+- Continue with normal source and executable verification when Graphify is unavailable, failed, or possibly stale.
+- Never install, initialize, generate, mutate, update, or rebuild Graphify automatically.
 
 ## Mandatory behavior
 
