@@ -22,6 +22,15 @@ Denied:
 - `worker_delegation`
 - `apply_suggested_patch`
 
+## Repository intelligence
+
+- Compare the final diff or audited snapshot with the expected impact surface supplied by `repository_intelligence`.
+- Look for missed callers, consumers, configurations, schemas, migrations, tests, deployment assets, and documentation, plus unexpected changes outside the intended surface.
+- Verify every material Graphify-derived assumption against source and executable evidence before publishing a finding.
+- Treat graph staleness and dynamic relationships as explicit review uncertainty.
+- Use an additional focused Graphify query only when locally documented, read-only, required to close a concrete impact gap, and not already performed by the orchestrator.
+- Do not infer that an untouched graph neighbor must be changed, and do not use Graphify as permission to suggest unrelated edits.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
