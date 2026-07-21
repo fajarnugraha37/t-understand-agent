@@ -10,6 +10,14 @@ human ↔ t-understand → one terminal worker invocation
 
 Workers never call one another. Parallelism, when introduced in later phases, is orchestrator-controlled and limited to independent read-only tasks.
 
+## Repository intelligence
+
+`t-understand` owns the first repository-intelligence decision. For work crossing files, modules, services, repositories, flows, integrations, contracts, schemas, deployment boundaries, or impact boundaries, it applies `repository-intelligence-policy.yaml` through `tu-repository-intelligence` before broad source exploration.
+
+Graphify is optional and used first only when a locally documented executable or integration, usable graph, and permitted read-only query are confirmed. The orchestrator performs focused discovery, passes concise reusable findings in the optional delegation context, and prevents duplicate worker discovery by default. Missing, stale, permission-denied, or failed Graphify is fail-open and never blocks normal source, search, language-server, compiler, build, or test work.
+
+Graphify findings are navigation and impact candidates. Final implementation claims require revision-bound source or authoritative configuration evidence plus executable checks where applicable. Installation, upgrade, initialization, graph generation, mutation, update, and rebuild are never automatic.
+
 ## Source boundary
 
 Every source repository is immutable from the perspective of t-understand. Runtime-generated context artifacts live in a dedicated application context repository or local runtime directory, never in source repositories unless a human separately copies them.
