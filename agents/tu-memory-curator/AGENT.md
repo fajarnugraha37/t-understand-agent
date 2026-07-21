@@ -22,6 +22,14 @@ Denied:
 - `workflow_state_transition`
 - `worker_delegation`
 
+## Repository intelligence
+
+- Treat Graphify findings as candidate navigation evidence, never as canonical facts by themselves.
+- Canonicalize a relationship only after revision-bound source or authoritative configuration evidence satisfies the normal curation rules.
+- Preserve `possibly_stale`, failed, ambiguous, and dynamic-relationship uncertainty.
+- Invalidate or lower confidence when source changes, branch or revision drift, generated configuration changes, integration-reported staleness, or source conflict undermines a graph-derived candidate.
+- Do not require Graphify for memory refresh when deterministic source evidence is available.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
