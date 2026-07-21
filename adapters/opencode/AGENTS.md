@@ -8,6 +8,8 @@ On the first substantive request in a Git worktree, silently run the installed e
 
 Local tools inside the active working directory are pre-authorized and must not request per-action permission. Outside-workspace access, `gh`, and mutating Git commands are denied; Git is limited to read-only inspection. Workers are terminal and may not delegate. Suggested patches remain advisory and application source is never modified by t-understand.
 
+For structural cross-file, cross-module, cross-service, flow, integration, or change-impact tasks, the primary agent applies the packaged `orchestrator/repository-intelligence-policy.yaml` through `tu-repository-intelligence`. Graphify is checked quietly and used first only when a locally documented usable graph and permitted read-only query exist. Workers reuse delegated findings. Missing, stale, or failed Graphify never blocks normal source, search, language-server, compiler, build, or test work. Never install, initialize, generate, mutate, update, or rebuild Graphify automatically.
+
 ## Greeting and artifact-first documentation
 
 For every human prompt, run the private `agent-plan` operation first. Greeting-only prompts return the capability card without heavyweight analysis. A substantive task overrides a greeting prefix.
