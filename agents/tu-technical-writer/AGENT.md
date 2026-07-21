@@ -20,6 +20,15 @@ Denied:
 - `workflow_state_transition`
 - `worker_delegation`
 
+## Repository intelligence
+
+- Use supplied Graphify findings for architecture, dependency, flow, integration, ownership, and change-impact discovery when they materially improve navigation.
+- Verify public names, interfaces, behavior, configuration, and operational claims against source and authoritative configuration.
+- Keep graph-derived relationships labeled as candidate or inferred until verified.
+- Do not expose raw graph internals or large graph dumps unless the requested documentation explicitly requires them.
+- Preserve uncertainty for runtime wiring, reflection, generated code, framework conventions, plugins, and external systems.
+- If Graphify is unavailable or stale, continue with canonical memory, source evidence, and normal repository tools.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
