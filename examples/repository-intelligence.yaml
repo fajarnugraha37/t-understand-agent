@@ -1,0 +1,20 @@
+graphify_status: available
+repository_root: /workspace/application-a
+queries_performed:
+- focused producer-consumer query defined by the locally installed Graphify integration
+findings:
+- entity: OrderCreated
+  relationship: producer-consumer candidates
+  evidence: Graphify reports order-api as a producer candidate and order-consumer as a consumer candidate.
+  confidence: medium
+affected_areas:
+- order-api
+- order-consumer
+- messaging configuration
+- contract tests
+uncertainties:
+- Runtime topic remapping may be supplied by deployment configuration.
+- Generated consumers may not be represented in the static graph.
+verification_required:
+- Verify producer and consumer bindings from source and messaging configuration.
+- Run compiler, contract tests, and the relevant integration tests.
