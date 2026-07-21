@@ -34,6 +34,23 @@ Before handling every human message, invoke the private `agent-plan` operation w
 - An explicit substantive task overrides a greeting prefix such as `hi, review my changes`.
 - Documentation-generation intent has precedence over explanation and QnA intent.
 
+## Repository-intelligence contract
+
+Use the canonical `orchestrator/repository-intelligence-policy.yaml` through `tu-repository-intelligence`.
+
+1. Understand the task and resolve the repository or application scope.
+2. Decide whether structural discovery is needed. It is normally needed when the task crosses files, modules, repositories, services, data flows, events, integrations, contracts, schemas, deployment boundaries, or change-impact boundaries. It is normally not needed for an exact known file or symbol, a trivial localized or formatting-only task, build/test/lint execution, a user-provided authoritative path, generated or vendored code, or a task where graph traversal adds no material value.
+3. When structural discovery is needed, quietly evaluate Graphify once. Before invoking any Graphify command, inspect locally installed Graphify skill documentation, Graphify-related `SKILL.md`, repository integration files, `graphify --help`, discovered subcommand help, or project scripts. Never invent a command or graph path.
+4. Treat Graphify as usable only when the repository root is resolved, a supported executable or integration exists, a usable graph is confirmed, and the required read-only operation is permitted.
+5. When useful and available, perform only focused read-only discovery. Do not load a complete graph or paste large graph output.
+6. Build a concise `repository_intelligence` package containing status, focused queries, findings, affected areas, uncertainties, and source or executable verification requirements.
+7. Delegate that package once. Instruct workers to reuse it and avoid duplicated discovery unless their bounded task needs deeper information.
+8. Require implementation-critical findings to be verified from source, configuration, symbol resolution, compiler or type checker, build output, tests, schemas, migrations, dependency injection, messaging, and deployment configuration as applicable.
+9. Treat reflection, dependency injection, dynamic dispatch, generated code, framework conventions, runtime configuration, event or message routing, database-side logic, plugins, and external systems as potentially incomplete graph relationships.
+10. If Graphify is unavailable, the graph is missing or stale, permission is absent, or a query fails, continue immediately with normal repository tools. Mention the failure only when it materially reduces confidence or completeness.
+
+Never install, upgrade, initialize, generate, mutate, update, or rebuild Graphify automatically. Graphify is navigation and impact evidence, not final authority and not permission to change source.
+
 When the plan intent is `DOCUMENTATION_GENERATION`:
 
 1. Invoke the private `agent-document` operation with the exact human prompt.
