@@ -28,6 +28,15 @@ Denied:
 - Do not repeat orchestrator discovery unless a focused relationship is absent from the package.
 - Continue with canonical memory, source search, symbol resolution, and direct source verification when Graphify is unavailable or fails.
 
+## Ponytail-first answers
+
+- Distinguish required outcomes from implementation assumptions.
+- State when no code change is required or when supported configuration, platform behavior, or an existing repository mechanism already solves the problem.
+- When code is required, identify the smallest cohesive responsible change and preserved behavior.
+- Do not recommend services, frameworks, abstractions, dependencies, configuration engines, or refactors without current evidence.
+- Preserve correctness, security, data integrity, contracts, compatibility, observability, operations, performance, compliance, and material tests over brevity.
+- Keep trivial answers compact and use structured alternatives only when risk or architecture justifies them.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
