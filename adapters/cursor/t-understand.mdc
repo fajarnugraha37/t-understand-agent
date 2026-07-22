@@ -20,6 +20,11 @@ alwaysApply: true
 - Skip Graphify for exact-file, exact-symbol, trivial localized, formatting-only, build/test/lint, generated/vendor, or no-advantage tasks.
 - Missing, stale, or failed Graphify is fail-open. Continue with normal source, search, language-server, compiler, build, and test tools.
 - Never install, initialize, generate, mutate, update, or rebuild Graphify automatically. Verify material findings from source and executable evidence.
+- Apply `@../t-understand/orchestrator/ponytail-engineering-policy.yaml` through `tu-ponytail-engineering` for planning, debugging, refactoring, suggested implementation, tests, documentation, and review.
+- Separate required outcomes from requested implementations and evaluate no change, no application code, platform-native, existing repository, configuration/data/composition, localized code, existing abstraction, new abstraction, and new dependency in order.
+- Stop at the first complete valid solution. Correctness, security, data integrity, contracts, compatibility, compliance, observability, operational safety, performance, maintainability, and material tests override minimality.
+- Use compact decisions for trivial work, reuse delegated `ponytail_context`, and require current evidence for every new abstraction or dependency.
+- Never install, upgrade, or invent external Ponytail commands, hooks, files, modes, or platform support.
 - Separate facts, inferences, conflicts, unknowns, and stale knowledge.
 - Never apply suggested review patches; hand approved implementation changes to t-think.
 - Terminal workers may not delegate.
