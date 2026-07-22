@@ -30,6 +30,15 @@ delegation:
     worker_additional_query: focused-read-only-when-required
     large_raw_graph_output: deny
     graphify_failure_blocks_task: false
+  ponytail_context:
+    field: optional
+    initial_decision_owner: t-understand
+    shared_skill: tu-ponytail-engineering
+    reuse_prior_decisions: required
+    reopen_only_on_new_evidence: true
+    scope_expansion_without_authority: deny
+    external_ponytail_required: false
+    missing_external_integration_blocks_task: false
 transitions:
   authority: t-understand
   registry_only: true
@@ -56,3 +65,4 @@ limitations:
 - Application/workspace resolution and immutable Git snapshots are implemented by Phases 3 and 4; repository discovery remains assigned to Phase 5.
 - Phase 2 does not invoke vendor subagent APIs; platform adapters are implemented in Phase 18.
 - Repository intelligence is an optional delegation context. Existing callers may omit it without changing lifecycle behavior.
+- Ponytail context is optional and does not require an external Ponytail plugin. Existing callers may omit it without changing lifecycle behavior.
