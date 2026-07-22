@@ -25,6 +25,10 @@ rules:
   requirement: Graphify installation, upgrade, initialization, graph generation, graph mutation, graph update, and graph rebuild are denied by default and must never be attempted automatically.
 - id: TPP-010
   requirement: An intentionally sandboxed worker without shell access does not gain shell access for Graphify; it consumes repository-intelligence findings supplied by t-understand.
+- id: TPP-011
+  requirement: Ponytail-first reasoning uses existing read and analysis authority and does not grant package installation, dependency upgrade, deployment, database mutation, destructive command, or broader repository-write authority.
+- id: TPP-012
+  requirement: Ponytail installation or upgrade is denied by default and must never be attempted automatically; absent integration falls back to the canonical policy.
 allowed_local_capabilities:
 - read
 - search
@@ -82,4 +86,6 @@ deny:
 - graphify-graph-mutation
 - graphify-graph-update
 - graphify-graph-rebuild
+- ponytail-installation
+- ponytail-upgrade
 prompt_fallback: denied
