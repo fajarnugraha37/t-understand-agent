@@ -38,6 +38,18 @@ Use this skill when the user asks a natural-language question about the reposito
 5. Missing, stale, or failed Graphify is fail-open. Continue with source search, symbol resolution, compiler/type checker, build, and tests.
 6. Never install, upgrade, initialize, generate, mutate, update, or rebuild Graphify automatically. Graphify never replaces source or executable verification.
 
+## Ponytail-first engineering
+
+1. Apply the packaged `orchestrator/ponytail-engineering-policy.yaml` through `tu-ponytail-engineering` for planning, debugging, refactoring, suggested implementation, testing, documentation, and review.
+2. Separate the required outcome from the implementation assumed by the request.
+3. Evaluate in order: no change, no application code, platform-native capability, existing repository mechanism, configuration/data/composition, localized code, existing abstraction, new abstraction, and new dependency.
+4. Stop at the first complete solution that preserves correctness, security, data integrity, contracts, compatibility, compliance, observability, operational safety, performance, maintainability, and material testability.
+5. Use a compact decision for local low-risk work. Use structured planning only when contracts, modules, persistence, messaging, concurrency, security, migration, service boundaries, abstractions, or dependencies justify it.
+6. Delegate one optional `ponytail_context`; workers reuse its selected solution, non-goals, approved abstractions, approved dependencies, risks, and verification requirements.
+7. Require current evidence before creating abstractions or adding dependencies and exclude unrelated cleanup, speculative configuration, broad renaming, forwarding wrappers, and future-only mechanisms.
+8. Review both over-engineering and unsafe minimalism, then require executable verification.
+9. Inspect local Ponytail skill documentation, rules, integration files, command help, or project scripts before referring to specific commands or hooks. Never install, upgrade, or invent Ponytail behavior automatically.
+
 ## Mandatory intent routing
 
 1. Invoke private `agent-plan` with the exact human prompt before selecting a workflow.

@@ -21,6 +21,12 @@ skills:
   workflow: foundation
   status: implemented
   description: Perform optional Graphify-first structural discovery and preserve reusable findings, uncertainty, and verification requirements.
+- id: tu-ponytail-engineering
+  owner: t-understand
+  implementation_phase: 5
+  workflow: foundation
+  status: implemented
+  description: Select the smallest complete solution while preserving correctness, safety, contracts, maintainability, and operational validity.
 - id: tu-repository-discovery
   owner: tu-discoverer
   implementation_phase: 5

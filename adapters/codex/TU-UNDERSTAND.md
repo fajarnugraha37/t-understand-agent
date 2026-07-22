@@ -10,6 +10,8 @@ All packaged skills use the `tu-*` namespace. Start Codex with the packaged `tu-
 
 For structural cross-boundary work, `tu-understand` uses the packaged canonical repository-intelligence policy and `tu-repository-intelligence`. Graphify is optional, checked quietly, and queried only through locally documented read-only operations when a usable graph exists. Missing, stale, or failed Graphify never blocks source inspection, symbol resolution, compiler, build, or test verification. Graph installation, initialization, generation, mutation, update, and rebuild are never automatic.
 
+For engineering decisions, `tu-understand` uses the packaged `ponytail-engineering-policy.yaml` and `tu-ponytail-engineering`. It distinguishes outcomes from requested implementations, evaluates no change and no-code options before platform, repository, configuration/data/composition, localized code, abstractions, or dependencies, and stops at the first complete valid solution. Correctness and safety override minimality. Small tasks remain compact, workers reuse `ponytail_context`, and new abstractions or dependencies require current evidence. External Ponytail integration is optional and never installed, upgraded, or invented automatically.
+
 ## Greeting and artifact-first documentation
 
 The `tu-understand` skill must call private `agent-plan` routing for each prompt. A greeting-only prompt displays capabilities. Explicit documentation generation must invoke `agent-document`, create the stable file view under `.t-understand/output/documentation/latest/`, and return only the completion summary. Chat-only documentation, private reasoning leakage, and unexecuted pass claims are forbidden.

@@ -1,0 +1,223 @@
+contract:
+  id: TU-PONYTAIL-ENGINEERING-POLICY
+  version: 1.0.0
+  status: canonical
+owner: t-understand
+strategy: smallest-complete-solution
+invariant: The smallest acceptable solution is the smallest solution that remains correct, safe, understandable, maintainable, and operationally valid.
+external_integration:
+  required: false
+  detection_order:
+  - installed Ponytail skill documentation
+  - Ponytail SKILL.md files
+  - Ponytail rules or agent files
+  - repository integration files
+  - local command help
+  - existing project scripts
+  behavior_when_available: reuse only locally documented Ponytail behavior that does not conflict with this policy
+  behavior_when_unavailable: apply this canonical policy directly without blocking the task
+  automatically_install: false
+  automatically_upgrade: false
+  invent_commands_or_files: false
+precedence:
+- correctness and required behavior
+- security, safety, and data integrity
+- public and internal contracts
+- backward compatibility
+- regulatory and compliance obligations
+- operational safety and required observability
+- required performance characteristics
+- clear domain invariants
+- simplicity of the complete system
+- cohesion and coupling
+- reuse and extensibility
+- local code brevity
+complexity_model:
+  necessary: imposed by current domain, contract, safety, security, compliance, performance, or operational needs
+  accidental: introduced by the implementation approach without serving a current requirement
+  speculative: introduced for hypothetical future requirements
+  action: preserve and clarify necessary complexity; remove accidental and speculative complexity
+small_task_path:
+  use_when:
+  - change is local
+  - affected contract is clear
+  - no architectural boundary is crossed
+  - risk is low
+  - validation is straightforward
+  behavior:
+  - record a concise decision instead of a full assessment
+  - avoid multi-agent delegation unless one bounded specialist materially reduces risk
+  - preserve required executable verification
+structured_path:
+  use_when:
+  - multiple modules or repositories are affected
+  - public or internal contracts change
+  - persistence, messaging, concurrency, security, migration, or service boundaries are involved
+  - an abstraction or dependency is introduced or materially changed
+  behavior:
+  - produce a complete ponytail assessment
+  - preserve non-goals and rejected alternatives
+  - require specialized review and executable verification
+decision_ladder:
+- step: 1
+  id: no-change
+  question: Does current behavior, documented usage, an existing command, API, component, flag, deployment option, or configuration already satisfy the required outcome?
+  choose_when: the requirement is already met or the issue is a misunderstanding
+  action: make no code change and explain the existing supported solution
+- step: 2
+  id: no-application-code
+  question: Can configuration, environment variables, policy, data, schema constraints, declarative validation, routing, build, deployment, access control, infrastructure, or workflow configuration satisfy the outcome?
+  choose_when: the solution is correct, supportable, visible, verifiable, and within the owning boundary
+  reject_when: it hides business logic, weakens testability, or moves responsibility into an obscure layer
+- step: 3
+  id: platform-native
+  question: Does the language, standard library, runtime, framework, operating system, database, browser, build system, container platform, infrastructure, or an already-approved dependency provide the required contract?
+  choose_when: the native behavior matches the current contract and operational requirements
+  reject_when: its semantics, compatibility, safety, or support guarantees are insufficient
+- step: 4
+  id: existing-repository-solution
+  question: Does the repository already contain a helper, service, adapter, extension point, component, validator, mapper, error convention, test utility, configuration mechanism, or approved dependency for the same concept?
+  choose_when: the mechanism represents the same semantic responsibility
+  reject_when: similarity is only syntactic or reuse would couple distinct domain concepts
+- step: 5
+  id: configuration-data-composition
+  question: Can the behavior be represented by data, lookup tables, established strategy registration, configuration objects, schema metadata, declarative mappings, composition, or a new variant of an existing extension point?
+  choose_when: the repository already owns and tests the mechanism
+  reject_when: it creates a generalized engine for one isolated case
+- step: 6
+  id: localized-code
+  question: Can one cohesive responsible component implement the behavior directly?
+  choose_when: a small localized change preserves responsibility, contracts, validation, observability, and compatibility
+  action: minimize changed concepts rather than only changed lines
+- step: 7
+  id: existing-abstraction
+  question: Does an existing abstraction semantically own this variation?
+  choose_when: extending it preserves cohesion and its behavioral contract
+  reject_when: the abstraction is only superficially similar or would gain an unrelated responsibility
+- step: 8
+  id: new-abstraction
+  question: Is a new abstraction justified by current evidence?
+  choose_when: at least one abstraction admission criterion is proven and direct code is materially worse
+  reject_when: justification is future-proofing, style, generic best practice, one hypothetical consumer, or small obvious duplication
+- step: 9
+  id: new-dependency
+  question: Is a new dependency the only proportionate solution with a current measurable benefit?
+  choose_when: benefit outweighs supply-chain, security, licensing, maintenance, runtime, build, learning, and transitive costs
+  reject_when: language, platform, framework, repository, or approved dependencies already provide the capability
+correctness_boundary:
+- do not remove validation to reduce code
+- do not remove error handling to simplify control flow
+- do not bypass a meaningful architectural boundary to avoid an interface
+- do not replace transactionally safe behavior with shorter unsafe behavior
+- do not hide business rules in configuration merely to reduce source lines
+- do not remove required metrics, tracing, logs, or audit events
+- do not combine unrelated responsibilities merely to reduce file count
+- do not omit tests when regression risk is material
+- do not remove compatibility while active consumers depend on it
+principles:
+  SRP: Prefer fewer components, but never combine unrelated responsibilities.
+  OCP: Use an existing extension point when it fits; do not create a framework without demonstrated current variation.
+  LSP: Reject shorter implementations that weaken behavioral contracts.
+  DIP: Preserve meaningful dependency boundaries; do not add interfaces around every concrete class.
+  DRY: Remove duplicated knowledge; tolerate small duplication when abstraction would increase coupling.
+  KISS: Optimize simplicity across the complete system, not only local line count.
+  YAGNI: Exclude future-only mechanisms, options, fields, dependencies, and abstractions.
+abstraction_admission:
+  require_at_least_one:
+  - multiple current implementations or variants exist
+  - a stable public contract is required
+  - infrastructure volatility must be isolated from policy
+  - independent ownership boundaries exist
+  - contract testing across implementations is valuable
+  - an external integration requires an adapter boundary
+  - testability cannot reasonably be achieved otherwise
+  - the repository already uses the pattern for the same concept
+  - an approved near-term requirement explicitly depends on the extension point
+  record:
+  - current requirement served
+  - current implementations or consumers
+  - isolated volatility or ownership boundary
+  - coupling reduced
+  - why direct code is insufficient
+  - complexity introduced
+  - simpler alternative rejected and reason
+dependency_admission:
+  record:
+  - current_problem
+  - existing_platform_options
+  - existing_repository_options
+  - dependency_benefit
+  - security_and_licensing
+  - maintenance_cost
+  - runtime_or_build_cost
+  - simpler_alternative
+  - decision
+  approved_behavior:
+  - use the narrowest stable API
+  - avoid exposing the dependency throughout the domain
+  - document why it is necessary
+  - update lock files and dependency validation correctly
+  - add relevant tests
+  - avoid overlapping libraries
+workflow:
+  orchestrator:
+  - separate required outcome from assumed implementation
+  - run the decision ladder until the first complete valid solution is found
+  - identify the smallest responsible change surface
+  - use the lightweight path for trivial low-risk work
+  - delegate only when specialist analysis materially reduces risk
+  - pass one reusable ponytail_context to workers
+  - require review for both over-engineering and unsafe minimalism
+  - require executable verification
+  analysis:
+  - identify existing behavior and current consumers
+  - inspect native, platform, repository, configuration, and data options before custom architecture
+  - classify complexity as necessary, accidental, or speculative
+  - stop when enough evidence exists for a safe decision
+  planning:
+  - preserve required outcome, assumptions, preserved behavior, non-goals, selected solution, rejected alternatives, risks, and verification
+  - do not fabricate alternatives to fill a template
+  implementation_handoff:
+  - specify the smallest responsible component and coherent diff
+  - exclude unrelated cleanup, broad renaming, speculative configuration, unused parameters, future-only interfaces, forwarding wrappers, and unjustified dependencies
+  - preserve validation, error handling, observability, audit behavior, compatibility, transactions, and concurrency guarantees
+  debugging:
+  - reproduce or characterize the failure
+  - identify the violated invariant
+  - locate the smallest responsible component
+  - fix the root cause
+  - add regression verification
+  - report broader debt separately
+  refactoring:
+  - require a concrete structural problem and practical consequence
+  - preserve behavior through executable checks
+  - reduce total complexity, indirection, obsolete code, invalid inheritance, or duplicated business knowledge
+  - do not mix unrelated cleanup or style migration with the task
+  review:
+  - review correctness, security, data integrity, contracts, concurrency, transactions, observability, migration, deployment, and tests first
+  - then review whether every changed file, type, abstraction, option, dependency, and cleanup is currently necessary
+  - also detect unsafe shortcuts, hidden logic, weakened boundaries, missing validation, and fragile hacks
+  testing:
+  - test required behavior and preserved contracts
+  - add regression tests for actual risk
+  - prefer stable behavioral assertions and existing fixtures
+  - avoid test frameworks or exhaustive hypothetical cases without current variants
+  documentation:
+  - update actual affected behavior in the existing structure
+  - avoid speculative capability claims and unnecessary new documents
+  - remove obsolete guidance when behavior is simplified
+delegation:
+  optional_field: ponytail_context
+  owner: t-understand
+  worker_behavior:
+  - consume prior decisions instead of repeating the complete ladder
+  - reopen a decision only when new evidence invalidates it
+  - preserve approved abstractions, approved dependencies, non-goals, risks, and verification requirements
+  - never expand scope without evidence and orchestrator authority
+permissions:
+  expand_for_ponytail: false
+  package_installation: not_granted
+  dependency_upgrade: not_granted
+  deployment: not_granted
+  database_mutation: not_granted
+  destructive_commands: not_granted

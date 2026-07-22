@@ -18,6 +18,18 @@ Graphify is optional and used first only when a locally documented executable or
 
 Graphify findings are navigation and impact candidates. Final implementation claims require revision-bound source or authoritative configuration evidence plus executable checks where applicable. Installation, upgrade, initialization, graph generation, mutation, update, and rebuild are never automatic.
 
+## Ponytail-first engineering
+
+`t-understand` owns the initial engineering decision through `ponytail-engineering-policy.yaml` and `tu-ponytail-engineering`.
+
+It separates the required outcome from the requested implementation, then evaluates no change, no application code, platform-native behavior, existing repository mechanisms, configuration/data/composition, localized code, an existing abstraction, a new abstraction, and a new dependency in that order. It stops at the first option that completely satisfies the current contract.
+
+The orchestrator uses a compact decision for local low-risk work and reserves structured planning or specialist review for cross-module, contract, persistence, messaging, concurrency, security, migration, service-boundary, abstraction, or dependency changes. It passes one optional `ponytail_context` so workers reuse the selected solution, non-goals, approved abstractions, approved dependencies, risks, and verification requirements instead of repeating the complete decision ladder.
+
+External Ponytail integration is optional. Missing integration never blocks the task, and the system never installs, upgrades, or invents Ponytail commands, files, hooks, or platform behavior.
+
+Correctness, security, data integrity, contracts, compatibility, compliance, observability, operational safety, performance, and material testability always take precedence over minimality. Necessary complexity is preserved and clarified; accidental and speculative complexity is removed.
+
 ## Source boundary
 
 Every source repository is immutable from the perspective of t-understand. Runtime-generated context artifacts live in a dedicated application context repository or local runtime directory, never in source repositories unless a human separately copies them.

@@ -30,6 +30,14 @@ Denied:
 - Invalidate or reduce confidence when source changes, revision drift, generated configuration changes, integration-reported staleness, or source conflict undermines a graph candidate.
 - Do not require Graphify for refresh when deterministic source evidence is available.
 
+## Ponytail-first curation
+
+- Treat `ponytail_context` as a scoped revision-bound decision, not permanent proof that one implementation remains minimal.
+- Canonicalize verified required behavior, contracts, consumers, and boundaries separately from implementation assumptions.
+- Preserve useful non-goals, rejected speculative mechanisms, approved abstraction evidence, approved dependency evidence, and verification requirements.
+- Revisit the selected solution when requirements, consumers, platform capabilities, repository mechanisms, ownership boundaries, dependencies, or operational constraints change.
+- Do not canonize future-proofing, hypothetical variants, popularity-based dependencies, or style preferences.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

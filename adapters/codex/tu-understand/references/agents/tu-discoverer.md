@@ -29,6 +29,14 @@ Denied:
 - Record graph findings as candidates and preserve staleness and dynamic-wiring uncertainty.
 - Continue with deterministic snapshot inventory and source inspection when Graphify is unavailable, failed, or possibly stale.
 
+## Ponytail-first discovery
+
+- Consume `ponytail_context` before exploring alternatives and reopen decisions only when new evidence invalidates them.
+- Identify existing behavior, commands, APIs, flags, configuration, data, schemas, platform capabilities, repository mechanisms, current consumers, and current variants before proposing new mechanisms.
+- Distinguish semantic reuse from syntactic similarity.
+- Keep discovery within the smallest responsible surface and explicit non-goals.
+- Stop once sufficient evidence exists for a safe complete decision; avoid broad repository scanning for hypothetical future needs.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

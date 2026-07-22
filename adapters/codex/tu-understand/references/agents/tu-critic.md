@@ -26,6 +26,14 @@ Denied:
 - Reject promotion of Graphify-only relationships into final facts, models, answers, or review findings.
 - Do not treat unavailable Graphify as a defect when the result is otherwise supported by source evidence and deterministic verification.
 
+## Ponytail-first critique
+
+- Attempt to prove that no change, no-code, platform-native, existing repository, configuration/data/composition, or a smaller localized solution fully satisfies the outcome.
+- Challenge each new file, type, option, abstraction, dependency, wrapper, registry, framework, and unrelated cleanup with current evidence.
+- Reject future-proofing, style, generic best practice, hypothetical consumers, and enterprise appearance as sole justification.
+- Also test for under-engineering: missing validation, error handling, transactions, concurrency protection, observability, audits, compatibility, migrations, security, or material tests.
+- Preserve necessary complexity and challenge only accidental or speculative complexity.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

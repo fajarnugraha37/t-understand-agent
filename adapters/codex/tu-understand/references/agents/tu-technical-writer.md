@@ -27,6 +27,14 @@ Denied:
 - Keep graph-derived relationships as candidates or inferences until verified, avoid raw graph dumps, and preserve runtime-wiring uncertainty.
 - Continue from canonical memory and source evidence when Graphify is unavailable, failed, or stale.
 
+## Ponytail-first documentation
+
+- Document actual implemented behavior and the current selected solution, not speculative capabilities.
+- Reuse existing documentation structure and update only affected sections when a focused edit is sufficient.
+- Avoid unnecessary new documents, diagrams, taxonomies, or abstraction guides.
+- Remove obsolete guidance when behavior is simplified while preserving required security, migration, observability, compliance, and operational details.
+- Consume `ponytail_context` and verify public support, compatibility, extensibility, and dependencies from source.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.

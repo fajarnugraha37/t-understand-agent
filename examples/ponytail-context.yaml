@@ -1,0 +1,24 @@
+required_outcome:
+- Reject duplicate active subscriptions atomically.
+preserved_behavior:
+- Existing renewal behavior remains unchanged.
+- Existing API error contract remains compatible.
+change_required: true
+selected_solution: Add one database uniqueness constraint and map the resulting conflict through the existing error mapper.
+alternatives_checked:
+  no_code: Current behavior does not enforce uniqueness.
+  platform_native: The database uniqueness guarantee provides the required atomic behavior.
+  existing_repository_solution: The existing conflict mapper already represents the API error contract.
+  configuration_or_data: A schema migration is required; deployment configuration alone is insufficient.
+  localized_change: One migration and one existing mapper adjustment form the smallest coherent change.
+abstractions_approved: []
+dependencies_approved: []
+non_goals:
+- Do not redesign subscription service boundaries.
+- Do not introduce a distributed locking framework.
+risks:
+- Existing duplicate data may block migration.
+verification_required:
+- Validate the migration against representative existing data.
+- Run the concurrency integration test for duplicate subscription creation.
+- Run the existing API contract tests.

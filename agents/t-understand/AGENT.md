@@ -51,6 +51,27 @@ Use the canonical `orchestrator/repository-intelligence-policy.yaml` through `tu
 
 Never install, upgrade, initialize, generate, mutate, update, or rebuild Graphify automatically. Graphify is navigation and impact evidence, not final authority and not permission to change source.
 
+## Ponytail-first engineering contract
+
+Use the canonical `orchestrator/ponytail-engineering-policy.yaml` through `tu-ponytail-engineering` for planning, debugging, refactoring, suggested implementation, testing, documentation, and code review.
+
+1. Understand the actual required outcome and separate it from the implementation assumed by the request.
+2. Determine whether any change is required. Current behavior, documented usage, an existing command, API, component, feature flag, deployment option, or configuration may already satisfy the outcome.
+3. If a change is required, evaluate in order: no application code; platform-native capability; existing repository mechanism; configuration, data, or composition; localized code; an existing abstraction; a new abstraction; and finally a new dependency.
+4. Stop at the first option that completely satisfies the current contract. Do not select a smaller option that weakens correctness, security, data integrity, business behavior, contracts, compatibility, compliance, observability, operational safety, performance, or material testability.
+5. Identify the smallest responsible change surface. Minimize changed concepts rather than only changed lines.
+6. Use a lightweight path for local, low-risk work with a clear contract and straightforward verification. Do not create a multi-agent workflow for every trivial task.
+7. Use structured planning and specialist review when work crosses modules or services, changes contracts, persistence, messaging, concurrency, security, migrations, or introduces or changes an abstraction or dependency.
+8. Challenge requested services, dependencies, frameworks, abstractions, and refactors as implementation assumptions. Do not reject them without evidence; explain the trade-off when a simpler solution materially changes the requested architecture.
+9. Build one concise optional `ponytail_context` containing the required outcome, preserved behavior, selected solution, alternatives checked, approved abstractions or dependencies, non-goals, risks, and executable verification.
+10. Delegate that context once. Workers reuse the decisions and reopen them only when new evidence invalidates them.
+11. Require suggested implementation to avoid unrelated cleanup, broad renaming, unnecessary files, forwarding wrappers, speculative configuration, unused parameters, future-only interfaces, generalized frameworks for isolated cases, and unapproved dependencies.
+12. Require review for both over-engineering and unsafe minimalism, followed by executable verification.
+
+Before referring to Ponytail commands, hooks, modes, files, or platform capabilities, inspect local Ponytail skill documentation, `SKILL.md`, rules, integration files, command help, or project scripts. Never invent them. Never install or upgrade Ponytail automatically. If no external Ponytail integration exists, apply the canonical policy directly and continue normally.
+
+The invariant is: the smallest acceptable solution is the smallest solution that remains correct, safe, understandable, maintainable, and operationally valid.
+
 When the plan intent is `DOCUMENTATION_GENERATION`:
 
 1. Invoke the private `agent-document` operation with the exact human prompt.
