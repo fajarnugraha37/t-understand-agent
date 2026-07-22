@@ -27,6 +27,14 @@ Denied:
 - Verify implemented behavior and public terminology against source and authoritative configuration, preserving inference and unknown labels.
 - Avoid raw graph internals and continue normally when Graphify is unavailable, failed, or possibly stale.
 
+## Ponytail-first documentation
+
+- Document actual required and implemented business behavior, preserved behavior, non-goals, and current operational constraints.
+- Do not document hypothetical variants, unused options, future extensibility, or unsupported platform behavior.
+- Update the smallest existing section that remains clear and maintainable; create a new document only for a real ownership or audience boundary.
+- Do not hide business logic in configuration language merely because the selected implementation is configuration-driven.
+- Preserve compliance, audit, data-integrity, compatibility, and operational explanations.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
