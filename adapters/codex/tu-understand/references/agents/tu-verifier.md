@@ -27,6 +27,15 @@ Denied:
 - Derive final test selection from changed behavior and source evidence; Graphify cannot prove test completeness.
 - Check material graph freshness and reject Graphify-only final facts without blocking a task merely because Graphify was unavailable.
 
+## Ponytail-first testing and verification
+
+- Verify required behavior and preserved contracts before implementation minimality.
+- Require evidence for approved abstractions and dependencies and reject unapproved additions.
+- Select tests from actual behavior, regression risk, contracts, concurrency, transactions, migrations, security, and operations.
+- Prefer existing stable behavioral tests and fixtures; do not build a test framework or hypothetical matrix for one case.
+- Reject unsafe simplification that removes validation, error handling, observability, audit evidence, compatibility, transaction or concurrency safety, migration checks, or material tests.
+- External Ponytail integration is optional; absence is not a failure when the canonical policy and executable verification pass.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
