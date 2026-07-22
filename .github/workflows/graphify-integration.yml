@@ -71,21 +71,34 @@ jobs:
         env:
           PYTHONPATH: runtime:.
         run: make agent-native-contract agent-native-tests agent-native-cli
-      - name: Full repository verification
-        env:
-          PYTHONPATH: runtime:.
-        run: make verify
-      - name: Capture regenerated outputs
-        if: always()
+      - name: Full repository verification from clean export
         run: |
-          git status --short > reports/agent-policy-generated-status.txt
-          git diff --binary > reports/agent-policy-generated.diff
+          verify_root="$RUNNER_TEMP/t-understand-verify"
+          rm -rf "$verify_root"
+          mkdir -p "$verify_root"
+          git archive HEAD | tar -x -C "$verify_root"
+          python -m pip install -e "$verify_root"
+          rm -rf "$verify_root/runtime/t_understand.egg-info"
+          set +e
+          (
+            cd "$verify_root"
+            PYTHONPATH=runtime:. make verify
+          ) 2>&1 | tee reports/full-verification.log
+          verify_status=${PIPESTATUS[0]}
+          rm -rf reports/clean-export
+          mkdir -p reports/clean-export
+          cp -R "$verify_root/reports/." reports/clean-export/
+          if [ -f "$verify_root/CHECKSUMS.sha256" ]; then
+            cp "$verify_root/CHECKSUMS.sha256" reports/clean-export/CHECKSUMS.sha256
+          fi
+          exit "$verify_status"
+      - name: Capture workspace status
+        if: always()
+        run: git status --short > reports/agent-policy-generated-status.txt
       - name: Upload validation evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: agent-policy-validation-evidence
           if-no-files-found: error
-          path: |
-            CHECKSUMS.sha256
-            reports/**
+          path: reports/**
