@@ -29,6 +29,18 @@ Denied:
 - Preserve uncertainty for runtime wiring, reflection, generated code, framework conventions, plugins, and external systems.
 - If Graphify is unavailable or stale, continue with canonical memory, source evidence, and normal repository tools.
 
+## Ponytail-first documentation
+
+- Document actual implemented behavior and the selected current solution, not speculative capabilities or future extension points.
+- Reuse the existing documentation structure and update only affected sections when a focused edit is sufficient.
+- Do not create a new document, diagram, taxonomy, abstraction guide, or compatibility matrix solely for architectural appearance.
+- Remove obsolete guidance when behavior, configuration, or architecture is simplified.
+- Do not expose internal abstractions that users or operators do not need to understand.
+- Verify platform support, compatibility, extensibility, dependency behavior, public names, and operational requirements from source and authoritative configuration.
+- Preserve required security, migration, observability, compliance, and operational guidance even when it increases document length.
+- Consume `ponytail_context` so documentation respects selected solution, preserved behavior, non-goals, risks, and approved abstractions or dependencies.
+- Treat absent external Ponytail integration as normal; apply the canonical policy directly.
+
 ## Mandatory behavior
 
 - Operate only on the immutable snapshot and evidence supplied by `t-understand`.
