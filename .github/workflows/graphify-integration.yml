@@ -1,21 +1,25 @@
-name: Graphify integration
+name: Agent policy integration
 
 on:
   push:
     branches:
       - feature/graphify-first-repository-intelligence
+      - feature/ponytail-first-engineering-policy
     paths:
       - "agents/**"
       - "adapters/**"
       - "orchestrator/**"
       - "schemas/**"
       - "skills/**"
-      - "runtime/tu_runtime/core/installation.py"
-      - "scripts/*graphify*"
-      - "scripts/validate_release_contract.py"
-      - "tests/graphify/**"
+      - "runtime/**"
+      - "scripts/**"
+      - "tests/**"
       - "docs/graphify-first-repository-intelligence.md"
+      - "docs/ponytail-first-engineering.md"
       - "examples/repository-intelligence.yaml"
+      - "examples/ponytail-context.yaml"
+      - "Makefile"
+      - "pyproject.toml"
       - ".github/workflows/graphify-integration.yml"
   pull_request:
     branches:
@@ -26,12 +30,15 @@ on:
       - "orchestrator/**"
       - "schemas/**"
       - "skills/**"
-      - "runtime/tu_runtime/core/installation.py"
-      - "scripts/*graphify*"
-      - "scripts/validate_release_contract.py"
-      - "tests/graphify/**"
+      - "runtime/**"
+      - "scripts/**"
+      - "tests/**"
       - "docs/graphify-first-repository-intelligence.md"
+      - "docs/ponytail-first-engineering.md"
       - "examples/repository-intelligence.yaml"
+      - "examples/ponytail-context.yaml"
+      - "Makefile"
+      - "pyproject.toml"
       - ".github/workflows/graphify-integration.yml"
 
 permissions:
@@ -40,7 +47,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -52,27 +59,33 @@ jobs:
         run: |
           python -m compileall -q runtime tests scripts
           bash -n bin/t-understand
-      - name: Existing contracts
-        run: |
-          python scripts/validate_schemas.py
-          python scripts/validate_governance.py --report reports/governance-report.json
-          python scripts/test_negative_governance.py --report reports/negative-test-report.json
-          python scripts/validate_release_contract.py --report reports/release-contract-report.json
-      - name: Graphify integration contract
+      - name: Shared policy contracts
         env:
           PYTHONPATH: scripts:.
-        run: python scripts/validate_graphify_integration.py --report reports/graphify-integration-report.json
-      - name: Graphify integration tests
-        env:
-          PYTHONPATH: scripts:.
-        run: python scripts/run_graphify_tests.py --report reports/graphify-test-report.json
-      - name: Backward-compatible lifecycle tests
-        env:
-          PYTHONPATH: runtime:.
-        run: python scripts/run_runtime_tests.py --report reports/runtime-test-report.json
-      - name: Installer regression
-        env:
-          PYTHONPATH: runtime:.
         run: |
-          python scripts/validate_installation_contract.py --report reports/installation-contract-report.json
-          python scripts/run_installation_tests.py --report reports/installation-test-report.json
+          python scripts/validate_graphify_integration.py --report reports/graphify-integration-report.json
+          python scripts/run_graphify_tests.py --report reports/graphify-test-report.json
+          python scripts/validate_ponytail_integration.py --report reports/ponytail-integration-report.json
+          python scripts/run_ponytail_tests.py --report reports/ponytail-test-report.json
+      - name: Agent-native regression
+        env:
+          PYTHONPATH: runtime:.
+        run: make agent-native-contract agent-native-tests agent-native-cli
+      - name: Full repository verification
+        env:
+          PYTHONPATH: runtime:.
+        run: make verify
+      - name: Capture regenerated outputs
+        if: always()
+        run: |
+          git status --short > reports/agent-policy-generated-status.txt
+          git diff --binary > reports/agent-policy-generated.diff
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-policy-validation-evidence
+          if-no-files-found: error
+          path: |
+            CHECKSUMS.sha256
+            reports/**
