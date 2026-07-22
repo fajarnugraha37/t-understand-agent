@@ -77,6 +77,7 @@ jobs:
           rm -rf "$verify_root"
           mkdir -p "$verify_root"
           git archive HEAD | tar -x -C "$verify_root"
+          chmod +x "$verify_root/bin/t-understand"
           python -m pip install -e "$verify_root"
           rm -rf "$verify_root/runtime/t_understand.egg-info"
           set +e
