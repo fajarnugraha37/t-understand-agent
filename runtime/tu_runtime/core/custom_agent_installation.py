@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .errors import TUnderstandError
 from .io import atomic_write_bytes
 from .managed_installation import remove_managed_block
 
@@ -18,19 +19,23 @@ When invoking `agent-document` through OpenCode's shell tool, set the tool timeo
 
 
 def _remove_legacy_global_agents_block(target_root: Path) -> None:
-    """Remove only the old t-understand block from OpenCode's global AGENTS.md.
+    """Remove only a structurally valid legacy block from global AGENTS.md.
 
     Older releases installed auto-routing instructions globally. That made the
     t-understand agent influence unrelated OpenCode conversations. The custom
     agent under ``agents/t-understand.md`` is the only intended entry point.
-    User-owned AGENTS.md content must remain untouched.
+    User-owned AGENTS.md content must remain untouched. Malformed markers are
+    treated as user-owned text because guessing their boundaries is unsafe.
     """
 
     path = target_root / "AGENTS.md"
     if not path.is_file():
         return
     current = path.read_text(encoding="utf-8")
-    cleaned = remove_managed_block(current, _LEGACY_OPENCODE_BLOCK_ID)
+    try:
+        cleaned = remove_managed_block(current, _LEGACY_OPENCODE_BLOCK_ID)
+    except TUnderstandError:
+        return
     if cleaned == current:
         return
     if cleaned.strip():
