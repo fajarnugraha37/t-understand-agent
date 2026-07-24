@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser();parser.add_argument('--report',default='reports/release-contract-report.json');args=parser.parse_args()
 errors=[];checks=0
 version=(ROOT/'VERSION').read_text().strip();checks+=1
-if version!='1.1.1':errors.append('VERSION must be 1.1.1')
+if version!='1.1.2':errors.append('VERSION must be 1.1.2')
 registry=yaml.safe_load((ROOT/'orchestrator/skill-registry.yaml').read_text())['skills']
 registered={item['id'] for item in registry};physical={item.parent.name for item in (ROOT/'skills').rglob('SKILL.md')};checks+=len(registered)+len(physical)
 if registered!=physical:errors.append(f'skill registry/package mismatch missing={sorted(registered-physical)} orphan={sorted(physical-registered)}')
@@ -20,7 +20,7 @@ if not (ROOT/'orchestrator/tool-permission-policy.yaml').exists():errors.append(
 for name in (
  'phase-16-assurance.md','phase-17-assurance.md','phase-18-assurance.md','phase-19-assurance.md','phase-20-assurance.md',
  'tool-permissions-and-skill-namespace.md','agent-native-workflow.md','capability-greeting-and-artifact-documentation.md',
- 'multi-repository-adaptive-deep-documentation.md','graphify-first-repository-intelligence.md',
+ 'multi-repository-adaptive-deep-documentation.md','graphify-first-repository-intelligence.md','openapi-extraction-resilience.md',
 ):
  checks+=1
  if not (ROOT/'docs'/name).exists():errors.append(f'missing {name}')
@@ -29,11 +29,12 @@ for required in (
  'orchestrator/repository-intelligence-policy.yaml','skills/discovery/tu-repository-intelligence/SKILL.md',
  'runtime/tu_runtime/core/conversation.py','runtime/tu_runtime/core/workspace_discovery.py',
  'runtime/tu_runtime/core/modeling.py','runtime/tu_runtime/core/documentation.py',
- 'runtime/tu_runtime/adapters/openapi.py',
+ 'runtime/tu_runtime/core/runtime_launcher.py','runtime/tu_runtime/adapters/openapi.py',
  'schemas/capability-catalog.schema.json','schemas/agent-operation-plan.schema.json','schemas/agent-completion.schema.json',
  'schemas/agent-workspace-discovery.schema.json','schemas/documentation-requirements.schema.json',
  'schemas/documentation-generation-record.schema.json','tests/agent_native/test_multi_repo_documentation.py',
- 'tests/adapters/test_openapi_server_resilience.py',
+ 'tests/adapters/test_openapi_server_resilience.py','scripts/run_agent_document_e2e.py',
+ '.github/workflows/agent-document-e2e.yml',
  'scripts/validate_graphify_integration.py','tests/graphify/test_graphify_integration.py',
 ):
  checks+=1
@@ -44,6 +45,12 @@ if 'tu-repository-intelligence' not in registered:errors.append('missing tu-repo
 root_agent=(ROOT/'agents/t-understand/AGENT.md').read_text();checks+=9
 for required_text in ('DOCUMENTATION_GENERATION','agent-document','chat-only answer','multi-repo','requirement, model-record','tu-repository-intelligence','Delegate that package once','agent-plan --prompt','Never pass a prompt positionally'):
  if required_text not in root_agent: errors.append(f'root agent lacks required contract: {required_text}')
+open_code=(ROOT/'adapters/opencode/AGENTS.md').read_text();checks+=3
+for required_text in ('1800000','120000','Documentation workflow still running'):
+ if required_text not in open_code and required_text!='Documentation workflow still running': errors.append(f'OpenCode instructions lack timeout contract: {required_text}')
+launcher=(ROOT/'runtime/tu_runtime/core/runtime_launcher.py').read_text();checks+=2
+if 'Documentation workflow started' not in launcher:errors.append('installed launcher lacks immediate documentation heartbeat')
+if 'Documentation workflow still running' not in launcher:errors.append('installed launcher lacks recurring documentation heartbeat')
 policy=yaml.safe_load((ROOT/'orchestrator/documentation-generation-policy.yaml').read_text());checks+=7
 publish=policy.get('planning',{}).get('publish_only_when',{})
 for metric in ('requirement_coverage','model_record_coverage','required_section_coverage','repository_coverage','flow_coverage','inference_disclosure','section_traceability'):
