@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://t-understand.dev/schemas/install-manifest.schema.json",
-  "$comment": "Contract version 1.0.0",
+  "$comment": "Contract versions 1.0.0 and 1.1.0",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -22,7 +22,10 @@
       "const": "https://t-understand.dev/schemas/install-manifest.schema.json"
     },
     "schema_version": {
-      "const": "1.0.0"
+      "enum": [
+        "1.0.0",
+        "1.1.0"
+      ]
     },
     "install_id": {
       "type": "string",
@@ -65,8 +68,42 @@
           "sha256": {
             "type": "string",
             "pattern": "^[a-f0-9]{64}$"
+          },
+          "management_mode": {
+            "enum": [
+              "owned_file",
+              "json_merge",
+              "managed_block"
+            ]
+          },
+          "block_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "file_created_by_installer": {
+            "type": "boolean"
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "management_mode": {
+                  "const": "managed_block"
+                }
+              },
+              "required": [
+                "management_mode"
+              ]
+            },
+            "then": {
+              "required": [
+                "block_id",
+                "file_created_by_installer"
+              ]
+            }
+          }
+        ]
       }
     },
     "backups": {
