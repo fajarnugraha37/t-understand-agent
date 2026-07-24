@@ -5,5 +5,7 @@
 # keeping the original implementation available as its backward-compatible base.
 from . import installation as _installation
 from .managed_installation import InstallationManager as _ManagedInstallationManager
+from .runtime_launcher import install_runtime_launcher_patch
 
+install_runtime_launcher_patch(_ManagedInstallationManager)
 _installation.InstallationManager = _ManagedInstallationManager
