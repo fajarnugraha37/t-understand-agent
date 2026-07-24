@@ -7,6 +7,14 @@ from .managed_installation import remove_managed_block
 
 
 _LEGACY_OPENCODE_BLOCK_ID = "t-understand-opencode"
+_OPENCODE_CUSTOM_AGENT_NOTE = b"""
+
+## OpenCode custom-agent activation
+
+This agent is opt-in. It must run only when the human explicitly selects or invokes the `t-understand` custom agent. Never install or rely on global `AGENTS.md` auto-routing instructions.
+
+When invoking `agent-document` through OpenCode's shell tool, set the tool timeout to at least `1800000` milliseconds. Do not use or inherit the default `120000` millisecond timeout. Heartbeat lines on stderr are liveness diagnostics; wait for the final JSON result on stdout.
+"""
 
 
 def _remove_legacy_global_agents_block(target_root: Path) -> None:
@@ -44,6 +52,9 @@ def install_custom_agent_only_patch(installation_manager_type: type) -> None:
         files = original_render_files(self, platform)
         if platform == "opencode":
             files.pop("AGENTS.md", None)
+            custom_agent = "agents/t-understand.md"
+            if custom_agent in files:
+                files[custom_agent] = files[custom_agent].rstrip() + _OPENCODE_CUSTOM_AGENT_NOTE
         return files
 
     def install(self, install_id, package_id, target_root, force=False):
