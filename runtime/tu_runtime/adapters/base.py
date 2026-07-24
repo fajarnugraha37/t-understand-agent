@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import PurePosixPath
 from typing import Any
@@ -54,14 +55,43 @@ class BaseAdapter:
             "interfaces": _dedupe(interfaces),
             "configuration_keys": _dedupe(configuration_keys),
             "entry_points": _dedupe(entry_points),
-            "limitations": sorted(set(limitations)),
+            "limitations": sorted(set(_as_text(value, 2000) for value in limitations)),
         }
 
 
-def item(kind: str, name: str, line: int, detail: str | None = None) -> dict[str, Any]:
-    result: dict[str, Any] = {"kind": kind, "name": name[:500], "line": max(1, line)}
-    if detail:
-        result["detail"] = detail[:2000]
+def _as_text(value: Any, limit: int) -> str:
+    """Render extractor values deterministically without assuming string input.
+
+    Parsers often encounter mappings, lists, numbers, booleans, or nulls in
+    structurally valid contracts. Adapter helpers must preserve them as bounded
+    text instead of relying on string slicing and crashing the full workflow.
+    """
+    if isinstance(value, str):
+        text = value
+    elif value is None:
+        text = ""
+    else:
+        try:
+            text = json.dumps(
+                value,
+                sort_keys=True,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                default=str,
+            )
+        except (TypeError, ValueError, RecursionError):
+            text = str(value)
+    return text[:limit]
+
+
+def item(kind: str, name: Any, line: int, detail: Any | None = None) -> dict[str, Any]:
+    result: dict[str, Any] = {
+        "kind": _as_text(kind, 500),
+        "name": _as_text(name, 500),
+        "line": max(1, int(line)),
+    }
+    if detail is not None and _as_text(detail, 2000):
+        result["detail"] = _as_text(detail, 2000)
     return result
 
 
