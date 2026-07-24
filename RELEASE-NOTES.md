@@ -9,12 +9,12 @@
 - Swagger 2 host, base path, and schemes are retained as server evidence.
 - Adapter item values are defensively converted to deterministic bounded text instead of assuming every parser value is already a string.
 - An unexpected failure in one file extractor now produces a `PARTIAL` evidence record with an explicit limitation rather than aborting the complete repository workflow.
+- Extraction failures are contained at the file boundary, so the OpenAPI failure reported for `qando-docflow` no longer leaks its Python traceback or prevents the remaining repository from being analyzed.
 
-## Agent error handling
+## Agent invocation and response handling
 
-- Unexpected documentation-pipeline exceptions are converted into the structured t-understand error contract; raw Python tracebacks are no longer returned through normal agent-native execution.
 - OpenCode instructions now require the exact `agent-plan --prompt` and `agent-document --prompt` forms and prohibit positional prompt invocation.
-- Private retries, investigation notes, and internal progress narration are explicitly excluded from the final response contract.
+- Private retries, investigation notes, raw tracebacks, and internal progress narration are explicitly excluded from the final response contract.
 
 ## Installation
 
