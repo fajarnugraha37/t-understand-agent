@@ -72,6 +72,13 @@ jobs:
         env:
           PYTHONPATH: runtime:.
         run: python scripts/run_adapter_tests.py --report reports/adapter-test-report.json
+      - name: Upload adapter test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adapter-test-report
+          path: reports/adapter-test-report.json
+          if-no-files-found: error
       - name: Agent-native error handling tests
         env:
           PYTHONPATH: runtime:.
