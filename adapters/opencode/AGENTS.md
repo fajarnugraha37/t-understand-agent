@@ -14,4 +14,16 @@ For structural cross-file, cross-module, cross-service, flow, integration, or ch
 
 For every human prompt, run the private `agent-plan` operation first. Greeting-only prompts return the capability card without heavyweight analysis. A substantive task overrides a greeting prefix.
 
-When intent is documentation generation, run the private `agent-document` operation. Documentation must be created under `.t-understand/output/documentation/latest/`; a long chat answer is not completion. Return only the completion summary and never expose internal todos, thoughts, IDs, or unexecuted pass claims.
+Use the exact option form below; never pass the prompt as a positional argument:
+
+```bash
+python "$HOME/.config/opencode/t-understand-engine/agent_runtime.py" agent-plan --prompt "<exact human prompt>"
+```
+
+When intent is documentation generation, run the private `agent-document` operation using the same required `--prompt` option:
+
+```bash
+python "$HOME/.config/opencode/t-understand-engine/agent_runtime.py" agent-document --prompt "<exact human prompt>"
+```
+
+Documentation must be created under `.t-understand/output/documentation/latest/`; a long chat answer is not completion. Return only the completion summary and never expose internal todos, raw tracebacks, operation IDs, unexecuted pass claims, or progress narration. Run private engine commands silently; do not narrate retries or internal investigation unless the human explicitly asks for diagnostics.
