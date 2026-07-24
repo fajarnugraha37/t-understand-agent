@@ -1,8 +1,8 @@
 # t-understand
 
-Version **1.1.0** is an agent-native release of the complete Phase 1–20 platform.
+Version **1.1.3** is an agent-native release of the complete Phase 1–20 platform.
 
-The human-facing interface is the conversation inside OpenCode, Codex, Claude Code, or Cursor. The deterministic runtime, snapshots, evidence, memory, documentation, QnA, review, and quality artifacts are implementation details managed by the installed agent.
+The human-facing interface is the explicitly selected `t-understand` custom agent inside OpenCode, Codex, Claude Code, or Cursor. The deterministic runtime, snapshots, evidence, memory, documentation, QnA, review, and quality artifacts are implementation details managed by that agent.
 
 ## Install
 
@@ -36,6 +36,8 @@ cursor
 
 `-Force`/`--force` is explicit replacement authority. It rebuilds the package, replaces an existing managed or unmanaged installation, preserves previous files as backups, and writes a fresh ownership manifest.
 
+For OpenCode, the installer places the custom agent at `agents/t-understand.md`. It does **not** install, replace, or append global `AGENTS.md` instructions. Upgrading from 1.1.0–1.1.2 with `--force` removes only the legacy t-understand managed block and preserves user-owned global instructions.
+
 Normal installation does not ask for:
 
 - `ContextRoot`;
@@ -47,7 +49,9 @@ Advanced custom install location remains available through `-InstallRoot` or `--
 
 ## Use
 
-Open the desired repository in the selected agent host and ask normal questions, for example:
+Explicitly select or invoke the `t-understand` custom agent in the host, then ask normal questions. Unrelated conversations using another agent are not routed through t-understand.
+
+Examples:
 
 ```text
 Understand this repository and explain its architecture.
@@ -69,7 +73,7 @@ Review my current changes against HEAD and show only material findings.
 Which documentation became stale after these changes?
 ```
 
-The agent automatically:
+The selected custom agent automatically:
 
 1. detects the active Git worktree;
 2. bootstraps private state under `<workspace>/.t-understand/`;
@@ -82,10 +86,9 @@ The agent automatically:
 
 The user is never expected to invoke the internal runtime or understand its storage layout.
 
-
 ## Multi-repository applications
 
-Open any repository in an application workspace and explicitly refer to all repositories when you want application-level understanding:
+Open any repository in an application workspace, explicitly select the `t-understand` custom agent, and refer to all repositories when you want application-level understanding:
 
 ```text
 Treat all repositories in this workspace as one application. Understand them deeply and generate comprehensive documentation.
@@ -95,13 +98,13 @@ The agent discovers bounded sibling/child Git roots, creates one application wor
 
 ## Deep business, domain, and flow documentation
 
-Version 1.1.0 uses a requirements-driven adaptive plan. It starts from 41 mandatory documents, adds seven documents for every repository, creates deep Tier-1 flow documentation, and retains every lower-tier flow in the flow catalog. Publication requires 100% requirement, model-record, required-section, repository, flow, inference-disclosure, and traceability coverage.
+The requirements-driven adaptive plan starts from 41 mandatory documents, adds seven documents for every repository, creates deep Tier-1 flow documentation, and retains every lower-tier flow in the flow catalog. Publication requires 100% requirement, model-record, required-section, repository, flow, inference-disclosure, and traceability coverage.
 
 Business intent is never invented from code. Repository boundaries, roles, enums, exceptions, and call graphs remain explicitly classified as candidates or partial evidence unless stronger evidence exists. Missing knowledge is documented as an unknown rather than silently omitted.
 
 ## Greeting and documentation behavior
 
-A greeting-only message such as `hi` returns a concise capability card and does not start heavyweight analysis. A substantive request overrides the greeting prefix.
+A greeting-only message sent to the selected `t-understand` agent returns a concise capability card and does not start heavyweight analysis. A substantive request overrides the greeting prefix.
 
 Explicit documentation requests are artifact-first. For example:
 
@@ -152,14 +155,14 @@ Uninstall without force refuses to remove managed files that have been modified.
 
 Installed platform packages contain:
 
-- the `t-understand` root coordinator;
+- the explicitly selected `t-understand` root coordinator;
 - ten terminal `tu-*` subagents;
 - all namespaced `tu-*` skills;
 - no-prompt local permission rules;
 - the packaged deterministic engine under `t-understand-engine/`;
 - schemas, policies, language adapters, and output templates.
 
-The engine is invoked silently by the host agent. It is not a second human-facing entry point.
+The OpenCode package intentionally contains no global `AGENTS.md` auto-routing payload. The engine is invoked silently by the selected custom agent. It is not a second human-facing entry point.
 
 ## Permission boundary
 
@@ -205,7 +208,7 @@ Broad tool permissions do not authorize t-understand to change application sourc
 
 ## Core invariants
 
-1. Human interaction is conversational.
+1. Human interaction is conversational through an explicitly selected custom agent.
 2. Internal storage and operation IDs are never prerequisites for the human.
 3. Application source is read-only to t-understand.
 4. `.t-understand/**` is managed metadata and excluded from source evidence.
@@ -215,5 +218,6 @@ Broad tool permissions do not authorize t-understand to change application sourc
 8. Workers are terminal and cannot delegate.
 9. Suggested patches are never applied automatically.
 10. A flagship model is never a hidden correctness dependency.
+11. OpenCode global `AGENTS.md` is never used to activate t-understand.
 
 See `docs/agent-native-workflow.md`, `docs/platform-adapters-installation.md`, and `docs/tool-permissions-and-skill-namespace.md`.

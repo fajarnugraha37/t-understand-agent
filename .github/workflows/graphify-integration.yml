@@ -15,10 +15,12 @@ on:
       - "scripts/*graphify*"
       - "scripts/run_adapter_tests.py"
       - "scripts/run_agent_native_tests.py"
+      - "scripts/run_installation_tests.py"
       - "scripts/validate_release_contract.py"
       - "tests/adapters/**"
       - "tests/agent_native/**"
       - "tests/graphify/**"
+      - "tests/installation/**"
       - "docs/graphify-first-repository-intelligence.md"
       - "examples/repository-intelligence.yaml"
       - ".github/workflows/graphify-integration.yml"
@@ -36,10 +38,12 @@ on:
       - "scripts/*graphify*"
       - "scripts/run_adapter_tests.py"
       - "scripts/run_agent_native_tests.py"
+      - "scripts/run_installation_tests.py"
       - "scripts/validate_release_contract.py"
       - "tests/adapters/**"
       - "tests/agent_native/**"
       - "tests/graphify/**"
+      - "tests/installation/**"
       - "docs/graphify-first-repository-intelligence.md"
       - "examples/repository-intelligence.yaml"
       - ".github/workflows/graphify-integration.yml"
@@ -101,3 +105,10 @@ jobs:
         run: |
           python scripts/validate_installation_contract.py --report reports/installation-contract-report.json
           python scripts/run_installation_tests.py --report reports/installation-test-report.json
+      - name: Upload installation test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: installation-test-report
+          path: reports/installation-test-report.json
+          if-no-files-found: warn

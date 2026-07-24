@@ -7,8 +7,7 @@ from pathlib import Path
 
 import yaml
 
-from tu_runtime.core.managed_installation import InstallationManager, PLATFORMS
-from tu_runtime.core.errors import TUnderstandError
+from tu_runtime.core.installation import InstallationManager, PLATFORMS
 
 ROOT = Path(__file__).resolve().parents[2]
 BEGIN = "<!-- BEGIN T-UNDERSTAND MANAGED BLOCK: opencode -->"
@@ -43,9 +42,8 @@ class InstallationTests(unittest.TestCase):
             self.m.install("INST-A", "INST-PKG-A", target)["install_id"],
             "INST-A",
         )
-        agents = (target / "AGENTS.md").read_text()
-        self.assertEqual(agents.count(BEGIN), 1)
-        self.assertEqual(agents.count(END), 1)
+        self.assertTrue((target / "agents/t-understand.md").is_file())
+        self.assertFalse((target / "AGENTS.md").exists())
         self.assertEqual(self.m.uninstall(target)["status"], "UNINSTALLED")
         self.assertFalse((target / ".t-understand-install").exists())
         self.assertFalse((target / "AGENTS.md").exists())
@@ -117,6 +115,8 @@ class InstallationTests(unittest.TestCase):
         self.assertIn("external_directory: deny", open_agent)
         self.assertIn("git status*: allow", open_agent)
         self.assertIn("gh *: deny", open_agent)
+        self.assertIn("This agent is opt-in", open_agent)
+        self.assertFalse((generated["opencode"] / "AGENTS.md").exists())
 
         claude = json.loads((generated["claude-code"] / "settings.json").read_text())
         self.assertEqual(claude["permissions"]["defaultMode"], "acceptEdits")
@@ -180,6 +180,7 @@ class InstallationTests(unittest.TestCase):
         self.assertTrue(
             (target / "t-understand-engine/orchestrator/capabilities.yaml").is_file()
         )
+        self.assertFalse((target / "AGENTS.md").exists())
         self.assertEqual(self.m.doctor_platform("opencode", target)["status"], "PASS")
 
         owned = target / "agents/t-understand.md"
@@ -210,20 +211,19 @@ class InstallationTests(unittest.TestCase):
         self.assertIn("agent-document", root)
         self.assertIn("chat-only answer", root)
 
-    def test_existing_agents_file_is_preserved_and_managed_once(self):
+    def test_existing_agents_file_is_preserved_and_not_managed(self):
         target = self.base / "opencode-existing"
         target.mkdir()
         agents = target / "AGENTS.md"
-        agents.write_text("# User instructions\n\n- Keep this rule.\n")
+        original = "# User instructions\n\n- Keep this rule.\n"
+        agents.write_text(original)
         self.m.install_platform("opencode", target)
-        content = agents.read_text()
-        self.assertIn("# User instructions", content)
-        self.assertIn("- Keep this rule.", content)
-        self.assertEqual(content.count(BEGIN), 1)
-        self.assertEqual(content.count(END), 1)
+        self.assertEqual(agents.read_text(), original)
+        self.assertNotIn(BEGIN, agents.read_text())
+        self.assertNotIn(END, agents.read_text())
         self.assertEqual(self.m.doctor(target)["status"], "PASS")
 
-    def test_reinstall_and_force_reinstall_never_duplicate_managed_block(self):
+    def test_reinstall_and_force_reinstall_never_touch_global_agents(self):
         target = self.base / "opencode-reinstall"
         target.mkdir()
         agents = target / "AGENTS.md"
@@ -231,30 +231,28 @@ class InstallationTests(unittest.TestCase):
         self.m.install_platform("opencode", target)
         self.m.install_platform("opencode", target)
         agents.write_text(agents.read_text() + "\n# Later user instruction\n")
+        expected = agents.read_text()
         self.assertEqual(self.m.doctor(target)["status"], "PASS")
         self.m.install_platform("opencode", target, True)
-        content = agents.read_text()
-        self.assertIn("# User instructions", content)
-        self.assertIn("# Later user instruction", content)
-        self.assertEqual(content.count(BEGIN), 1)
-        self.assertEqual(content.count(END), 1)
+        self.assertEqual(agents.read_text(), expected)
+        self.assertNotIn(BEGIN, agents.read_text())
+        self.assertNotIn(END, agents.read_text())
         self.assertEqual(self.m.doctor(target)["status"], "PASS")
 
-    def test_uninstall_removes_only_managed_block(self):
+    def test_uninstall_does_not_touch_global_agents(self):
         target = self.base / "opencode-uninstall"
         target.mkdir()
         agents = target / "AGENTS.md"
         agents.write_text("# Before install\n")
         self.m.install_platform("opencode", target)
         agents.write_text(agents.read_text() + "\n# Added after install\n")
+        expected = agents.read_text()
         self.m.uninstall_platform("opencode", target)
-        content = agents.read_text()
-        self.assertIn("# Before install", content)
-        self.assertIn("# Added after install", content)
-        self.assertNotIn(BEGIN, content)
-        self.assertNotIn(END, content)
+        self.assertEqual(agents.read_text(), expected)
+        self.assertNotIn(BEGIN, agents.read_text())
+        self.assertNotIn(END, agents.read_text())
 
-    def test_doctor_rejects_modified_managed_block_but_ignores_outside_edits(self):
+    def test_doctor_ignores_global_agents_but_rejects_modified_custom_agent(self):
         target = self.base / "opencode-doctor"
         target.mkdir()
         agents = target / "AGENTS.md"
@@ -262,41 +260,36 @@ class InstallationTests(unittest.TestCase):
         self.m.install_platform("opencode", target)
         agents.write_text(agents.read_text() + "\n# Outside edit\n")
         self.assertEqual(self.m.doctor(target)["status"], "PASS")
-        agents.write_text(
-            agents.read_text().replace(
-                "# t-understand OpenCode Instructions",
-                "# Modified t-understand Instructions",
-                1,
-            )
-        )
+        custom_agent = target / "agents/t-understand.md"
+        custom_agent.write_text(custom_agent.read_text() + "\n# Tampered\n")
         self.assertEqual(self.m.doctor(target)["status"], "FAIL")
 
-    def test_malformed_managed_markers_fail_without_overwriting_user_file(self):
+    def test_malformed_legacy_markers_are_user_content_and_remain_untouched(self):
         target = self.base / "opencode-malformed"
         target.mkdir()
         agents = target / "AGENTS.md"
         original = "# User instructions\n\n" + BEGIN + "\nunfinished\n"
         agents.write_text(original)
-        with self.assertRaises(TUnderstandError):
-            self.m.install_platform("opencode", target)
+        self.m.install_platform("opencode", target)
         self.assertEqual(agents.read_text(), original)
-        self.assertFalse((target / ".t-understand-install").exists())
+        self.assertTrue((target / ".t-understand-install").exists())
+        self.assertTrue((target / "agents/t-understand.md").is_file())
 
-    def test_existing_crlf_agents_file_keeps_crlf(self):
+    def test_existing_crlf_agents_file_is_unchanged(self):
         target = self.base / "opencode-crlf"
         target.mkdir()
         agents = target / "AGENTS.md"
-        agents.write_bytes(b"# User instructions\r\n\r\n- Keep this rule.\r\n")
+        original = b"# User instructions\r\n\r\n- Keep this rule.\r\n"
+        agents.write_bytes(original)
         self.m.install_platform("opencode", target)
-        content = agents.read_bytes()
-        self.assertIn(BEGIN.encode(), content)
-        self.assertNotIn(b"\n", content.replace(b"\r\n", b""))
-        self.assertEqual(content.count(BEGIN.encode()), 1)
+        self.assertEqual(agents.read_bytes(), original)
+        self.assertNotIn(BEGIN.encode(), agents.read_bytes())
 
-    def test_installer_created_agents_file_is_removed_on_uninstall(self):
+    def test_installer_does_not_create_global_agents_file(self):
         target = self.base / "opencode-created"
         self.m.install_platform("opencode", target)
-        self.assertTrue((target / "AGENTS.md").exists())
+        self.assertFalse((target / "AGENTS.md").exists())
+        self.assertTrue((target / "agents/t-understand.md").is_file())
         self.m.uninstall_platform("opencode", target)
         self.assertFalse((target / "AGENTS.md").exists())
 

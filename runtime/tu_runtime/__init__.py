@@ -1,3 +1,3 @@
 """Portable runtime for the t-understand orchestrator."""
 
-__version__ = "1.1.2"
+__version__ = "1.1.3"
