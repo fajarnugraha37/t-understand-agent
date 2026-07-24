@@ -18,7 +18,7 @@
 
 ## Installation
 
-The patch release uses version `1.1.1`, so a normal platform reinstall creates a new managed package instead of reusing the previous `1.1.0` engine payload.
+The patch release uses version `1.1.1`, ensuring a new engine package is generated instead of reusing the previous `1.1.0` payload. Upgrading an existing managed installation requires `./bin/install.sh opencode --force`; the managed-block installer preserves user-owned `AGENTS.md` content and replaces the t-understand block without duplication.
 
 ---
 
