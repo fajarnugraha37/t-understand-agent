@@ -14,8 +14,10 @@ on:
       - "runtime/tu_runtime/core/**"
       - "scripts/*graphify*"
       - "scripts/run_adapter_tests.py"
+      - "scripts/run_agent_native_tests.py"
       - "scripts/validate_release_contract.py"
       - "tests/adapters/**"
+      - "tests/agent_native/**"
       - "tests/graphify/**"
       - "docs/graphify-first-repository-intelligence.md"
       - "examples/repository-intelligence.yaml"
@@ -33,8 +35,10 @@ on:
       - "runtime/tu_runtime/core/**"
       - "scripts/*graphify*"
       - "scripts/run_adapter_tests.py"
+      - "scripts/run_agent_native_tests.py"
       - "scripts/validate_release_contract.py"
       - "tests/adapters/**"
+      - "tests/agent_native/**"
       - "tests/graphify/**"
       - "docs/graphify-first-repository-intelligence.md"
       - "examples/repository-intelligence.yaml"
@@ -68,6 +72,10 @@ jobs:
         env:
           PYTHONPATH: runtime:.
         run: python scripts/run_adapter_tests.py --report reports/adapter-test-report.json
+      - name: Agent-native error handling tests
+        env:
+          PYTHONPATH: runtime:.
+        run: python scripts/run_agent_native_tests.py --report reports/agent-native-test-report.json
       - name: Graphify integration contract
         env:
           PYTHONPATH: scripts:.
