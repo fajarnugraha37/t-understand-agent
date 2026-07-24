@@ -26,4 +26,6 @@ When intent is documentation generation, run the private `agent-document` operat
 python "$HOME/.config/opencode/t-understand-engine/agent_runtime.py" agent-document --prompt "<exact human prompt>"
 ```
 
-Documentation must be created under `.t-understand/output/documentation/latest/`; a long chat answer is not completion. Return only the completion summary and never expose internal todos, raw tracebacks, operation IDs, unexecuted pass claims, or progress narration. Run private engine commands silently; do not narrate retries or internal investigation unless the human explicitly asks for diagnostics.
+Deep repository documentation is a synchronous evidence, modeling, generation, and validation workflow. When invoking `agent-document` through OpenCode's shell tool, always set the tool timeout to at least `1800000` milliseconds (30 minutes). Never use or inherit the shell tool's default `120000` millisecond timeout for this operation. The installed launcher emits a stderr heartbeat while work is active; treat it as liveness information, not as final output, and continue waiting for the final JSON result.
+
+Documentation must be created under `.t-understand/output/documentation/latest/`; a long chat answer is not completion. Return only the completion summary and never expose internal todos, raw tracebacks, operation IDs, unexecuted pass claims, shell heartbeat lines, or internal progress narration. Do not narrate retries or internal investigation unless the human explicitly asks for diagnostics.
