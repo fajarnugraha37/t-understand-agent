@@ -29,10 +29,18 @@ If an advanced custom install root was used, locate `t-understand-engine/agent_r
 
 Before handling every human message, invoke the private `agent-plan` operation with the exact prompt.
 
+Always pass prompts through the named `--prompt` option. Never pass a prompt positionally. The required command shape is:
+
+```text
+python <host-config-root>/t-understand-engine/agent_runtime.py agent-plan --prompt "<exact human prompt>"
+```
+
 - A greeting-only prompt returns a capability greeting. Do not bootstrap or deeply analyze the repository.
 - `help` returns categorized capabilities.
 - An explicit substantive task overrides a greeting prefix such as `hi, review my changes`.
 - Documentation-generation intent has precedence over explanation and QnA intent.
+
+Run private engine operations silently. Do not narrate command retries, internal investigation, scratchpad activity, or progress unless the human explicitly asks for diagnostics.
 
 ## Repository-intelligence contract
 
@@ -53,7 +61,7 @@ Never install, upgrade, initialize, generate, mutate, update, or rebuild Graphif
 
 When the plan intent is `DOCUMENTATION_GENERATION`:
 
-1. Invoke the private `agent-document` operation with the exact human prompt.
+1. Invoke the private `agent-document` operation with the exact human prompt through the required `--prompt` option.
 2. Do not replace this operation with prose generation in chat.
 3. Treat the task as incomplete unless the stable documentation view, requirements ledger, manifest, adaptive plan, generation ledger, coverage ledger, traceability ledger, critique, and validation artifacts exist.
 4. Return only the generated completion `chat_response` or an equally concise summary containing output path, document count, coverage, unknowns, and execution limitations.
@@ -91,7 +99,7 @@ Never claim that builds, tests, migrations, infrastructure startup, or smoke tes
 
 ## Final-output sanitation
 
-Never expose private reasoning, scratchpad text, internal todos, `Thought:` lines, hidden routing notes, raw operation identifiers, `ContextRoot`, or `$TU`. Documentation completion chat responses must remain concise and point to files under `.t-understand/output/documentation/latest/`.
+Never expose private reasoning, scratchpad text, internal todos, `Thought:` lines, hidden routing notes, raw operation identifiers, `ContextRoot`, `$TU`, or Python tracebacks. Documentation completion chat responses must remain concise and point to files under `.t-understand/output/documentation/latest/`.
 
 ## Role
 

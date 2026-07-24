@@ -9,10 +9,18 @@ from ..core.contracts import ContractValidator
 from ..core.errors import TUnderstandError
 from .base import AdapterContext, BaseAdapter
 from .builtins import (
-    BpmnDmnAdapter, DotNetAdapter, GenericAdapter, GoAdapter, InfrastructureAdapter,
-    JavaAdapter, JavaScriptTypeScriptAdapter, OpenApiAsyncApiAdapter, PythonAdapter,
-    RustAdapter, SqlAdapter,
+    BpmnDmnAdapter,
+    DotNetAdapter,
+    GenericAdapter,
+    GoAdapter,
+    InfrastructureAdapter,
+    JavaAdapter,
+    JavaScriptTypeScriptAdapter,
+    PythonAdapter,
+    RustAdapter,
+    SqlAdapter,
 )
+from .openapi import OpenApiAsyncApiAdapter
 
 _IMPLEMENTATIONS: dict[str, type[BaseAdapter]] = {
     "generic": GenericAdapter,
@@ -54,34 +62,62 @@ class AdapterRegistry:
 
     def candidates(self, path: str, data: bytes, text: str | None) -> list[dict[str, Any]]:
         p = PurePosixPath(path)
-        values=[]
+        values = []
         for adapter_id, adapter in self.adapters.items():
             score = int(adapter.detect(p, data, text))
             if score > 0:
-                manifest=self.manifests[adapter_id]
-                values.append({"id":adapter_id,"score":score,"priority":manifest["priority"]})
-        return sorted(values,key=lambda value:(-value["score"],-value["priority"],value["id"]))
+                manifest = self.manifests[adapter_id]
+                values.append({"id": adapter_id, "score": score, "priority": manifest["priority"]})
+        return sorted(values, key=lambda value: (-value["score"], -value["priority"], value["id"]))
 
     def select(self, path: str, data: bytes, text: str | None) -> BaseAdapter:
-        candidates=self.candidates(path,data,text)
-        specialized=[value for value in candidates if value["id"]!="generic" and value["score"]>=50]
-        selected=(specialized or candidates)
+        candidates = self.candidates(path, data, text)
+        specialized = [value for value in candidates if value["id"] != "generic" and value["score"] >= 50]
+        selected = specialized or candidates
         return self.adapters[selected[0]["id"]] if selected else self.adapters["generic"]
 
     def extract(self, context: AdapterContext, data: bytes, text: str | None) -> dict[str, Any]:
-        result=self.select(context.path,data,text).extract(context,data,text)
-        self.contracts.validate("adapter-extraction",result)
+        adapter = self.select(context.path, data, text)
+        try:
+            result = adapter.extract(context, data, text)
+        except Exception as exc:
+            # A single malformed or unexpectedly shaped file must never abort a
+            # repository-wide analysis. Preserve a bounded limitation record so
+            # downstream documentation can disclose the gap instead of silently
+            # dropping the file or leaking a Python traceback to the user.
+            result = adapter.result(
+                context,
+                "PARTIAL",
+                [],
+                [],
+                [],
+                [],
+                [],
+                [
+                    f"Unexpected extraction failure in {adapter.id}: "
+                    f"{type(exc).__name__}: {str(exc)[:500]}"
+                ],
+                adapter.language or adapter.id,
+            )
+        self.contracts.validate("adapter-extraction", result)
         return result
 
     def capability_matrix(self, generated_at: str) -> dict[str, Any]:
-        matrix={
-            "schema_id":"https://t-understand.dev/schemas/adapter-capability-matrix.schema.json",
-            "schema_version":"1.0.0",
-            "adapters":[{
-                "id":m["id"],"version":m["version"],"priority":m["priority"],
-                "languages":m["languages"],"capabilities":m["capabilities"],"fallback":m["fallback"],
-            } for m in sorted(self.manifests.values(),key=lambda value:value["id"])],
-            "generated_at":generated_at,
+        matrix = {
+            "schema_id": "https://t-understand.dev/schemas/adapter-capability-matrix.schema.json",
+            "schema_version": "1.0.0",
+            "adapters": [
+                {
+                    "id": manifest["id"],
+                    "version": manifest["version"],
+                    "priority": manifest["priority"],
+                    "languages": manifest["languages"],
+                    "capabilities": manifest["capabilities"],
+                    "fallback": manifest["fallback"],
+                }
+                for manifest in sorted(self.manifests.values(), key=lambda value: value["id"])
+            ],
+            "generated_at": generated_at,
         }
-        self.contracts.validate("adapter-capability-matrix",matrix)
+        self.contracts.validate("adapter-capability-matrix", matrix)
         return matrix

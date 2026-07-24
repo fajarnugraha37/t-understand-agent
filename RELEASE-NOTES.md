@@ -1,3 +1,27 @@
+# t-understand 1.1.1
+
+`t-understand` 1.1.1 fixes repository-wide documentation generation failures caused by valid structured OpenAPI and AsyncAPI server declarations.
+
+## Documentation extraction reliability
+
+- OpenAPI 3 `servers` lists are normalized from server objects using their URL and description.
+- AsyncAPI named server maps preserve the logical server name together with URL, protocol, protocol version, and description evidence.
+- Swagger 2 host, base path, and schemes are retained as server evidence.
+- Adapter item values are defensively converted to deterministic bounded text instead of assuming every parser value is already a string.
+- An unexpected failure in one file extractor now produces a `PARTIAL` evidence record with an explicit limitation rather than aborting the complete repository workflow.
+- Extraction failures are contained at the file boundary, so the OpenAPI failure reported for `qando-docflow` no longer leaks its Python traceback or prevents the remaining repository from being analyzed.
+
+## Agent invocation and response handling
+
+- OpenCode instructions now require the exact `agent-plan --prompt` and `agent-document --prompt` forms and prohibit positional prompt invocation.
+- Private retries, investigation notes, raw tracebacks, and internal progress narration are explicitly excluded from the final response contract.
+
+## Installation
+
+The patch release uses version `1.1.1`, ensuring a new engine package is generated instead of reusing the previous `1.1.0` payload. Upgrading an existing managed installation requires `./bin/install.sh opencode --force`; the managed-block installer preserves user-owned `AGENTS.md` content and replaces the t-understand block without duplication.
+
+---
+
 # t-understand 1.1.0
 
 `t-understand` 1.1.0 adds agent-native multi-repository application discovery and a requirements-driven deep documentation system for business, domain, and application flows.

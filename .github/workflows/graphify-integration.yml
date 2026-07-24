@@ -10,9 +10,14 @@ on:
       - "orchestrator/**"
       - "schemas/**"
       - "skills/**"
-      - "runtime/tu_runtime/core/installation.py"
+      - "runtime/tu_runtime/adapters/**"
+      - "runtime/tu_runtime/core/**"
       - "scripts/*graphify*"
+      - "scripts/run_adapter_tests.py"
+      - "scripts/run_agent_native_tests.py"
       - "scripts/validate_release_contract.py"
+      - "tests/adapters/**"
+      - "tests/agent_native/**"
       - "tests/graphify/**"
       - "docs/graphify-first-repository-intelligence.md"
       - "examples/repository-intelligence.yaml"
@@ -26,9 +31,14 @@ on:
       - "orchestrator/**"
       - "schemas/**"
       - "skills/**"
-      - "runtime/tu_runtime/core/installation.py"
+      - "runtime/tu_runtime/adapters/**"
+      - "runtime/tu_runtime/core/**"
       - "scripts/*graphify*"
+      - "scripts/run_adapter_tests.py"
+      - "scripts/run_agent_native_tests.py"
       - "scripts/validate_release_contract.py"
+      - "tests/adapters/**"
+      - "tests/agent_native/**"
       - "tests/graphify/**"
       - "docs/graphify-first-repository-intelligence.md"
       - "examples/repository-intelligence.yaml"
@@ -58,6 +68,21 @@ jobs:
           python scripts/validate_governance.py --report reports/governance-report.json
           python scripts/test_negative_governance.py --report reports/negative-test-report.json
           python scripts/validate_release_contract.py --report reports/release-contract-report.json
+      - name: Adapter resilience tests
+        env:
+          PYTHONPATH: runtime:.
+        run: python scripts/run_adapter_tests.py --report reports/adapter-test-report.json
+      - name: Upload adapter test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adapter-test-report
+          path: reports/adapter-test-report.json
+          if-no-files-found: error
+      - name: Agent-native error handling tests
+        env:
+          PYTHONPATH: runtime:.
+        run: python scripts/run_agent_native_tests.py --report reports/agent-native-test-report.json
       - name: Graphify integration contract
         env:
           PYTHONPATH: scripts:.
