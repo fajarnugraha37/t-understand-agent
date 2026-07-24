@@ -1,3 +1,28 @@
+# t-understand 1.1.2
+
+`t-understand` 1.1.2 fixes the OpenCode execution contract for deep documentation workflows that legitimately run longer than the shell tool's default 120-second timeout.
+
+## Long-running documentation execution
+
+- The installed `agent_runtime.py` emits an immediate stderr heartbeat when `agent-document` starts.
+- A recurring heartbeat is emitted every 15 seconds while evidence collection, modeling, document generation, and validation remain active.
+- The final machine-readable completion remains on stdout; heartbeat lines are liveness diagnostics only.
+- OpenCode instructions require a shell-tool timeout of at least `1800000` milliseconds for `agent-document` and explicitly prohibit the default `120000` millisecond timeout.
+
+## Real end-to-end qualification
+
+- CI now installs the generated OpenCode engine into a clean temporary target.
+- It creates and commits a representative Java repository containing a valid OpenAPI 3 server-object declaration and more than one hundred source files.
+- It executes the exact installed command `agent_runtime.py agent-document --prompt ...`.
+- It requires an immediate heartbeat, final JSON completion, at least the mandatory 41-document catalog, and the published documentation manifest, plan, coverage, and validation artifacts.
+- The same end-to-end scenario runs on both `ubuntu-latest` and `macos-latest` with an explicit 120-second completion bound for the representative fixture.
+
+## Installation
+
+The patch release uses version `1.1.2`. Upgrading an existing managed installation requires `./bin/install.sh opencode --force`; user-owned `AGENTS.md` content is preserved and the existing t-understand managed block is replaced rather than duplicated.
+
+---
+
 # t-understand 1.1.1
 
 `t-understand` 1.1.1 fixes repository-wide documentation generation failures caused by valid structured OpenAPI and AsyncAPI server declarations.
