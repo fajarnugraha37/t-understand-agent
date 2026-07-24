@@ -421,13 +421,21 @@ class InstallationManager(BaseInstallationManager):
                 atomic_write_bytes(path, cleaned.encode("utf-8"))
 
         backup_root = metadata_root / "backups" / manifest["install_id"]
-        if legacy_manifest:
-            for entry in manifest["backups"]:
-                source = backup_root / entry["path"]
-                destination = target / entry["path"]
-                if source.exists():
-                    destination.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(source, destination)
+        managed_block_paths = {
+            entry["path"]
+            for entry in manifest["files"]
+            if self._management_mode(entry) == "managed_block"
+        }
+        restored_backups = 0
+        for entry in manifest["backups"]:
+            if not legacy_manifest and entry["path"] in managed_block_paths:
+                continue
+            source = backup_root / entry["path"]
+            destination = target / entry["path"]
+            if source.exists():
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, destination)
+                restored_backups += 1
 
         shutil.rmtree(metadata_root, ignore_errors=True)
         for path in sorted(target.rglob("*"), reverse=True):
@@ -440,7 +448,7 @@ class InstallationManager(BaseInstallationManager):
             "status": "UNINSTALLED",
             "install_id": manifest["install_id"],
             "target_root": str(target),
-            "restored_backups": len(manifest["backups"]) if legacy_manifest else 0,
+            "restored_backups": restored_backups,
             "generated_at": utc_now(),
         }
 
