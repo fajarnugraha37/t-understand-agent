@@ -36,8 +36,9 @@ jobs:
           python-version: "3.12"
       - name: Install Python dependencies
         run: python -m pip install -e .
-      - name: Verify Unix launchers
+      - name: Normalize Unix launcher permissions
         run: |
+          chmod +x bin/install.sh bin/t-understand
           test -x bin/install.sh
           test -x bin/t-understand
       - name: Install OpenCode engine and generate documentation
