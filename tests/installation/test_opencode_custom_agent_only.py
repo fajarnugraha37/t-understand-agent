@@ -28,6 +28,18 @@ class OpenCodeCustomAgentOnlyTests(unittest.TestCase):
             self.assertNotIn("AGENTS.md", packaged_paths)
             self.assertIn("agents/t-understand.md", packaged_paths)
 
+            payload_agent = (
+                context
+                / "platform-packages"
+                / package_id
+                / "payload"
+                / "agents"
+                / "t-understand.md"
+            ).read_text(encoding="utf-8")
+            self.assertIn("This agent is opt-in", payload_agent)
+            self.assertIn("1800000", payload_agent)
+            self.assertIn("120000", payload_agent)
+
             user_content = "# My OpenCode instructions\n\nKeep this user-owned content.\n"
             legacy_body = "Use t-understand for every human prompt.\n"
             legacy_agents, _ = merge_managed_block(
