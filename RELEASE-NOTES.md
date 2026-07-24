@@ -1,3 +1,40 @@
+# t-understand 1.1.3
+
+`t-understand` 1.1.3 removes global OpenCode auto-routing. The OpenCode integration is now custom-agent only.
+
+## Custom-agent isolation
+
+- The OpenCode package no longer installs or modifies global `AGENTS.md`.
+- `t-understand` runs only when the human explicitly selects or invokes the `t-understand` custom agent.
+- The custom agent remains installed at `agents/t-understand.md` together with its private runtime and namespaced skills.
+- The long-running `agent-document` timeout and heartbeat contract now lives inside the custom agent instead of global instructions.
+
+## Safe upgrade cleanup
+
+- Upgrading with `--force` removes the legacy `t-understand-opencode` managed block from global `AGENTS.md`.
+- Orphaned legacy blocks are also removed after a successful installation.
+- User-owned content before or after the legacy managed block is preserved byte-for-byte except for surrounding blank-line normalization performed by the existing managed-block remover.
+- If the old managed block was the entire file, the empty global `AGENTS.md` file is deleted.
+
+## Regression qualification
+
+- The generated OpenCode package is rejected if it contains `AGENTS.md`.
+- Tests verify that `agents/t-understand.md` remains installed and contains the explicit opt-in and timeout contract.
+- Tests verify cleanup for both managed upgrades and orphan legacy blocks without deleting user instructions.
+
+## Installation
+
+Upgrade an existing OpenCode installation with:
+
+```bash
+git pull
+./bin/install.sh opencode --force
+```
+
+After upgrading, restart OpenCode so the removed global instructions and updated custom agent are reloaded.
+
+---
+
 # t-understand 1.1.2
 
 `t-understand` 1.1.2 fixes the OpenCode execution contract for deep documentation workflows that legitimately run longer than the shell tool's default 120-second timeout.
