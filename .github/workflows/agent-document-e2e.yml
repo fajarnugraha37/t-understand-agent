@@ -1,0 +1,56 @@
+name: Agent document end-to-end
+
+on:
+  pull_request:
+    paths:
+      - "runtime/**"
+      - "schemas/**"
+      - "orchestrator/**"
+      - "templates/**"
+      - "adapters/opencode/**"
+      - "scripts/run_agent_document_e2e.py"
+      - "bin/**"
+      - "VERSION"
+      - "pyproject.toml"
+      - ".github/workflows/agent-document-e2e.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  installed-engine-documentation:
+    name: installed engine (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python dependencies
+        run: python -m pip install -e .
+      - name: Verify Unix launchers
+        run: |
+          test -x bin/install.sh
+          test -x bin/t-understand
+      - name: Install OpenCode engine and generate documentation
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: >-
+          python scripts/run_agent_document_e2e.py
+          --timeout 120
+          --report reports/agent-document-e2e-${{ runner.os }}.json
+      - name: Upload end-to-end report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-document-e2e-${{ runner.os }}
+          path: reports/agent-document-e2e-${{ runner.os }}.json
+          if-no-files-found: warn
