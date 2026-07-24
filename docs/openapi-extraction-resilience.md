@@ -25,9 +25,11 @@ The previous extractor iterated the list and passed each mapping directly to a s
 
 Each file is an evidence source, not a single point of failure. An unexpected adapter exception now creates a `PARTIAL` extraction result with an explicit limitation. Downstream documentation can therefore disclose the affected file and evidence gap while continuing to analyze the rest of the repository.
 
-## User-facing failure contract
+For this failure class, the exception is contained inside the adapter registry, so the agent no longer receives the raw Python traceback shown in the original report. A different failure outside extraction still follows the existing runtime error behavior and should be reported separately.
 
-Unexpected documentation-pipeline errors are converted to a structured `TUnderstandError`. Normal OpenCode execution should not print a Python traceback. The host agent returns a concise failure summary only when the workflow truly cannot produce the required documentation artifacts.
+## Host invocation contract
+
+OpenCode instructions require prompts to be passed with the named `--prompt` option for both `agent-plan` and `agent-document`. Private retries and investigation details are not part of the final response.
 
 ## Regression coverage
 
@@ -36,6 +38,6 @@ The automated suite covers:
 - OpenAPI 3 server-object lists;
 - AsyncAPI named server maps;
 - non-string adapter values;
-- unexpected adapter exceptions;
-- structured agent-native failure conversion;
-- exact `--prompt` command syntax in host instructions.
+- unexpected adapter exceptions converted to `PARTIAL` evidence;
+- exact `--prompt` command syntax in host instructions;
+- traceback and progress-leakage prohibitions in host instructions.
